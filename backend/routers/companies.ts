@@ -1,5 +1,115 @@
 import express from "express";
+import auth from "../middleware/auth";
+import { imagesUpload } from "../multer";
+import { CompanyWithoutId } from "../types";
+import mongoose from "mongoose";
+import permit from "../middleware/permit";
+import Company from "../models/Company";
+import Promotion from "../models/Promotion";
 
 const companiesRouter = express.Router();
 
 export default companiesRouter;
+
+companiesRouter.get("/", async (req, res, next) => {
+  const limit = req.query.limit as string;
+  const page = req.query.page as string;
+
+  try {
+    let query = Company.find();
+
+    if (limit && page) {
+      const skip = (parseInt(page) - 1) * parseInt(page);
+      query = query.limit(parseInt(limit)).skip(skip);
+    }
+    const companies = await query.exec();
+    return res.send(companies);
+  } catch (e) {
+    return next(e);
+  }
+});
+
+companiesRouter.get("/", async (req, res, next) => {
+  const categoryId = req.query.categoryId;
+  const limit = req.query.limit as string;
+  const page = req.query.page as string;
+
+  try {
+    let query = Company.find();
+
+    if (categoryId) {
+      query = query.where("categories").equals(categoryId);
+    }
+
+    if (limit && page) {
+      const skip = (parseInt(page) - 1) * parseInt(page);
+      query = query.limit(parseInt(limit)).skip(skip);
+    }
+
+    const companies = await query.exec();
+    return res.send(companies);
+  } catch (e) {
+    return next(e);
+  }
+});
+
+// companiesRouter.get("/:id", async (req, res, next) => {
+//   try {
+//     const albums = await Album.findById(req.params.id).populate("artist");
+//     return res.send(albums);
+//   } catch (e) {
+//     return next(e);
+//   }
+// });
+
+companiesRouter.post(
+  "/",
+  auth,
+  permit("admin"),
+  imagesUpload.single("image"),
+  async (req, res, next) => {
+    const companyData: CompanyWithoutId = {
+      categories: req.body.categories,
+      title: req.body.title,
+      description: req.body.description ? req.body.description : null,
+      image: req.file ? req.file.filename : null,
+      link: req.body.link ? req.body.link : null,
+    };
+
+    const company = new Company(companyData);
+
+    try {
+      await company.save();
+      return res.send(company);
+    } catch (e) {
+      if (e instanceof mongoose.Error.ValidationError) {
+        return res.status(400).send(e);
+      } else {
+        return next(e);
+      }
+    }
+  }
+);
+
+companiesRouter.delete(
+  "/:id",
+  auth,
+  permit("admin"),
+  async (req, res, next) => {
+    try {
+      const company = await Company.findOne({ _id: req.params.id });
+      if (company) {
+        const promotions = await Promotion.find({ company: company._id });
+        if (promotions) {
+          return res.send(
+            "Компания не может быть удалена, так как есть привязанные к ней акции"
+          );
+        }
+        await Company.deleteOne({ _id: company._id });
+        return res.send("Company deleted");
+      }
+    } catch (e) {
+      return next(e);
+    }
+  }
+);

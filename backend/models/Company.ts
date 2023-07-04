@@ -7,15 +7,17 @@ const CompanySchema = new Schema({
     type: String,
     required: true,
   },
-  category: {
-    type: Schema.Types.ObjectId,
-    ref: "Category",
-    required: true,
-    validate: {
-      validator: async (value: Types.ObjectId) => Category.findById(value),
-      message: "Category does not exist",
+  categories: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Category",
+      required: true,
+      validate: {
+        validator: async (value: Types.ObjectId) => Category.findById(value),
+        message: "Category does not exist",
+      },
     },
-  },
+  ],
   description: String,
   image: String,
   link: String,

@@ -28,6 +28,36 @@ export interface TrackHistoryMutation {
   datetime: Date;
 }
 
+export interface Category {
+  id: string;
+  title: string;
+  parent: string | null;
+}
+
+export type CategoryWithoutId = Omit<Category, "id">;
+
+export interface Company {
+  id: string;
+  title: string;
+  categories: Types.ObjectId[];
+  description: string | null;
+  image: string | null;
+  link: string | null;
+}
+
+export type CompanyWithoutId = Omit<Company, "id">;
+
+export interface Promotion {
+  id: string;
+  title: string;
+  company: Types.ObjectId;
+  description: string;
+  image: string | null;
+  rating: number;
+}
+
+export type PromotionWithoutId = Omit<Promotion, "id">;
+
 export interface IUser {
   username: string;
   password: string;
