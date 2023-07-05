@@ -17,6 +17,9 @@ import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { clearAllPromotions } from '../../../store/promotionsSlice';
 import { clearAllCompanies } from '../../../store/companiesSlice';
 import { selectSearch, setSearch } from '../../../store/searchSlice';
+import AnonymousMenu from './AnonymousMenut';
+import UserMenu from './UserMenu';
+import { selectUser } from '../../../containers/users/usersSlise';
 
 const Search = styled('div')(({ theme }) => ({
   flexGrow: 1,
@@ -75,6 +78,7 @@ const Link = styled(NavLink)({
 export default function SearchAppBar() {
   const dispatch = useAppDispatch();
   const search = useAppSelector(selectSearch);
+  const user = useAppSelector(selectUser);
   const [showMainFilter, setShowMainFilter] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
 
@@ -139,6 +143,7 @@ export default function SearchAppBar() {
           >
             <MenuIcon sx={{ fontSize: 40 }} />
           </IconButton>
+          {user ? <UserMenu user={user} /> : <AnonymousMenu />}
         </Toolbar>
       </AppBar>
     </Box>

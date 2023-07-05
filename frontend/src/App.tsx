@@ -8,6 +8,8 @@ import AboutCompany from './containers/AboutCompany/AboutCompany';
 import Companies from './containers/Companies/Companies';
 import { useLocation } from 'react-router-dom';
 import Admin from './containers/Admin/Admin';
+import Register from './containers/users/Register';
+import Login from './containers/users/Login';
 
 function App() {
   const location = useLocation();
@@ -24,6 +26,9 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/companies" element={<Companies />} />
           <Route path="/about-company" element={<AboutCompany />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="*" element={<span>Такой страницы не существует</span>} />
         </Routes>
       </Box>
     </div>
