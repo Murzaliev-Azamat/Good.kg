@@ -22,7 +22,6 @@ const PromotionSchema = new Schema({
     required: true,
   },
   image: String,
-  rating: Number,
 });
 
 const Promotion = mongoose.model("Promotion", PromotionSchema);

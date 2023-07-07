@@ -28,16 +28,16 @@ const UserMenu: React.FC<Props> = ({ user }) => {
 
   return (
     <>
-      <Grid container justifyContent="space-between" alignItems="center">
-        <Grid item>
-          <Button onClick={handleClick} color="inherit">
-            Hello, {user.displayName}
-          </Button>
-        </Grid>
-        <Grid item>
-          <Avatar alt="Avatar" src={user.image} />
-        </Grid>
-      </Grid>
+      {/*<Grid container justifyContent="space-between" alignItems="center">*/}
+      {/*<Grid item>*/}
+      <Button onClick={handleClick} color="inherit">
+        Hello, {user.displayName}
+      </Button>
+      {/*</Grid>*/}
+      {/*<Grid item>*/}
+      <Avatar alt="Avatar" src={user.image} />
+      {/*</Grid>*/}
+      {/*</Grid>*/}
       <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
         <MenuItem>Profile</MenuItem>
         <MenuItem component={Link} to={'/tracks_history'}>

@@ -15,7 +15,7 @@ promotionsRouter.get("/", async (req, res, next) => {
   const page = req.query.page as string;
 
   try {
-    let query = Promotion.find();
+    let query = Promotion.find().populate("company");
 
     if (limit && page) {
       const skip = (parseInt(page) - 1) * parseInt(page);

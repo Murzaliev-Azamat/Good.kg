@@ -49,11 +49,11 @@ const Companies = () => {
         <div className="row p-2 gx-0 justify-content-evenly justify-content-sm-start">
           {companies.map((company) => (
             <CardForCompany
-              key={company.id}
+              key={company._id}
               title={company.title}
               link={company.link}
               image={company.image}
-              id={company.id}
+              id={company._id}
             />
           ))}
         </div>

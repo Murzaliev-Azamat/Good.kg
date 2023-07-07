@@ -49,12 +49,12 @@ const Promotions = () => {
         <div className="row p-2 gx-0 justify-content-evenly justify-content-sm-start">
           {promotions.map((promotion) => (
             <CardForPromotion
-              key={promotion.id}
+              key={promotion._id}
               title={promotion.title}
               description={promotion.description}
               company_name={promotion.company.title}
               company_image={promotion.company.image}
-              id={promotion.id}
+              id={promotion._id}
             />
           ))}
         </div>

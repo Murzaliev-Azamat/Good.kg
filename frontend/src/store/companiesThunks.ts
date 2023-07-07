@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Company, FilterByCategory, Search } from '../../types';
+import { Company, CompanyApi, FilterByCategory, Search } from '../../types';
 import axiosApi from '../axiosApi';
 
 import { RootState } from '../app/store';
 
-export const fetchCompanies = createAsyncThunk<Company[], FilterByCategory | undefined, { state: RootState }>(
+export const fetchCompanies = createAsyncThunk<Company[], void, { state: RootState }>(
   'companies/fetchAll',
   async (category, thunkAPI) => {
     const page = thunkAPI.getState().companies.pageCompanies;
@@ -58,23 +58,28 @@ export const fetchCompaniesBySearch = createAsyncThunk<Company[] | [], Search | 
 //   },
 // );
 
-// export const addOneNews = createAsyncThunk<void, OneNewsApi>(
-//   'news/add',
-//   async (oneNews) => {
-//     const formData = new FormData();
-//
-//     const keys = Object.keys(oneNews) as (keyof OneNewsApi)[];
-//     keys.forEach(key => {
-//       const value = oneNews[key];
-//
-//       if (value !== null) {
-//         formData.append(key, value);
-//       }
-//     });
-//
-//     await axiosApi.post<OneNewsApi>('/news', formData);
-//   }
-// );
+export const addCompany = createAsyncThunk<void, CompanyApi>('companies/addCompany', async (company) => {
+  const formData = new FormData();
+
+  formData.append('title', company.title);
+  // formData.append('categories', company.categories);
+  formData.append('categories', company.categories.join(','));
+  formData.append('link', company.link);
+
+  if (company.description) {
+    formData.append('description', company.description);
+  }
+
+  if (company.image) {
+    formData.append('image', company.image);
+  }
+
+  await axiosApi.post<CompanyApi>('/companies', formData);
+});
+
+export const deleteCompany = createAsyncThunk<void, string>('companies/deleteCompany', async (id) => {
+  await axiosApi.delete('/companies/' + id);
+});
 
 // export const deleteOneNews = createAsyncThunk<void, string>(
 //   'news/deleteOne',

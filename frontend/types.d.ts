@@ -1,27 +1,47 @@
 export interface Promotion {
-  id: number;
+  _id: string;
   title: string;
   description: string;
   company: {
-    id: number;
+    _id: number;
     title: string;
-    image: string;
-    categories: [{ id: number }];
-    imagePath: string;
+    image: string | null;
+    categories: {
+      _id: string;
+      title: string;
+      __v: number;
+    }[];
+    link: string;
   };
-  rating: number;
+  image: string | null;
+}
+
+export interface PromotionApi {
+  title: string;
+  description: string;
+  company: string;
+  image: string | null;
 }
 
 export interface Company {
-  id: number;
+  _id: string;
   title: string;
   description: string | null;
-  image: string;
-  categories: [{ id: number }];
-  rating: number;
-  updatedAt: string;
+  image: string | null;
+  categories: {
+    _id: string;
+    title: string;
+    __v: number;
+  }[];
   link: string;
-  imagePath: string;
+}
+
+export interface CompanyApi {
+  title: string;
+  description: string | null;
+  categories: string[] | [];
+  image: string | null;
+  link: string;
 }
 
 export interface FilterByCategory {
@@ -33,15 +53,20 @@ export interface Search {
 }
 
 export interface Category {
-  id: number;
+  _id: string;
   title: string;
-  position: null;
+  // position: null;
   parent: {
-    id: number;
+    _id: string;
     title: string;
     position: null;
     parent: null;
-  };
+  } | null;
+}
+
+export interface CategoryApi {
+  title: string;
+  parent: string;
 }
 
 export interface RegisterMutation {

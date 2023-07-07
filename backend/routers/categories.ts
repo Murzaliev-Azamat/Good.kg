@@ -10,7 +10,7 @@ const categoriesRouter = express.Router();
 
 categoriesRouter.get("/", async (req, res, next) => {
   try {
-    const categories = await Category.find();
+    const categories = await Category.find().populate("parent");
     return res.send(categories);
   } catch (e) {
     return next(e);
@@ -46,7 +46,8 @@ categoriesRouter.delete(
       const category = await Category.findOne({ _id: req.params.id });
       if (category) {
         const companies = await Company.find({ categories: category._id });
-        if (companies) {
+        console.log(companies);
+        if (companies.length > 0) {
           return res.send(
             "Категория не может быть удалена, так как есть привязанные к ней компании"
           );

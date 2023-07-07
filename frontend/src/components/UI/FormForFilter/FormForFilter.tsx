@@ -57,15 +57,16 @@ const FormForFilter = () => {
         onChange={inputChangeHandler}
       >
         <option>Выберете категорию</option>
-        {categories.map((category) => {
-          if (category.parent === null) {
-            return (
-              <option value={category.id} key={category.id}>
-                {category.title}
-              </option>
-            );
-          }
-        })}
+        {categories &&
+          categories.map((category) => {
+            if (category.parent === null) {
+              return (
+                <option value={category._id} key={category._id}>
+                  {category.title}
+                </option>
+              );
+            }
+          })}
       </select>
 
       <select
@@ -76,15 +77,16 @@ const FormForFilter = () => {
         onChange={inputChangeHandler}
       >
         <option>Выберете категорию</option>
-        {categories.map((category) => {
-          if (filterCategory !== '' && category.parent !== null && filterCategory === category.parent.id.toString()) {
-            return (
-              <option value={category.id} key={category.id}>
-                {category.title}
-              </option>
-            );
-          }
-        })}
+        {categories &&
+          categories.map((category) => {
+            if (filterCategory !== '' && category.parent !== null && filterCategory === category.parent._id) {
+              return (
+                <option value={category._id} key={category._id}>
+                  {category.title}
+                </option>
+              );
+            }
+          })}
       </select>
 
       <Button

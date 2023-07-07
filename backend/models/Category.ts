@@ -19,10 +19,10 @@ const CategorySchema = new Schema({
   parent: {
     type: Schema.Types.ObjectId,
     ref: "Category",
-    validate: {
-      validator: async (value: Types.ObjectId) => Category.findById(value),
-      message: "Category does not exist",
-    },
+    // validate: {
+    //   validator: async (value: Types.ObjectId) => Category.findById(value),
+    //   message: "Category does not exist",
+    // },
   },
 });
 

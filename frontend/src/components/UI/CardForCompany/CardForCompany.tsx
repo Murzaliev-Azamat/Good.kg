@@ -12,7 +12,7 @@ import { apiUrl } from '../../../constants';
 // `;
 
 interface Props {
-  id: number;
+  id: string;
   title: string;
   link: string;
   image: string | null;

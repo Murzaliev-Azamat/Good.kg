@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { FilterByCategory, Promotion, Search } from '../../types';
+import { CompanyApi, FilterByCategory, Promotion, PromotionApi, Search } from '../../types';
 import axiosApi from '../axiosApi';
 
 import { RootState } from '../app/store';
@@ -58,23 +58,23 @@ export const fetchPromotionsBySearch = createAsyncThunk<Promotion[] | [], Search
 //   },
 // );
 
-// export const addOneNews = createAsyncThunk<void, OneNewsApi>(
-//   'news/add',
-//   async (oneNews) => {
-//     const formData = new FormData();
-//
-//     const keys = Object.keys(oneNews) as (keyof OneNewsApi)[];
-//     keys.forEach(key => {
-//       const value = oneNews[key];
-//
-//       if (value !== null) {
-//         formData.append(key, value);
-//       }
-//     });
-//
-//     await axiosApi.post<OneNewsApi>('/news', formData);
-//   }
-// );
+export const addPromotion = createAsyncThunk<void, PromotionApi>('promotions/addPromotion', async (promotion) => {
+  const formData = new FormData();
+
+  formData.append('title', promotion.title);
+  formData.append('company', promotion.company);
+  formData.append('description', promotion.description);
+
+  if (promotion.image) {
+    formData.append('image', promotion.image);
+  }
+
+  await axiosApi.post<PromotionApi>('/promotions', formData);
+});
+
+export const deletePromotion = createAsyncThunk<void, string>('promotions/deletePromotion', async (id) => {
+  await axiosApi.delete('/promotions/' + id);
+});
 
 // export const deleteOneNews = createAsyncThunk<void, string>(
 //   'news/deleteOne',

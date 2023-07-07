@@ -16,7 +16,7 @@ companiesRouter.get("/", async (req, res, next) => {
   const page = req.query.page as string;
 
   try {
-    let query = Company.find();
+    let query = Company.find().populate("categories");
 
     if (limit && page) {
       const skip = (parseInt(page) - 1) * parseInt(page);
@@ -68,8 +68,15 @@ companiesRouter.post(
   permit("admin"),
   imagesUpload.single("image"),
   async (req, res, next) => {
+    console.log(req.body.categories);
+    const categoryIds = req.body.categories
+      .split(",")
+      .map(
+        (categoryId: string) => new mongoose.Types.ObjectId(categoryId.trim())
+      );
+    // const categoryIds = req.body.categories.split(",").map(categoryId => mongoose.Types.ObjectId(categoryId.trim()));
     const companyData: CompanyWithoutId = {
-      categories: req.body.categories,
+      categories: categoryIds,
       title: req.body.title,
       description: req.body.description ? req.body.description : null,
       image: req.file ? req.file.filename : null,
@@ -100,7 +107,7 @@ companiesRouter.delete(
       const company = await Company.findOne({ _id: req.params.id });
       if (company) {
         const promotions = await Promotion.find({ company: company._id });
-        if (promotions) {
+        if (promotions.length > 0) {
           return res.send(
             "Компания не может быть удалена, так как есть привязанные к ней акции"
           );

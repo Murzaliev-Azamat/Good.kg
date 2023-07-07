@@ -37,7 +37,7 @@ const CustomAccordionHeader = styled(Accordion.Header)`
 `;
 
 interface Props {
-  id: number;
+  id: string;
   title: string;
   description: string;
   company_name: string;

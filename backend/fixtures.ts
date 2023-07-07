@@ -5,6 +5,7 @@ import User from "./models/User";
 import Artist from "./models/Artist";
 import Album from "./models/Album";
 import Track from "./models/Track";
+import Category from "./models/Category";
 
 const run = async () => {
   mongoose.set("strictQuery", false);
@@ -17,9 +18,41 @@ const run = async () => {
     await db.dropCollection("trackhistories");
     await db.dropCollection("tracks");
     await db.dropCollection("users");
+    await db.dropCollection("categories");
   } catch (e) {
     console.log("Collections were not present, skipping drop...");
   }
+
+  const [eat, hobbies, animals] = await Category.create(
+    {
+      title: "Поесть и попить",
+    },
+    {
+      title: "Развлечения",
+    },
+    {
+      title: "Животные",
+    }
+    // {
+    //   title: "Бары",
+    //   parent: eat._id,
+    // }
+  );
+
+  await Category.create(
+    {
+      title: "Бары",
+      parent: eat._id,
+    },
+    {
+      title: "Кафе",
+      parent: eat._id,
+    },
+    {
+      title: "Караоке",
+      parent: hobbies._id,
+    }
+  );
 
   const [eminem, madonna] = await Artist.create(
     {
