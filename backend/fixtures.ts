@@ -6,6 +6,8 @@ import Artist from "./models/Artist";
 import Album from "./models/Album";
 import Track from "./models/Track";
 import Category from "./models/Category";
+import Company from "./models/Company";
+import Promotion from "./models/Promotion";
 
 const run = async () => {
   mongoose.set("strictQuery", false);
@@ -19,6 +21,8 @@ const run = async () => {
     await db.dropCollection("tracks");
     await db.dropCollection("users");
     await db.dropCollection("categories");
+    await db.dropCollection("companies");
+    await db.dropCollection("promotions");
   } catch (e) {
     console.log("Collections were not present, skipping drop...");
   }
@@ -26,20 +30,19 @@ const run = async () => {
   const [eat, hobbies, animals] = await Category.create(
     {
       title: "Поесть и попить",
+      parent: null,
     },
     {
       title: "Развлечения",
+      parent: null,
     },
     {
       title: "Животные",
+      parent: null,
     }
-    // {
-    //   title: "Бары",
-    //   parent: eat._id,
-    // }
   );
 
-  await Category.create(
+  const [bars, cafes, karaoke] = await Category.create(
     {
       title: "Бары",
       parent: eat._id,
@@ -51,6 +54,289 @@ const run = async () => {
     {
       title: "Караоке",
       parent: hobbies._id,
+    }
+  );
+
+  const [imperiya, karaoke1, karaoke2, karaoke3, ferma1, ferma2, ferma3] =
+    await Company.create(
+      {
+        title: "Империя пиццы",
+        categories: [eat._id, cafes._id],
+        description:
+          "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+        image: "fixtures/imperiya.jpeg",
+        link: "https://www.instagram.com/mypizzakg/",
+      },
+      {
+        title: "Караоке1",
+        categories: [hobbies._id, karaoke._id],
+        description:
+          "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+        image: "fixtures/karaoke.png",
+        link: "https://www.instagram.com/mypizzakg/",
+      },
+      {
+        title: "Караоке2",
+        categories: [hobbies._id, karaoke._id],
+        description:
+          "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+        image: "fixtures/karaoke.png",
+        link: "https://www.instagram.com/mypizzakg/",
+      },
+      {
+        title: "Караоке3",
+        categories: [hobbies._id, karaoke._id],
+        description:
+          "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+        image: "fixtures/karaoke.png",
+        link: "https://www.instagram.com/mypizzakg/",
+      },
+      {
+        title: "Ferma1",
+        categories: [animals._id],
+        description:
+          "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+        image: "fixtures/karaoke.png",
+        link: "https://www.instagram.com/mypizzakg/",
+      },
+      {
+        title: "Ferma2",
+        categories: [animals._id],
+        description:
+          "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+        image: "fixtures/karaoke.png",
+        link: "https://www.instagram.com/mypizzakg/",
+      },
+      {
+        title: "Ferma3",
+        categories: [animals._id],
+        description:
+          "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+        image: "fixtures/karaoke.png",
+        link: "https://www.instagram.com/mypizzakg/",
+      }
+    );
+
+  await Promotion.create(
+    {
+      title: "Бутылка колы в подарок",
+      company: imperiya._id,
+      description:
+        "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+      image: "fixtures/cola.webp",
+    },
+    {
+      title: "Виски в подарок",
+      company: karaoke1._id,
+      description:
+        "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+      image: "fixtures/viski.jpeg",
+      link: "https://www.instagram.com/mypizzakg/",
+    },
+    {
+      title: "Fanta в подарок",
+      company: karaoke2._id,
+      description:
+        "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+      image: "fixtures/fanta.webp",
+      link: "https://www.instagram.com/mypizzakg/",
+    },
+    {
+      title: "Sprite в подарок",
+      company: karaoke3._id,
+      description:
+        "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+      image: "fixtures/sprite.jpeg",
+      link: "https://www.instagram.com/mypizzakg/",
+    },
+    {
+      title: "Chiken в подарок",
+      company: ferma1._id,
+      description:
+        "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+      image: "fixtures/chiken.jpeg",
+      link: "https://www.instagram.com/mypizzakg/",
+    },
+    {
+      title: "Milk в подарок",
+      company: ferma2._id,
+      description:
+        "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+      image: "fixtures/milk.jpeg",
+      link: "https://www.instagram.com/mypizzakg/",
+    },
+    {
+      title: "Eggs в подарок",
+      company: ferma3._id,
+      description:
+        "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+      image: "fixtures/eggs.jpeg",
+      link: "https://www.instagram.com/mypizzakg/",
+    },
+    {
+      title: "Бутылка колы в подарок",
+      company: imperiya._id,
+      description:
+        "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+      image: "fixtures/test.jpeg",
+    },
+    {
+      title: "Виски в подарок",
+      company: karaoke1._id,
+      description:
+        "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+      image: "fixtures/test.jpeg",
+      link: "https://www.instagram.com/mypizzakg/",
+    },
+    {
+      title: "Fanta в подарок",
+      company: karaoke2._id,
+      description:
+        "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+      image: "fixtures/test.jpeg",
+      link: "https://www.instagram.com/mypizzakg/",
+    },
+    {
+      title: "Sprite в подарок",
+      company: karaoke3._id,
+      description:
+        "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+      image: "fixtures/test.jpeg",
+      link: "https://www.instagram.com/mypizzakg/",
+    },
+    {
+      title: "Chiken в подарок",
+      company: ferma1._id,
+      description:
+        "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+      image: "fixtures/test.jpeg",
+      link: "https://www.instagram.com/mypizzakg/",
+    },
+    {
+      title: "Milk в подарок",
+      company: ferma2._id,
+      description:
+        "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+      image: "fixtures/test.jpeg",
+      link: "https://www.instagram.com/mypizzakg/",
+    },
+    {
+      title: "Eggs в подарок",
+      company: ferma3._id,
+      description:
+        "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+      image: "fixtures/test.jpeg",
+      link: "https://www.instagram.com/mypizzakg/",
+    },
+    {
+      title: "Бутылка колы в подарок",
+      company: imperiya._id,
+      description:
+        "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+      image: "fixtures/test.jpeg",
+    },
+    {
+      title: "Виски в подарок",
+      company: karaoke1._id,
+      description:
+        "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+      image: "fixtures/test.jpeg",
+      link: "https://www.instagram.com/mypizzakg/",
+    },
+    {
+      title: "Fanta в подарок",
+      company: karaoke2._id,
+      description:
+        "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+      image: "fixtures/test.jpeg",
+      link: "https://www.instagram.com/mypizzakg/",
+    },
+    {
+      title: "Sprite в подарок",
+      company: karaoke3._id,
+      description:
+        "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+      image: "fixtures/test.jpeg",
+      link: "https://www.instagram.com/mypizzakg/",
+    },
+    {
+      title: "Chiken в подарок",
+      company: ferma1._id,
+      description:
+        "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+      image: "fixtures/test.jpeg",
+      link: "https://www.instagram.com/mypizzakg/",
+    },
+    {
+      title: "Milk в подарок",
+      company: ferma2._id,
+      description:
+        "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+      image: "fixtures/test.jpeg",
+      link: "https://www.instagram.com/mypizzakg/",
+    },
+    {
+      title: "Eggs в подарок",
+      company: ferma3._id,
+      description:
+        "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+      image: "fixtures/test.jpeg",
+      link: "https://www.instagram.com/mypizzakg/",
+    },
+    {
+      title: "Бутылка колы в подарок",
+      company: imperiya._id,
+      description:
+        "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+      image: "fixtures/test.jpeg",
+    },
+    {
+      title: "Виски в подарок",
+      company: karaoke1._id,
+      description:
+        "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+      image: "fixtures/test.jpeg",
+      link: "https://www.instagram.com/mypizzakg/",
+    },
+    {
+      title: "Fanta в подарок",
+      company: karaoke2._id,
+      description:
+        "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+      image: "fixtures/test.jpeg",
+      link: "https://www.instagram.com/mypizzakg/",
+    },
+    {
+      title: "Sprite в подарок",
+      company: karaoke3._id,
+      description:
+        "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+      image: "fixtures/test.jpeg",
+      link: "https://www.instagram.com/mypizzakg/",
+    },
+    {
+      title: "Chiken в подарок",
+      company: ferma1._id,
+      description:
+        "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+      image: "fixtures/test.jpeg",
+      link: "https://www.instagram.com/mypizzakg/",
+    },
+    {
+      title: "Milk в подарок",
+      company: ferma2._id,
+      description:
+        "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+      image: "fixtures/test.jpeg",
+      link: "https://www.instagram.com/mypizzakg/",
+    },
+    {
+      title: "Eggs в подарок",
+      company: ferma3._id,
+      description:
+        "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
+      image: "fixtures/test.jpeg",
+      link: "https://www.instagram.com/mypizzakg/",
     }
   );
 

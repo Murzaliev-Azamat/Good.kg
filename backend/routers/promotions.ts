@@ -17,8 +17,8 @@ promotionsRouter.get("/", async (req, res, next) => {
   try {
     let query = Promotion.find().populate("company");
 
-    if (limit && page) {
-      const skip = (parseInt(page) - 1) * parseInt(page);
+    if (limit && page && limit !== "" && page !== "") {
+      const skip = (parseInt(page) - 1) * parseInt(limit);
       query = query.limit(parseInt(limit)).skip(skip);
     }
     const promotions = await query.exec();
@@ -72,7 +72,6 @@ promotionsRouter.post(
       company: req.body.company,
       description: req.body.description ? req.body.description : null,
       image: req.file ? req.file.filename : null,
-      rating: req.body.rating,
     };
 
     const promotion = new Promotion(promotionData);

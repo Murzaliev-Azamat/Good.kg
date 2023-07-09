@@ -18,10 +18,15 @@ companiesRouter.get("/", async (req, res, next) => {
   try {
     let query = Company.find().populate("categories");
 
-    if (limit && page) {
-      const skip = (parseInt(page) - 1) * parseInt(page);
+    if (limit && page && limit !== "" && page !== "") {
+      const skip = (parseInt(page) - 1) * parseInt(limit);
       query = query.limit(parseInt(limit)).skip(skip);
     }
+
+    // if (limit && page) {
+    //   const skip = (parseInt(page) - 1) * parseInt(page);
+    //   query = query.limit(parseInt(limit)).skip(skip);
+    // }
     const companies = await query.exec();
     return res.send(companies);
   } catch (e) {

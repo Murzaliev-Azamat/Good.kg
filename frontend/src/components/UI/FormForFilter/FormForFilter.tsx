@@ -37,8 +37,6 @@ const FormForFilter = () => {
     }
   };
 
-  console.log(filterSubcategory);
-
   useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch]);
@@ -59,7 +57,7 @@ const FormForFilter = () => {
         <option>Выберете категорию</option>
         {categories &&
           categories.map((category) => {
-            if (category.parent === null) {
+            if (!category.parent) {
               return (
                 <option value={category._id} key={category._id}>
                   {category.title}
@@ -79,7 +77,7 @@ const FormForFilter = () => {
         <option>Выберете категорию</option>
         {categories &&
           categories.map((category) => {
-            if (filterCategory !== '' && category.parent !== null && filterCategory === category.parent._id) {
+            if (filterCategory !== '' && category.parent && filterCategory === category.parent._id) {
               return (
                 <option value={category._id} key={category._id}>
                   {category.title}

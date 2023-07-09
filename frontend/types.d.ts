@@ -55,7 +55,6 @@ export interface Search {
 export interface Category {
   _id: string;
   title: string;
-  // position: null;
   parent: {
     _id: string;
     title: string;

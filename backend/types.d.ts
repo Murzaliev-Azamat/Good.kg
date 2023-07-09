@@ -53,7 +53,6 @@ export interface Promotion {
   company: Types.ObjectId;
   description: string;
   image: string | null;
-  rating: number;
 }
 
 export type PromotionWithoutId = Omit<Promotion, "id">;

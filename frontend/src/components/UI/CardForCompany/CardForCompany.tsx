@@ -26,7 +26,7 @@ const CardForCompany: React.FC<Props> = ({ id, title, link, image }) => {
   );
 
   if (image) {
-    cardImage = apiUrl + '/uploads/images/' + image;
+    cardImage = apiUrl + '/' + image;
     infoImage = (
       <img src={cardImage} className="card-img-top" style={{ height: '200px', objectFit: 'cover' }} alt="image" />
     );

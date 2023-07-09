@@ -41,18 +41,18 @@ interface Props {
   title: string;
   description: string;
   company_name: string;
-  company_image: string | null;
+  promotion_image: string | null;
 }
 
-const CardForPromotion: React.FC<Props> = ({ id, title, description, company_name, company_image }) => {
+const CardForPromotion: React.FC<Props> = ({ id, title, description, company_name, promotion_image }) => {
   let cardImage =
     'https://media.istockphoto.com/id/1357365823/vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo.jpg?s=612x612&w=0&k=20&c=PM_optEhHBTZkuJQLlCjLz-v3zzxp-1mpNQZsdjrbns=';
   let infoImage = (
     <img src={cardImage} className="card-img-top" style={{ height: '200px', objectFit: 'cover' }} alt="image" />
   );
 
-  if (company_image) {
-    cardImage = apiUrl + '/uploads/images/' + company_image;
+  if (promotion_image) {
+    cardImage = apiUrl + '/' + promotion_image;
     infoImage = (
       <img src={cardImage} className="card-img-top" style={{ height: '200px', objectFit: 'cover' }} alt="image" />
     );

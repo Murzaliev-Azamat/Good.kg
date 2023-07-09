@@ -43,11 +43,11 @@ export const PromotionsSlice = createSlice({
     });
     builder.addCase(fetchPromotions.fulfilled, (state, action) => {
       state.fetchAllLoading = false;
-      Array.prototype.push.apply(state.promotions, action.payload);
-      state.pagePromotions++;
       if (action.payload.length === 0) {
         state.hasMorePromotion = false;
       }
+      Array.prototype.push.apply(state.promotions, action.payload);
+      state.pagePromotions++;
     });
     builder.addCase(fetchPromotions.rejected, (state) => {
       state.fetchAllLoading = false;

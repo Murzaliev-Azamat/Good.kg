@@ -1,6 +1,11 @@
 import React from 'react';
 import CardForPromotion from '../../components/UI/CardForPromotion/CardForPromotion';
-import { selectFetchAllLoading, selectHasMorePromotion, selectPromotions } from '../../store/promotionsSlice';
+import {
+  clearAllPromotions,
+  selectFetchAllLoading,
+  selectHasMorePromotion,
+  selectPromotions,
+} from '../../store/promotionsSlice';
 import { fetchPromotions, fetchPromotionsByCategory, fetchPromotionsBySearch } from '../../store/promotionsThunks';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import InfiniteScroll from 'react-infinite-scroller';
@@ -15,6 +20,9 @@ const Promotions = () => {
   const filterCategory = useAppSelector(selectFilterCategory);
   const filterSubcategory = useAppSelector(selectFilterSubCategory);
   const search = useAppSelector(selectSearch);
+
+  console.log(hasMorePromotion);
+  console.log(promotions);
 
   const loadMore = async () => {
     if (fetchAllLoading) {
@@ -53,7 +61,7 @@ const Promotions = () => {
               title={promotion.title}
               description={promotion.description}
               company_name={promotion.company.title}
-              company_image={promotion.company.image}
+              promotion_image={promotion.image}
               id={promotion._id}
             />
           ))}
