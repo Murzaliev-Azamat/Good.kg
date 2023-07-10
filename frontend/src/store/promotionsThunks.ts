@@ -36,7 +36,7 @@ export const fetchPromotionsBySearch = createAsyncThunk<Promotion[] | [], Search
 
     if (search) {
       const promotionsResponse = await axiosApi.get<Promotion[]>(
-        '/promotions/?limit=' + 10 + '&search=' + search.search + '&page=' + pageBySearch,
+        '/promotions/search/?limit=' + 10 + '&search=' + search.search + '&page=' + pageBySearch,
       );
       return promotionsResponse.data;
     }

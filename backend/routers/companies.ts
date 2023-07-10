@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import permit from "../middleware/permit";
 import Company from "../models/Company";
 import Promotion from "../models/Promotion";
+import promotionsRouter from "./promotions";
 
 const companiesRouter = express.Router();
 
@@ -40,6 +41,30 @@ companiesRouter.get("/category", async (req, res, next) => {
 
     if (categoryId && limit && page && limit !== "" && page !== "") {
       query = query.where("categories").equals(categoryId);
+      const skip = (parseInt(page) - 1) * parseInt(limit);
+      query = query.limit(parseInt(limit)).skip(skip);
+    }
+
+    const companies = await query.exec();
+    return res.send(companies);
+  } catch (e) {
+    return next(e);
+  }
+});
+
+companiesRouter.get("/search", async (req, res, next) => {
+  const searchQuery = req.query.search;
+  const limit = req.query.limit as string;
+  const page = req.query.page as string;
+
+  try {
+    let query = Company.find();
+
+    if (searchQuery && limit && page && limit !== "" && page !== "") {
+      query = query.or([
+        { title: { $regex: searchQuery, $options: "i" } },
+        { description: { $regex: searchQuery, $options: "i" } },
+      ]);
       const skip = (parseInt(page) - 1) * parseInt(limit);
       query = query.limit(parseInt(limit)).skip(skip);
     }

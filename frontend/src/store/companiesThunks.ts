@@ -36,7 +36,7 @@ export const fetchCompaniesBySearch = createAsyncThunk<Company[] | [], Search | 
 
     if (search) {
       const companiesResponse = await axiosApi.get<Company[]>(
-        '/companies/?limit=' + 10 + '&search=' + search.search + '&page=' + pageBySearch,
+        '/companies/search/?limit=' + 10 + '&search=' + search.search + '&page=' + pageBySearch,
       );
       return companiesResponse.data;
     }

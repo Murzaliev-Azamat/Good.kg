@@ -80,6 +80,30 @@ promotionsRouter.get("/category", async (req, res, next) => {
   }
 });
 
+promotionsRouter.get("/search", async (req, res, next) => {
+  const searchQuery = req.query.search;
+  const limit = req.query.limit as string;
+  const page = req.query.page as string;
+
+  try {
+    let query = Promotion.find();
+
+    if (searchQuery && limit && page && limit !== "" && page !== "") {
+      query = query.or([
+        { title: { $regex: searchQuery, $options: "i" } },
+        { description: { $regex: searchQuery, $options: "i" } },
+      ]);
+      const skip = (parseInt(page) - 1) * parseInt(limit);
+      query = query.limit(parseInt(limit)).skip(skip);
+    }
+
+    const promotions = await query.exec();
+    return res.send(promotions);
+  } catch (e) {
+    return next(e);
+  }
+});
+
 // companiesRouter.get("/:id", async (req, res, next) => {
 //   try {
 //     const albums = await Album.findById(req.params.id).populate("artist");
