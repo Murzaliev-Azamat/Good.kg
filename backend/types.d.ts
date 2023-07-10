@@ -37,7 +37,7 @@ export interface Category {
 export type CategoryWithoutId = Omit<Category, "id">;
 
 export interface Company {
-  id: string;
+  _id: string;
   title: string;
   categories: Types.ObjectId[];
   description: string | null;
@@ -45,17 +45,17 @@ export interface Company {
   link: string | null;
 }
 
-export type CompanyWithoutId = Omit<Company, "id">;
+export type CompanyWithoutId = Omit<Company, "_id">;
 
 export interface Promotion {
-  id: string;
+  _id: string;
   title: string;
   company: Types.ObjectId;
   description: string;
   image: string | null;
 }
 
-export type PromotionWithoutId = Omit<Promotion, "id">;
+export type PromotionWithoutId = Omit<Promotion, "_id">;
 
 export interface IUser {
   username: string;

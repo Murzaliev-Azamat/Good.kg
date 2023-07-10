@@ -3,8 +3,9 @@ import auth from "../middleware/auth";
 import permit from "../middleware/permit";
 import { imagesUpload } from "../multer";
 import { PromotionWithoutId } from "../types";
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 import Promotion from "../models/Promotion";
+import Company from "../models/Company";
 
 const promotionsRouter = express.Router();
 
@@ -28,25 +29,75 @@ promotionsRouter.get("/", async (req, res, next) => {
   }
 });
 
-promotionsRouter.get("/", async (req, res, next) => {
+promotionsRouter.get("/category", async (req, res, next) => {
   const categoryId = req.query.categoryId;
   const limit = req.query.limit as string;
   const page = req.query.page as string;
 
   try {
-    let query = Promotion.find();
+    if (categoryId && limit && page && limit !== "" && page !== "") {
+      const skip = (parseInt(page) - 1) * parseInt(limit);
+      const aggregationPipeline = [
+        {
+          $lookup: {
+            from: "companies",
+            localField: "company",
+            foreignField: "_id",
+            as: "company",
+          },
+        },
+        {
+          $unwind: "$company",
+        },
+        {
+          $lookup: {
+            from: "categories",
+            localField: "company.categories",
+            foreignField: "_id",
+            as: "company.categories",
+          },
+        },
+        {
+          $match: {
+            "company.categories._id": new mongoose.Types.ObjectId(
+              categoryId as string
+            ),
+          },
+        },
+        {
+          $skip: skip,
+        },
+        {
+          $limit: parseInt(limit),
+        },
+      ];
 
-    if (categoryId) {
-      query = query.where("categories").equals(categoryId);
+      const promotions = await Promotion.aggregate(aggregationPipeline).exec();
+      console.log(promotions);
+      return res.send(promotions);
     }
 
-    if (limit && page) {
-      const skip = (parseInt(page) - 1) * parseInt(page);
-      query = query.limit(parseInt(limit)).skip(skip);
-    }
-
-    const promotions = await query.exec();
-    return res.send(promotions);
+    // let query = Promotion.find();
+    //
+    // if (categoryId && limit && page && limit !== "" && page !== "") {
+    //   const skip = (parseInt(page) - 1) * parseInt(limit);
+    //   query = query
+    //     .populate({
+    //       path: "company",
+    //       populate: {
+    //         path: "categories",
+    //         model: "Category",
+    //       },
+    //     })
+    //     // .where("company.categories._id")
+    //     // .equals(categoryId)
+    //     .limit(parseInt(limit))
+    //     .skip(skip);
+    // }
+    //
+    // const promotions = await query.exec();
+    // console.log(promotions);
+    // return res.send(promotions);
   } catch (e) {
     return next(e);
   }
