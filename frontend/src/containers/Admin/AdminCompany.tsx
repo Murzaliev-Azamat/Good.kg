@@ -1,17 +1,25 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { clearAllCompanies, selectCompanies } from '../../store/companiesSlice';
+import { clearAllCompanies, selectCompanies, selectHasMoreCompany } from '../../store/companiesSlice';
 import { NavLink } from 'react-router-dom';
 import { deleteCompany, fetchCompanies } from '../../store/companiesThunks';
 import { apiUrl } from '../../constants';
+import { selectFetchAllLoading } from '../../store/companiesSlice';
+import InfiniteScroll from 'react-infinite-scroller';
 
 const AdminCompany = () => {
   const companies = useAppSelector(selectCompanies);
   const dispatch = useAppDispatch();
+  const hasMorePromotion = useAppSelector(selectHasMoreCompany);
+  const fetchAllLoading = useAppSelector(selectFetchAllLoading);
 
-  useEffect(() => {
-    dispatch(fetchCompanies());
-  }, [dispatch]);
+  const loadMore = async () => {
+    if (fetchAllLoading) {
+      return;
+    } else {
+      await dispatch(fetchCompanies());
+    }
+  };
 
   const removeCompany = async (id: string) => {
     await dispatch(deleteCompany(id));
@@ -31,49 +39,62 @@ const AdminCompany = () => {
         <h3 style={{ marginRight: '53px', fontSize: '20px' }}>Картинки</h3>
         <h3 style={{ fontSize: '20px' }}>Ссылка</h3>
       </div>
-      {companies.map((company) => {
-        return (
-          <div
-            key={company._id}
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: '5px',
-              marginTop: '5px',
-              borderBottom: '1px solid grey',
-              borderTop: '1px solid grey',
-              paddingTop: '5px',
-              paddingBottom: '5px',
-            }}
-          >
-            <div style={{ width: '200px' }}>
-              <p style={{ margin: '0', wordWrap: 'break-word' }}>{company.title}</p>
-            </div>
-            <div style={{ width: '200px' }}>
-              <p style={{ margin: '0', wordWrap: 'break-word' }}>{company.description}</p>
-            </div>
-            <div style={{ width: '200px', overflow: 'hidden' }}>
-              {company.categories.map((companyCategory) => {
-                return (
-                  <p style={{ margin: '0' }} key={companyCategory._id}>
-                    {companyCategory.title}
-                  </p>
-                );
-              })}
-            </div>
-            <div style={{ width: '100px', overflow: 'hidden' }}>
-              <img src={apiUrl + '/' + company.image} style={{ width: '100px' }} alt="image"></img>
-            </div>
-            <div style={{ width: '100px', overflow: 'hidden' }}>
-              <a href={company.link}>На сайт</a>
-            </div>
-            <button onClick={() => removeCompany(company._id)} className="btn btn-danger btn-sm">
-              delete
-            </button>
+      <InfiniteScroll
+        // pageStart={0}
+        loadMore={loadMore}
+        hasMore={hasMorePromotion}
+        loader={
+          <div className="loader" key={0}>
+            Loading ...
           </div>
-        );
-      })}
+        }
+        // initialLoad={true}
+        // useWindow={true}
+      >
+        {companies.map((company) => {
+          return (
+            <div
+              key={company._id}
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: '5px',
+                marginTop: '5px',
+                borderBottom: '1px solid grey',
+                borderTop: '1px solid grey',
+                paddingTop: '5px',
+                paddingBottom: '5px',
+              }}
+            >
+              <div style={{ width: '200px' }}>
+                <p style={{ margin: '0', wordWrap: 'break-word' }}>{company.title}</p>
+              </div>
+              <div style={{ width: '200px' }}>
+                <p style={{ margin: '0', wordWrap: 'break-word' }}>{company.description}</p>
+              </div>
+              <div style={{ width: '200px', overflow: 'hidden' }}>
+                {company.categories.map((companyCategory) => {
+                  return (
+                    <p style={{ margin: '0' }} key={companyCategory._id}>
+                      {companyCategory.title}
+                    </p>
+                  );
+                })}
+              </div>
+              <div style={{ width: '100px', overflow: 'hidden' }}>
+                <img src={apiUrl + '/' + company.image} style={{ width: '100px' }} alt="image"></img>
+              </div>
+              <div style={{ width: '100px', overflow: 'hidden' }}>
+                <a href={company.link}>На сайт</a>
+              </div>
+              <button onClick={() => removeCompany(company._id)} className="btn btn-danger btn-sm">
+                delete
+              </button>
+            </div>
+          );
+        })}
+      </InfiniteScroll>
     </div>
   );
 };
