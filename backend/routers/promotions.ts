@@ -73,31 +73,8 @@ promotionsRouter.get("/category", async (req, res, next) => {
       ];
 
       const promotions = await Promotion.aggregate(aggregationPipeline).exec();
-      console.log(promotions);
       return res.send(promotions);
     }
-
-    // let query = Promotion.find();
-    //
-    // if (categoryId && limit && page && limit !== "" && page !== "") {
-    //   const skip = (parseInt(page) - 1) * parseInt(limit);
-    //   query = query
-    //     .populate({
-    //       path: "company",
-    //       populate: {
-    //         path: "categories",
-    //         model: "Category",
-    //       },
-    //     })
-    //     // .where("company.categories._id")
-    //     // .equals(categoryId)
-    //     .limit(parseInt(limit))
-    //     .skip(skip);
-    // }
-    //
-    // const promotions = await query.exec();
-    // console.log(promotions);
-    // return res.send(promotions);
   } catch (e) {
     return next(e);
   }

@@ -23,10 +23,6 @@ companiesRouter.get("/", async (req, res, next) => {
       query = query.limit(parseInt(limit)).skip(skip);
     }
 
-    // if (limit && page) {
-    //   const skip = (parseInt(page) - 1) * parseInt(page);
-    //   query = query.limit(parseInt(limit)).skip(skip);
-    // }
     const companies = await query.exec();
     return res.send(companies);
   } catch (e) {
@@ -34,7 +30,7 @@ companiesRouter.get("/", async (req, res, next) => {
   }
 });
 
-companiesRouter.get("/", async (req, res, next) => {
+companiesRouter.get("/category", async (req, res, next) => {
   const categoryId = req.query.categoryId;
   const limit = req.query.limit as string;
   const page = req.query.page as string;
@@ -42,12 +38,9 @@ companiesRouter.get("/", async (req, res, next) => {
   try {
     let query = Company.find();
 
-    if (categoryId) {
+    if (categoryId && limit && page && limit !== "" && page !== "") {
       query = query.where("categories").equals(categoryId);
-    }
-
-    if (limit && page) {
-      const skip = (parseInt(page) - 1) * parseInt(page);
+      const skip = (parseInt(page) - 1) * parseInt(limit);
       query = query.limit(parseInt(limit)).skip(skip);
     }
 

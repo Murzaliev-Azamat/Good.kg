@@ -22,7 +22,7 @@ export const fetchCompaniesByCategory = createAsyncThunk<
   const pageByCategory = thunkAPI.getState().companies.pageCompaniesByCategory;
   if (category) {
     const companiesResponse = await axiosApi.get<Company[]>(
-      '/companies/?limit=' + 10 + '&categoryId=' + category.category + '&page=' + pageByCategory,
+      '/companies/category/?limit=' + 10 + '&categoryId=' + category.category + '&page=' + pageByCategory,
     );
     return companiesResponse.data;
   }

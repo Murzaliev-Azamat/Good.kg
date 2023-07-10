@@ -22,7 +22,7 @@ export const fetchPromotionsByCategory = createAsyncThunk<
   const pageByCategory = thunkAPI.getState().promotions.pagePromotionsByCategory;
   if (category) {
     const promotionsResponse = await axiosApi.get<Promotion[]>(
-      '/promotions/category/?limit=' + 3 + '&categoryId=' + category.category + '&page=' + pageByCategory,
+      '/promotions/category/?limit=' + 10 + '&categoryId=' + category.category + '&page=' + pageByCategory,
     );
     return promotionsResponse.data;
   }
