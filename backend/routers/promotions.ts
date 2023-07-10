@@ -104,6 +104,15 @@ promotionsRouter.get("/search", async (req, res, next) => {
   }
 });
 
+promotionsRouter.get("/companyId/:id", async (req, res, next) => {
+  try {
+    const promotions = await Promotion.find({ company: req.params.id });
+    return res.send(promotions);
+  } catch (e) {
+    return next(e);
+  }
+});
+
 // companiesRouter.get("/:id", async (req, res, next) => {
 //   try {
 //     const albums = await Album.findById(req.params.id).populate("artist");

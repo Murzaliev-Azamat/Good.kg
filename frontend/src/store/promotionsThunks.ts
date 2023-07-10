@@ -44,6 +44,17 @@ export const fetchPromotionsBySearch = createAsyncThunk<Promotion[] | [], Search
   },
 );
 
+export const fetchPromotionsByCompanyId = createAsyncThunk<Promotion[] | [], string>(
+  'promotions/fetchAllByCompanyId',
+  async (id) => {
+    if (id) {
+      const promotionsResponse = await axiosApi.get<Promotion[]>('promotions/companyId/' + id);
+      return promotionsResponse.data;
+    }
+    return [];
+  },
+);
+
 // export const fetchPromotion = createAsyncThunk<Promotion, string>(
 //   'promotions/fetchOne',
 //   async (id) => {

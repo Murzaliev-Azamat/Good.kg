@@ -1,5 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchPromotions, fetchPromotionsByCategory, fetchPromotionsBySearch } from './promotionsThunks';
+import {
+  fetchPromotions,
+  fetchPromotionsByCategory,
+  fetchPromotionsByCompanyId,
+  fetchPromotionsBySearch,
+} from './promotionsThunks';
 import { Promotion } from '../../types';
 import { RootState } from '../app/store';
 
@@ -78,6 +83,16 @@ export const PromotionsSlice = createSlice({
       }
     });
     builder.addCase(fetchPromotionsBySearch.rejected, (state) => {
+      state.fetchAllLoading = false;
+    });
+    builder.addCase(fetchPromotionsByCompanyId.pending, (state) => {
+      state.fetchAllLoading = true;
+    });
+    builder.addCase(fetchPromotionsByCompanyId.fulfilled, (state, action) => {
+      state.fetchAllLoading = false;
+      state.promotions = action.payload;
+    });
+    builder.addCase(fetchPromotionsByCompanyId.rejected, (state) => {
       state.fetchAllLoading = false;
     });
     // builder.addCase(fetchPromotion.pending, (state) => {

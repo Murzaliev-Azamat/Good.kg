@@ -1,5 +1,6 @@
 import React from 'react';
 import { apiUrl } from '../../../constants';
+import { NavLink } from 'react-router-dom';
 
 // const CustomAccordionHeader = styled(Accordion.Header)`
 //   background-color: green;
@@ -37,8 +38,11 @@ const CardForCompany: React.FC<Props> = ({ id, title, link, image }) => {
       {infoImage}
       <div className="card-body">
         <h5 className="card-title">{title}</h5>
-        <a href={link} target="_blank" className="btn btn-primary" rel="noreferrer">
-          Страница компании
+        <NavLink to={'/company-page/' + id} className="btn btn-primary" style={{ marginBottom: '5px' }}>
+          Подробнее
+        </NavLink>
+        <a href={link} target="_blank" className="btn btn-success" rel="noreferrer">
+          Сайт компании
         </a>
       </div>
     </div>

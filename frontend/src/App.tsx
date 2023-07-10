@@ -4,7 +4,6 @@ import { Box } from '@mui/material';
 import AppToolBar from './components/UI/AppToolBar/AppToolBar';
 import Home from './containers/Home/Home';
 import { Route, Routes } from 'react-router-dom';
-import AboutCompany from './containers/AboutCompany/AboutCompany';
 import Companies from './containers/Companies/Companies';
 import { useLocation } from 'react-router-dom';
 import Admin from './containers/Admin/Admin';
@@ -19,6 +18,7 @@ import AdminPromotion from './containers/Admin/AdminPromotion';
 import FormForCategory from './components/UI/FormForCategory/FormForCategory';
 import FormForCompany from './components/UI/FormForCompany/FormFormCompany';
 import FormForPromotion from './components/UI/FormForPromotion/FormForPromotion';
+import CompanyPage from './containers/CompanyPage/CompanyPage';
 
 function App() {
   const location = useLocation();
@@ -71,7 +71,7 @@ function App() {
           />
           <Route path="/" element={<Home />} />
           <Route path="/companies" element={<Companies />} />
-          <Route path="/about-company" element={<AboutCompany />} />
+          <Route path="/company-page/:id" element={<CompanyPage />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="*" element={<span>Такой страницы не существует</span>} />
