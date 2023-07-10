@@ -75,6 +75,7 @@ export const addPromotion = createAsyncThunk<void, PromotionApi>('promotions/add
   formData.append('title', promotion.title);
   formData.append('company', promotion.company);
   formData.append('description', promotion.description);
+  formData.append('isAlways', promotion.isAlways);
 
   if (promotion.image) {
     formData.append('image', promotion.image);

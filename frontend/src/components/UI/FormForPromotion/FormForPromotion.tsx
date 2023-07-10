@@ -22,7 +22,10 @@ const FormForPromotion = () => {
     description: '',
     company: '',
     image: null,
+    isAlways: '',
   });
+
+  console.log(state.isAlways);
 
   useEffect(() => {
     dispatch(fetchCompanies());
@@ -36,9 +39,10 @@ const FormForPromotion = () => {
         description: state.description,
         company: state.company,
         image: state.image,
+        isAlways: state.isAlways,
       }),
     );
-    setState({ title: '', description: '', company: '', image: null });
+    setState({ title: '', description: '', company: '', image: null, isAlways: '' });
     await dispatch(clearAllPromotions());
     await dispatch(fetchPromotions());
     navigate('/admin/admin-promotion');
@@ -126,6 +130,22 @@ const FormForPromotion = () => {
                   {company.title}
                 </MenuItem>
               ))}
+          </Select>
+        </Grid>
+
+        <Grid item xs>
+          <InputLabel id="isAlways">Статус</InputLabel>
+          <Select
+            labelId="isAlways"
+            sx={{ width: '100%' }}
+            id="isAlways"
+            value={state.isAlways.toString()}
+            onChange={selectChangeHandler}
+            name="isAlways"
+            required
+          >
+            <MenuItem value={true.toString()}>Постоянная акция</MenuItem>
+            <MenuItem value={false.toString()}>Временная акция</MenuItem>
           </Select>
         </Grid>
 

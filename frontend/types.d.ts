@@ -14,6 +14,7 @@ export interface Promotion {
     link: string;
   };
   image: string | null;
+  isAlways: boolean;
 }
 
 export interface PromotionApi {
@@ -21,6 +22,7 @@ export interface PromotionApi {
   description: string;
   company: string;
   image: string | null;
+  isAlways: string;
 }
 
 export interface Company {

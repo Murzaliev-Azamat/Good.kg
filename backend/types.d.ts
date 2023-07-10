@@ -53,6 +53,14 @@ export interface Promotion {
   company: Types.ObjectId;
   description: string;
   image: string | null;
+  isAlways: boolean;
+  createdAt: Date;
+  startDate: Date | null;
+  endDate: Date | null;
+  isBirthday: boolean;
+  // isFresh: boolean;
+  // rating: number;
+  // canLike: boolean;
 }
 
 export type PromotionWithoutId = Omit<Promotion, "_id">;

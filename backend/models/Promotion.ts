@@ -22,6 +22,37 @@ const PromotionSchema = new Schema({
     required: true,
   },
   image: String,
+  isAlways: {
+    type: Boolean,
+    required: true,
+    default: true,
+  },
+  createdAt: {
+    type: Date,
+    required: true,
+  },
+  startDate: Date,
+  endDate: Date,
+  isBirthday: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
+  isFresh: {
+    type: Boolean,
+    required: true,
+    default: true,
+  },
+  rating: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
+  canLike: {
+    type: Boolean,
+    required: true,
+    default: true,
+  },
 });
 
 const Promotion = mongoose.model("Promotion", PromotionSchema);

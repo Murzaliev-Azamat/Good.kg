@@ -17,12 +17,12 @@ const run = async () => {
   try {
     await db.dropCollection("albums");
     await db.dropCollection("artists");
-    await db.dropCollection("trackhistories");
+    // await db.dropCollection("trackhistories");
     await db.dropCollection("tracks");
     await db.dropCollection("users");
-    await db.dropCollection("categories");
-    await db.dropCollection("companies");
     await db.dropCollection("promotions");
+    await db.dropCollection("companies");
+    await db.dropCollection("categories");
   } catch (e) {
     console.log("Collections were not present, skipping drop...");
   }
@@ -124,6 +124,7 @@ const run = async () => {
       description:
         "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
       image: "fixtures/cola.webp",
+      createdAt: new Date(),
     },
     {
       title: "Виски в подарок",
@@ -132,6 +133,7 @@ const run = async () => {
         "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
       image: "fixtures/viski.jpeg",
       link: "https://www.instagram.com/mypizzakg/",
+      createdAt: new Date(),
     },
     {
       title: "Fanta в подарок",
@@ -140,6 +142,7 @@ const run = async () => {
         "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
       image: "fixtures/fanta.webp",
       link: "https://www.instagram.com/mypizzakg/",
+      createdAt: new Date(),
     },
     {
       title: "Sprite в подарок",
@@ -148,6 +151,7 @@ const run = async () => {
         "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
       image: "fixtures/sprite.jpeg",
       link: "https://www.instagram.com/mypizzakg/",
+      createdAt: new Date(),
     },
     {
       title: "Chiken в подарок",
@@ -156,6 +160,7 @@ const run = async () => {
         "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
       image: "fixtures/chiken.jpeg",
       link: "https://www.instagram.com/mypizzakg/",
+      createdAt: new Date(),
     },
     {
       title: "Milk в подарок",
@@ -164,6 +169,7 @@ const run = async () => {
         "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
       image: "fixtures/milk.jpeg",
       link: "https://www.instagram.com/mypizzakg/",
+      createdAt: new Date(),
     },
     {
       title: "Eggs в подарок",
@@ -172,6 +178,7 @@ const run = async () => {
         "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
       image: "fixtures/eggs.jpeg",
       link: "https://www.instagram.com/mypizzakg/",
+      createdAt: new Date(),
     },
     {
       title: "Бутылка колы в подарок",
@@ -179,6 +186,7 @@ const run = async () => {
       description:
         "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
       image: "fixtures/test.jpeg",
+      createdAt: new Date(),
     },
     {
       title: "Виски в подарок",
@@ -187,6 +195,7 @@ const run = async () => {
         "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
       image: "fixtures/test.jpeg",
       link: "https://www.instagram.com/mypizzakg/",
+      createdAt: new Date(),
     },
     {
       title: "Fanta в подарок",
@@ -195,6 +204,7 @@ const run = async () => {
         "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
       image: "fixtures/test.jpeg",
       link: "https://www.instagram.com/mypizzakg/",
+      createdAt: new Date(),
     },
     {
       title: "Sprite в подарок",
@@ -203,6 +213,7 @@ const run = async () => {
         "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
       image: "fixtures/test.jpeg",
       link: "https://www.instagram.com/mypizzakg/",
+      createdAt: new Date(),
     },
     {
       title: "Chiken в подарок",
@@ -211,6 +222,7 @@ const run = async () => {
         "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
       image: "fixtures/test.jpeg",
       link: "https://www.instagram.com/mypizzakg/",
+      createdAt: new Date(),
     },
     {
       title: "Milk в подарок",
@@ -219,6 +231,7 @@ const run = async () => {
         "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
       image: "fixtures/test.jpeg",
       link: "https://www.instagram.com/mypizzakg/",
+      createdAt: new Date(),
     },
     {
       title: "Eggs в подарок",
@@ -227,6 +240,7 @@ const run = async () => {
         "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
       image: "fixtures/test.jpeg",
       link: "https://www.instagram.com/mypizzakg/",
+      createdAt: new Date(),
     },
     {
       title: "Бутылка колы в подарок",
@@ -234,6 +248,7 @@ const run = async () => {
       description:
         "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
       image: "fixtures/test.jpeg",
+      createdAt: new Date(),
     },
     {
       title: "Виски в подарок",
@@ -242,6 +257,7 @@ const run = async () => {
         "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
       image: "fixtures/test.jpeg",
       link: "https://www.instagram.com/mypizzakg/",
+      createdAt: new Date(),
     },
     {
       title: "Fanta в подарок",
@@ -250,6 +266,7 @@ const run = async () => {
         "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
       image: "fixtures/test.jpeg",
       link: "https://www.instagram.com/mypizzakg/",
+      createdAt: new Date(),
     },
     {
       title: "Sprite в подарок",
@@ -258,6 +275,7 @@ const run = async () => {
         "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
       image: "fixtures/test.jpeg",
       link: "https://www.instagram.com/mypizzakg/",
+      createdAt: new Date(),
     },
     {
       title: "Chiken в подарок",
@@ -266,6 +284,7 @@ const run = async () => {
         "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
       image: "fixtures/test.jpeg",
       link: "https://www.instagram.com/mypizzakg/",
+      createdAt: new Date(),
     },
     {
       title: "Milk в подарок",
@@ -274,6 +293,7 @@ const run = async () => {
         "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
       image: "fixtures/test.jpeg",
       link: "https://www.instagram.com/mypizzakg/",
+      createdAt: new Date(),
     },
     {
       title: "Eggs в подарок",
@@ -282,6 +302,7 @@ const run = async () => {
         "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
       image: "fixtures/test.jpeg",
       link: "https://www.instagram.com/mypizzakg/",
+      createdAt: new Date(),
     },
     {
       title: "Бутылка колы в подарок",
@@ -289,6 +310,7 @@ const run = async () => {
       description:
         "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
       image: "fixtures/test.jpeg",
+      createdAt: new Date(),
     },
     {
       title: "Виски в подарок",
@@ -297,6 +319,7 @@ const run = async () => {
         "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
       image: "fixtures/test.jpeg",
       link: "https://www.instagram.com/mypizzakg/",
+      createdAt: new Date(),
     },
     {
       title: "Fanta в подарок",
@@ -305,6 +328,7 @@ const run = async () => {
         "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
       image: "fixtures/test.jpeg",
       link: "https://www.instagram.com/mypizzakg/",
+      createdAt: new Date(),
     },
     {
       title: "Sprite в подарок",
@@ -313,6 +337,7 @@ const run = async () => {
         "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
       image: "fixtures/test.jpeg",
       link: "https://www.instagram.com/mypizzakg/",
+      createdAt: new Date(),
     },
     {
       title: "Chiken в подарок",
@@ -321,6 +346,7 @@ const run = async () => {
         "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
       image: "fixtures/test.jpeg",
       link: "https://www.instagram.com/mypizzakg/",
+      createdAt: new Date(),
     },
     {
       title: "Milk в подарок",
@@ -329,6 +355,7 @@ const run = async () => {
         "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
       image: "fixtures/test.jpeg",
       link: "https://www.instagram.com/mypizzakg/",
+      createdAt: new Date(),
     },
     {
       title: "Eggs в подарок",
@@ -337,6 +364,7 @@ const run = async () => {
         "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
       image: "fixtures/test.jpeg",
       link: "https://www.instagram.com/mypizzakg/",
+      createdAt: new Date(),
     }
   );
 
