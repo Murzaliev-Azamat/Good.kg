@@ -15,6 +15,13 @@ export interface Promotion {
   };
   image: string | null;
   isAlways: boolean;
+  createdAt: string;
+  startDate?: string;
+  endDate?: string;
+  isBirthday: boolean;
+  isFresh: boolean;
+  rating: number;
+  canLike: boolean;
 }
 
 export interface PromotionApi {

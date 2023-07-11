@@ -63,6 +63,8 @@ const Promotions = () => {
               company_name={promotion.company.title}
               promotion_image={promotion.image}
               id={promotion._id}
+              rating={promotion.rating}
+              canLike={promotion.canLike}
             />
           ))}
         </div>

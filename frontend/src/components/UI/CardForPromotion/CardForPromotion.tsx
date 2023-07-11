@@ -2,6 +2,8 @@ import React from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import styled from 'styled-components';
 import { apiUrl } from '../../../constants';
+import { fetchPromotions, likePromotion } from '../../../store/promotionsThunks';
+import { useAppDispatch } from '../../../app/hooks';
 
 const CustomAccordion = styled(Accordion)`
   --bs-accordion-active-bg: green;
@@ -42,9 +44,26 @@ interface Props {
   description: string;
   company_name: string;
   promotion_image: string | null;
+  rating: number;
+  canLike: boolean;
 }
 
-const CardForPromotion: React.FC<Props> = ({ id, title, description, company_name, promotion_image }) => {
+const CardForPromotion: React.FC<Props> = ({
+  id,
+  title,
+  description,
+  company_name,
+  promotion_image,
+  rating,
+  canLike,
+}) => {
+  const dispatch = useAppDispatch();
+
+  const toggleLike = async (id: string) => {
+    await dispatch(likePromotion(id));
+    await dispatch(fetchPromotions());
+  };
+
   let cardImage =
     'https://media.istockphoto.com/id/1357365823/vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo.jpg?s=612x612&w=0&k=20&c=PM_optEhHBTZkuJQLlCjLz-v3zzxp-1mpNQZsdjrbns=';
   let infoImage = (
@@ -64,10 +83,16 @@ const CardForPromotion: React.FC<Props> = ({ id, title, description, company_nam
       <div className="card-body d-flex flex-column justify-content-between">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
           <div style={{ display: 'flex', alignItems: 'center', marginRight: '10px', marginLeft: '4px' }}>
-            <svg className="icon" style={{ marginRight: '5px' }}>
-              <use xlinkHref="sprite.svg#icon-heart-fill"></use>
-            </svg>
-            <span style={{ display: 'block', color: 'grey', fontSize: '15px', lineHeight: '1' }}>88</span>
+            {canLike ? (
+              <svg onClick={() => toggleLike(id)} className="icon" style={{ marginRight: '5px' }}>
+                <use xlinkHref="sprite.svg#icon-heart-fill"></use>
+              </svg>
+            ) : (
+              <svg onClick={() => toggleLike(id)} className="icon icon-red" style={{ marginRight: '5px' }}>
+                <use xlinkHref="sprite.svg#icon-heart-fill"></use>
+              </svg>
+            )}
+            <span style={{ display: 'block', color: 'grey', fontSize: '15px', lineHeight: '1' }}>{rating}</span>
           </div>
           <div style={{ display: 'flex' }}>
             <svg className="icon">

@@ -53,6 +53,7 @@ const PromotionSchema = new Schema({
     required: true,
     default: true,
   },
+  userLikes: [String],
 });
 
 const Promotion = mongoose.model("Promotion", PromotionSchema);

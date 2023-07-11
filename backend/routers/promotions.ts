@@ -1,10 +1,12 @@
 import express from "express";
-import auth from "../middleware/auth";
+import auth, { RequestWithUser } from "../middleware/auth";
 import permit from "../middleware/permit";
 import { imagesUpload } from "../multer";
 import { PromotionWithoutId } from "../types";
 import mongoose from "mongoose";
 import Promotion from "../models/Promotion";
+import Artist from "../models/Artist";
+import artistsRouter from "./artists";
 
 const promotionsRouter = express.Router();
 
@@ -154,6 +156,46 @@ promotionsRouter.post(
     }
   }
 );
+
+promotionsRouter.patch("/:id/toggleLike", auth, async (req, res, next) => {
+  try {
+    const user = (req as RequestWithUser).user;
+    const promotion = await Promotion.findOne({ _id: req.params.id });
+    if (promotion) {
+      const isUserLiked = promotion.userLikes.includes(user._id.toString());
+
+      let updatedRating;
+      let updatedCanLike;
+      let updatedUserLikes;
+
+      if (isUserLiked) {
+        updatedRating = promotion.rating - 1;
+        updatedCanLike = true;
+        updatedUserLikes = promotion.userLikes = promotion.userLikes.filter(
+          (userId) => userId !== user._id.toString()
+        );
+      } else {
+        updatedRating = promotion.rating + 1;
+        updatedCanLike = false;
+        updatedUserLikes = [...promotion.userLikes, user._id.toString()];
+      }
+
+      await Promotion.updateOne(
+        { _id: promotion._id },
+        {
+          rating: updatedRating,
+          canLike: updatedCanLike,
+          userLikes: updatedUserLikes,
+        }
+      );
+
+      const updatedPromotion = await Promotion.findOne({ _id: promotion._id });
+      return res.send(updatedPromotion);
+    }
+  } catch (e) {
+    return next(e);
+  }
+});
 
 promotionsRouter.delete(
   "/:id",

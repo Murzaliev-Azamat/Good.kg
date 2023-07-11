@@ -36,6 +36,10 @@ code {
   height: 25px;
 }
 
+.icon-red {
+  fill: red;
+}
+
 .icon:hover {
   fill: red;
 }

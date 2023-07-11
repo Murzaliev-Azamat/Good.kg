@@ -88,6 +88,10 @@ export const deletePromotion = createAsyncThunk<void, string>('promotions/delete
   await axiosApi.delete('/promotions/' + id);
 });
 
+export const likePromotion = createAsyncThunk<void, string>('promotions/likePromotion', async (id) => {
+  await axiosApi.patch('/promotions/' + id + '/toggleLike');
+});
+
 // export const deleteOneNews = createAsyncThunk<void, string>(
 //   'news/deleteOne',
 //   async (id) => {
