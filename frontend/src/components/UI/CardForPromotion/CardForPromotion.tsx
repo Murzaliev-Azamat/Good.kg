@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import styled from 'styled-components';
 import { apiUrl } from '../../../constants';
-import { fetchPromotions, likePromotion } from '../../../store/promotionsThunks';
-import { useAppDispatch } from '../../../app/hooks';
+import { likePromotion } from '../../../store/promotionsThunks';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { selectUser } from '../../../containers/users/usersSlise';
 
 const CustomAccordion = styled(Accordion)`
   --bs-accordion-active-bg: green;
@@ -45,7 +46,7 @@ interface Props {
   company_name: string;
   promotion_image: string | null;
   rating: number;
-  canLike: boolean;
+  userLikes: string[];
 }
 
 const CardForPromotion: React.FC<Props> = ({
@@ -55,13 +56,23 @@ const CardForPromotion: React.FC<Props> = ({
   company_name,
   promotion_image,
   rating,
-  canLike,
+  userLikes,
 }) => {
   const dispatch = useAppDispatch();
+  const user = useAppSelector(selectUser);
+  const [stateLiked, setStateLiked] = useState<boolean>(false);
+
+  console.log(stateLiked);
+
+  useEffect(() => {
+    if (user && userLikes.includes(user._id)) {
+      setStateLiked(true);
+    }
+  }, [dispatch, user, userLikes]);
 
   const toggleLike = async (id: string) => {
     await dispatch(likePromotion(id));
-    await dispatch(fetchPromotions());
+    setStateLiked(!stateLiked);
   };
 
   let cardImage =
@@ -77,13 +88,27 @@ const CardForPromotion: React.FC<Props> = ({
     );
   }
 
+  // let infoRating = null;
+  //
+  // if (!stateLiked) {
+  //   infoRating = <span style={{ display: 'block', color: 'grey', fontSize: '15px', lineHeight: '1' }}>{rating}</span>;
+  // } else if (stateLiked && user && userLikes.includes(user._id)) {
+  //   infoRating = (
+  //     <span style={{ display: 'block', color: 'grey', fontSize: '15px', lineHeight: '1' }}>{rating - 1}</span>
+  //   );
+  // } else {
+  //   infoRating = (
+  //     <span style={{ display: 'block', color: 'grey', fontSize: '15px', lineHeight: '1' }}>{rating + 1}</span>
+  //   );
+  // }
+
   return (
     <div className="card col col-2 p-0 mb-2 me-1 ms-1" style={{ width: '17.95rem' }}>
       {infoImage}
       <div className="card-body d-flex flex-column justify-content-between">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
           <div style={{ display: 'flex', alignItems: 'center', marginRight: '10px', marginLeft: '4px' }}>
-            {canLike ? (
+            {!stateLiked ? (
               <svg onClick={() => toggleLike(id)} className="icon" style={{ marginRight: '5px' }}>
                 <use xlinkHref="sprite.svg#icon-heart-fill"></use>
               </svg>
@@ -92,7 +117,11 @@ const CardForPromotion: React.FC<Props> = ({
                 <use xlinkHref="sprite.svg#icon-heart-fill"></use>
               </svg>
             )}
-            <span style={{ display: 'block', color: 'grey', fontSize: '15px', lineHeight: '1' }}>{rating}</span>
+            {!stateLiked || (stateLiked && user && userLikes.includes(user._id)) ? (
+              <span style={{ display: 'block', color: 'grey', fontSize: '15px', lineHeight: '1' }}>{rating}</span>
+            ) : (
+              <span style={{ display: 'block', color: 'grey', fontSize: '15px', lineHeight: '1' }}>{rating + 1}</span>
+            )}
           </div>
           <div style={{ display: 'flex' }}>
             <svg className="icon">

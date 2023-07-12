@@ -43,3 +43,10 @@ code {
 .icon:hover {
   fill: red;
 }
+
+.icon:active {
+  width: 35px;
+  height: 35px;
+  margin-top: -5px;
+  margin-left: -5px;
+}

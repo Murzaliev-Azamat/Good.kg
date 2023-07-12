@@ -64,7 +64,7 @@ const Promotions = () => {
               promotion_image={promotion.image}
               id={promotion._id}
               rating={promotion.rating}
-              canLike={promotion.canLike}
+              userLikes={promotion.userLikes}
             />
           ))}
         </div>

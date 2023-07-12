@@ -5,8 +5,6 @@ import { imagesUpload } from "../multer";
 import { PromotionWithoutId } from "../types";
 import mongoose from "mongoose";
 import Promotion from "../models/Promotion";
-import Artist from "../models/Artist";
-import artistsRouter from "./artists";
 
 const promotionsRouter = express.Router();
 
@@ -114,14 +112,14 @@ promotionsRouter.get("/companyId/:id", async (req, res, next) => {
   }
 });
 
-// companiesRouter.get("/:id", async (req, res, next) => {
-//   try {
-//     const albums = await Album.findById(req.params.id).populate("artist");
-//     return res.send(albums);
-//   } catch (e) {
-//     return next(e);
-//   }
-// });
+promotionsRouter.get("/:id", async (req, res, next) => {
+  try {
+    const promotion = await Promotion.findById(req.params.id);
+    return res.send(promotion);
+  } catch (e) {
+    return next(e);
+  }
+});
 
 promotionsRouter.post(
   "/",
@@ -165,18 +163,15 @@ promotionsRouter.patch("/:id/toggleLike", auth, async (req, res, next) => {
       const isUserLiked = promotion.userLikes.includes(user._id.toString());
 
       let updatedRating;
-      let updatedCanLike;
       let updatedUserLikes;
 
       if (isUserLiked) {
         updatedRating = promotion.rating - 1;
-        updatedCanLike = true;
         updatedUserLikes = promotion.userLikes = promotion.userLikes.filter(
           (userId) => userId !== user._id.toString()
         );
       } else {
         updatedRating = promotion.rating + 1;
-        updatedCanLike = false;
         updatedUserLikes = [...promotion.userLikes, user._id.toString()];
       }
 
@@ -184,7 +179,6 @@ promotionsRouter.patch("/:id/toggleLike", auth, async (req, res, next) => {
         { _id: promotion._id },
         {
           rating: updatedRating,
-          canLike: updatedCanLike,
           userLikes: updatedUserLikes,
         }
       );

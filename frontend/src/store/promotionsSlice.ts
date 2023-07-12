@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
+  fetchPromotionById,
   fetchPromotions,
   fetchPromotionsByCategory,
   fetchPromotionsByCompanyId,
@@ -10,7 +11,7 @@ import { RootState } from '../app/store';
 
 interface PromotionsState {
   promotions: Promotion[] | [];
-  // promotion: Promotion | null;
+  promotion: Promotion | null;
   fetchAllLoading: boolean;
   // addLoading: boolean;
   pagePromotions: number;
@@ -21,7 +22,7 @@ interface PromotionsState {
 
 const initialState: PromotionsState = {
   promotions: [],
-  // promotion: null,
+  promotion: null,
   fetchAllLoading: false,
   // addLoading: false,
   pagePromotions: 1,
@@ -95,16 +96,16 @@ export const PromotionsSlice = createSlice({
     builder.addCase(fetchPromotionsByCompanyId.rejected, (state) => {
       state.fetchAllLoading = false;
     });
-    // builder.addCase(fetchPromotion.pending, (state) => {
-    //   state.fetchAllLoading = true;
-    // });
-    // builder.addCase(fetchPromotion.fulfilled, (state, action) => {
-    //   state.fetchAllLoading = false;
-    //   state.promotion = action.payload;
-    // });
-    // builder.addCase(fetchPromotion.rejected, (state) => {
-    //   state.fetchAllLoading = false;
-    // });
+    builder.addCase(fetchPromotionById.pending, (state) => {
+      state.fetchAllLoading = true;
+    });
+    builder.addCase(fetchPromotionById.fulfilled, (state, action) => {
+      state.fetchAllLoading = false;
+      state.promotion = action.payload;
+    });
+    builder.addCase(fetchPromotionById.rejected, (state) => {
+      state.fetchAllLoading = false;
+    });
     // builder.addCase(addOneNews.pending, (state) => {
     //   state.addLoading = true;
     // });
@@ -119,7 +120,7 @@ export const PromotionsSlice = createSlice({
 
 export const promotionsReducer = PromotionsSlice.reducer;
 export const selectPromotions = (state: RootState) => state.promotions.promotions;
-// export const selectPromotion = (state: RootState) => state.promotions.promotion;
+export const selectPromotion = (state: RootState) => state.promotions.promotion;
 export const selectPagePromotions = (state: RootState) => state.promotions.pagePromotions;
 export const selectHasMorePromotion = (state: RootState) => state.promotions.hasMorePromotion;
 

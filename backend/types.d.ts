@@ -60,7 +60,7 @@ export interface Promotion {
   isBirthday: boolean;
   // isFresh: boolean;
   // rating: number;
-  // canLike: boolean;
+  // userLikes: string[];
 }
 
 export type PromotionWithoutId = Omit<Promotion, "_id">;

@@ -48,11 +48,6 @@ const PromotionSchema = new Schema({
     required: true,
     default: 0,
   },
-  canLike: {
-    type: Boolean,
-    required: true,
-    default: true,
-  },
   userLikes: [String],
 });
 

@@ -55,19 +55,26 @@ export const fetchPromotionsByCompanyId = createAsyncThunk<Promotion[] | [], str
   },
 );
 
-// export const fetchPromotion = createAsyncThunk<Promotion, string>(
-//   'promotions/fetchOne',
-//   async (id) => {
-//     const promotionResponse = await axiosApi.get<Promotion | null>('promotions/' + id);
-//     const promotion = promotionResponse.data;
+// export const reloadCurrentPage = createAsyncThunk<Promotion[], void, { state: RootState }>(
+//   'promotions/reloadCurrentPage',
+//   async (currentPage, thunkAPI) => {
+//     const page = thunkAPI.getState().promotions.pagePromotions;
 //
-//     if (promotion === null) {
-//       throw new Error('Not found!')
-//     }
-//
-//     return promotion;
+//     const promotionsResponse = await axiosApi.get<Promotion[]>('/promotions/?limit=' + 10 + '&page=' + (page - 1));
+//     return promotionsResponse.data;
 //   },
 // );
+
+export const fetchPromotionById = createAsyncThunk<Promotion, string>('promotions/fetchOne', async (id) => {
+  const promotionResponse = await axiosApi.get<Promotion | null>('promotions/' + id);
+  const promotion = promotionResponse.data;
+
+  if (promotion === null) {
+    throw new Error('Not found!');
+  }
+
+  return promotion;
+});
 
 export const addPromotion = createAsyncThunk<void, PromotionApi>('promotions/addPromotion', async (promotion) => {
   const formData = new FormData();

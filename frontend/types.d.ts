@@ -21,7 +21,7 @@ export interface Promotion {
   isBirthday: boolean;
   isFresh: boolean;
   rating: number;
-  canLike: boolean;
+  userLikes: string[];
 }
 
 export interface PromotionApi {
