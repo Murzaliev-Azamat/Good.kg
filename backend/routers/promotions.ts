@@ -3,7 +3,7 @@ import auth, { RequestWithUser } from "../middleware/auth";
 import permit from "../middleware/permit";
 import { imagesUpload } from "../multer";
 import { PromotionWithoutId } from "../types";
-import mongoose from "mongoose";
+import mongoose, { PipelineStage } from "mongoose";
 import Promotion from "../models/Promotion";
 
 const promotionsRouter = express.Router();
@@ -21,6 +21,13 @@ promotionsRouter.get("/", async (req, res, next) => {
       const skip = (parseInt(page) - 1) * parseInt(limit);
       query = query.limit(parseInt(limit)).skip(skip);
     }
+
+    query = query.sort([
+      ["isFresh", 1],
+      ["isAlways", 1],
+      ["rating", -1],
+    ]);
+
     const promotions = await query.exec();
     return res.send(promotions);
   } catch (e) {
@@ -36,7 +43,7 @@ promotionsRouter.get("/category", async (req, res, next) => {
   try {
     if (categoryId && limit && page && limit !== "" && page !== "") {
       const skip = (parseInt(page) - 1) * parseInt(limit);
-      const aggregationPipeline = [
+      const aggregationPipeline: PipelineStage[] = [
         {
           $lookup: {
             from: "companies",
@@ -61,6 +68,13 @@ promotionsRouter.get("/category", async (req, res, next) => {
             "company.categories._id": new mongoose.Types.ObjectId(
               categoryId as string
             ),
+          },
+        },
+        {
+          $sort: {
+            isFresh: 1,
+            isAlways: 1,
+            rating: -1,
           },
         },
         {
@@ -95,6 +109,12 @@ promotionsRouter.get("/search", async (req, res, next) => {
       const skip = (parseInt(page) - 1) * parseInt(limit);
       query = query.limit(parseInt(limit)).skip(skip);
     }
+
+    query = query.sort([
+      ["isFresh", 1],
+      ["isAlways", 1],
+      ["rating", -1],
+    ]);
 
     const promotions = await query.exec();
     return res.send(promotions);
