@@ -127,7 +127,7 @@ promotionsRouter.post(
   permit("admin"),
   imagesUpload.single("image"),
   async (req, res, next) => {
-    console.log(req.body.isAlways);
+    console.log(req.body.isBirthday);
     const promotionData: PromotionWithoutId = {
       title: req.body.title,
       company: req.body.company,

@@ -1,7 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { CompanyApi, FilterByCategory, Promotion, PromotionApi, Search } from '../../types';
+import { FilterByCategory, Promotion, PromotionApi, Search } from '../../types';
 import axiosApi from '../axiosApi';
-
 import { RootState } from '../app/store';
 
 export const fetchPromotions = createAsyncThunk<Promotion[], FilterByCategory | undefined, { state: RootState }>(
@@ -83,6 +82,15 @@ export const addPromotion = createAsyncThunk<void, PromotionApi>('promotions/add
   formData.append('company', promotion.company);
   formData.append('description', promotion.description);
   formData.append('isAlways', promotion.isAlways);
+  formData.append('isBirthday', promotion.isBirthday.toString());
+
+  if (promotion.startDate) {
+    formData.append('startDate', promotion.startDate);
+  }
+
+  if (promotion.endDate) {
+    formData.append('endDate', promotion.endDate);
+  }
 
   if (promotion.image) {
     formData.append('image', promotion.image);

@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
+import {
+  Button,
+  FormControlLabel,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Switch,
+  TextField,
+} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { CompanyApi, PromotionApi } from '../../../../types';
 import { selectAddCategoryLoading, selectCategories } from '../../../store/categoriesSlice';
@@ -23,9 +33,13 @@ const FormForPromotion = () => {
     company: '',
     image: null,
     isAlways: '',
+    isBirthday: false,
+    startDate: undefined,
+    endDate: undefined,
   });
 
-  console.log(state.isAlways);
+  console.log(state.startDate);
+  console.log(state.endDate);
 
   useEffect(() => {
     dispatch(fetchCompanies());
@@ -40,9 +54,21 @@ const FormForPromotion = () => {
         company: state.company,
         image: state.image,
         isAlways: state.isAlways,
+        isBirthday: state.isBirthday,
+        startDate: state.startDate,
+        endDate: state.endDate,
       }),
     );
-    setState({ title: '', description: '', company: '', image: null, isAlways: '' });
+    setState({
+      title: '',
+      description: '',
+      company: '',
+      image: null,
+      isAlways: '',
+      isBirthday: false,
+      startDate: undefined,
+      endDate: undefined,
+    });
     await dispatch(clearAllPromotions());
     await dispatch(fetchPromotions());
     navigate('/admin/admin-promotion');
@@ -79,6 +105,14 @@ const FormForPromotion = () => {
     }
   };
 
+  const switchBirthday = () => {
+    setState({ ...state, isBirthday: !state.isBirthday });
+  };
+
+  // const handleDateTimeChange = (dateTime: Date | null) => {
+  //   setSelectedDateTime(dateTime);
+  // };
+
   let disabled = false;
 
   if (addCategoryLoading) {
@@ -109,6 +143,7 @@ const FormForPromotion = () => {
           value={state.description}
           onChange={inputChangeHandler}
           name="description"
+          required
         />
       </Grid>
 
@@ -147,6 +182,36 @@ const FormForPromotion = () => {
             <MenuItem value={true.toString()}>Постоянная акция</MenuItem>
             <MenuItem value={false.toString()}>Временная акция</MenuItem>
           </Select>
+
+          <InputLabel sx={{ mt: 2 }} id="startDate">
+            Начало акции
+          </InputLabel>
+          <TextField
+            type={'datetime-local'}
+            sx={{ width: '100%' }}
+            id="startDate"
+            value={state.startDate}
+            onChange={inputChangeHandler}
+            name="startDate"
+          />
+
+          <InputLabel sx={{ mt: 2 }} id="endDate">
+            Конец акции
+          </InputLabel>
+          <TextField
+            type={'datetime-local'}
+            sx={{ width: '100%' }}
+            id="endDate"
+            value={state.endDate}
+            onChange={inputChangeHandler}
+            name="endDate"
+          />
+
+          <FormControlLabel
+            sx={{ mt: 2 }}
+            control={<Switch onChange={switchBirthday} value={state.isBirthday} checked={state.isBirthday} />}
+            label="Действует ли в Деньрождение?"
+          />
         </Grid>
 
         <Grid item xs>

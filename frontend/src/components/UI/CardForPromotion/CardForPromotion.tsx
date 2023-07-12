@@ -5,6 +5,7 @@ import { apiUrl } from '../../../constants';
 import { likePromotion } from '../../../store/promotionsThunks';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { selectUser } from '../../../containers/users/usersSlise';
+import { Chip, Stack } from '@mui/material';
 
 const CustomAccordion = styled(Accordion)`
   --bs-accordion-active-bg: green;
@@ -47,6 +48,8 @@ interface Props {
   promotion_image: string | null;
   rating: number;
   userLikes: string[];
+  isAlways: boolean;
+  isFresh: boolean;
 }
 
 const CardForPromotion: React.FC<Props> = ({
@@ -57,6 +60,8 @@ const CardForPromotion: React.FC<Props> = ({
   promotion_image,
   rating,
   userLikes,
+  isAlways,
+  isFresh,
 }) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
@@ -106,6 +111,14 @@ const CardForPromotion: React.FC<Props> = ({
     <div className="card col col-2 p-0 mb-2 me-1 ms-1" style={{ width: '17.95rem' }}>
       {infoImage}
       <div className="card-body d-flex flex-column justify-content-between">
+        <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
+          {isFresh ? <Chip label={'New'} color="success" size="small" /> : null}
+          {isAlways ? (
+            <Chip label={'Постоянная акция'} color="primary" size="small" />
+          ) : (
+            <Chip label={'Временная акция'} color="warning" size="small" />
+          )}
+        </Stack>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
           <div style={{ display: 'flex', alignItems: 'center', marginRight: '10px', marginLeft: '4px' }}>
             {!stateLiked ? (
