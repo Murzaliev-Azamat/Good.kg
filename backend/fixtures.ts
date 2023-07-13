@@ -66,6 +66,7 @@ const run = async () => {
           "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
         image: "fixtures/imperiya.jpeg",
         link: "https://www.instagram.com/mypizzakg/",
+        createdAt: new Date(),
       },
       {
         title: "Караоке1",
@@ -74,6 +75,7 @@ const run = async () => {
           "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
         image: "fixtures/karaoke.png",
         link: "https://www.instagram.com/mypizzakg/",
+        createdAt: new Date(),
       },
       {
         title: "Караоке2",
@@ -82,6 +84,7 @@ const run = async () => {
           "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
         image: "fixtures/karaoke.png",
         link: "https://www.instagram.com/mypizzakg/",
+        createdAt: new Date(),
       },
       {
         title: "Караоке3",
@@ -90,6 +93,7 @@ const run = async () => {
           "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
         image: "fixtures/karaoke.png",
         link: "https://www.instagram.com/mypizzakg/",
+        createdAt: new Date(),
       },
       {
         title: "Ferma1",
@@ -98,6 +102,7 @@ const run = async () => {
           "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
         image: "fixtures/karaoke.png",
         link: "https://www.instagram.com/mypizzakg/",
+        createdAt: new Date(),
       },
       {
         title: "Ferma2",
@@ -106,6 +111,7 @@ const run = async () => {
           "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
         image: "fixtures/karaoke.png",
         link: "https://www.instagram.com/mypizzakg/",
+        createdAt: new Date(),
       },
       {
         title: "Ferma3",
@@ -114,6 +120,7 @@ const run = async () => {
           "ТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляляТраляля",
         image: "fixtures/karaoke.png",
         link: "https://www.instagram.com/mypizzakg/",
+        createdAt: new Date(),
       }
     );
 

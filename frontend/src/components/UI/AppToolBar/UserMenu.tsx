@@ -30,7 +30,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
     <>
       {/*<Grid container justifyContent="space-between" alignItems="center">*/}
       {/*<Grid item>*/}
-      <Button onClick={handleClick} color="inherit">
+      <Button onClick={handleClick} sx={{ color: 'grey' }}>
         Hello, {user.displayName}
       </Button>
       {/*</Grid>*/}
@@ -40,10 +40,9 @@ const UserMenu: React.FC<Props> = ({ user }) => {
       {/*</Grid>*/}
       <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
         <MenuItem>Profile</MenuItem>
-        <MenuItem component={Link} to={'/tracks_history'}>
-          Track History
-        </MenuItem>
-        <MenuItem>My account</MenuItem>
+        {/*<MenuItem component={Link} to={'/tracks_history'}>*/}
+        {/*  Track History*/}
+        {/*</MenuItem>*/}
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </>

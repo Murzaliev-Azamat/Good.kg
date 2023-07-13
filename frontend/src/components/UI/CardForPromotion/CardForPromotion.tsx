@@ -8,7 +8,7 @@ import { selectUser } from '../../../containers/users/usersSlise';
 import { Chip, Stack } from '@mui/material';
 
 const CustomAccordion = styled(Accordion)`
-  --bs-accordion-active-bg: green;
+  --bs-accordion-active-bg: grey;
   --bs-accordion-active-color: #fff;
   --bs-accordion-border-radius: 0;
   --bs-accordion-inner-border-radius: 0;
@@ -50,6 +50,7 @@ interface Props {
   userLikes: string[];
   isAlways: boolean;
   isFresh: boolean;
+  companyLink: string;
 }
 
 const CardForPromotion: React.FC<Props> = ({
@@ -62,6 +63,7 @@ const CardForPromotion: React.FC<Props> = ({
   userLikes,
   isAlways,
   isFresh,
+  companyLink,
 }) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
@@ -83,13 +85,81 @@ const CardForPromotion: React.FC<Props> = ({
   let cardImage =
     'https://media.istockphoto.com/id/1357365823/vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo.jpg?s=612x612&w=0&k=20&c=PM_optEhHBTZkuJQLlCjLz-v3zzxp-1mpNQZsdjrbns=';
   let infoImage = (
-    <img src={cardImage} className="card-img-top" style={{ height: '200px', objectFit: 'cover' }} alt="image" />
+    <div style={{ position: 'relative', height: '200px' }}>
+      <img
+        src={cardImage}
+        className="card-img-top"
+        style={{
+          // position: 'absolute',
+          height: '200px',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          objectFit: 'cover',
+          borderTop: '7px solid white',
+          borderLeft: '7px solid white',
+          borderRight: '7px solid white',
+        }}
+        alt="image"
+      />
+      <div
+        style={{
+          position: 'absolute',
+          top: '84%',
+          left: '5%',
+        }}
+      >
+        <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
+          {isFresh ? <Chip label={'New'} sx={{ backgroundColor: 'white', color: 'green' }} size="small" /> : null}
+          {isAlways ? (
+            <Chip label={'Постоянная акция'} sx={{ backgroundColor: 'white', color: 'black' }} size="small" />
+          ) : (
+            <Chip label={'Временная акция'} sx={{ backgroundColor: 'white', color: '#ed6c02' }} size="small" />
+          )}
+        </Stack>
+      </div>
+    </div>
   );
 
   if (promotion_image) {
     cardImage = apiUrl + '/' + promotion_image;
     infoImage = (
-      <img src={cardImage} className="card-img-top" style={{ height: '200px', objectFit: 'cover' }} alt="image" />
+      <div style={{ position: 'relative', height: '200px' }}>
+        <img
+          src={cardImage}
+          className="card-img-top"
+          style={{
+            // position: 'absolute',
+            height: '200px',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            objectFit: 'cover',
+            borderTop: '7px solid white',
+            borderLeft: '7px solid white',
+            borderRight: '7px solid white',
+          }}
+          alt="image"
+        />
+        <div
+          style={{
+            position: 'absolute',
+            top: '84%',
+            left: '5%',
+          }}
+        >
+          <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
+            {isFresh ? <Chip label={'New'} sx={{ backgroundColor: 'white', color: 'green' }} size="small" /> : null}
+            {isAlways ? (
+              <Chip label={'Постоянная акция'} sx={{ backgroundColor: 'white', color: 'black' }} size="small" />
+            ) : (
+              <Chip label={'Временная акция'} sx={{ backgroundColor: 'white', color: '#ed6c02' }} size="small" />
+            )}
+          </Stack>
+        </div>
+      </div>
     );
   }
 
@@ -108,17 +178,20 @@ const CardForPromotion: React.FC<Props> = ({
   // }
 
   return (
-    <div className="card col col-2 p-0 mb-2 me-1 ms-1" style={{ width: '17.95rem' }}>
+    <div
+      className="card col col-2 p-0 mb-2 me-1 ms-1"
+      style={{ width: '17.95rem', boxShadow: '1px 1px 4px grey', border: '0px' }}
+    >
       {infoImage}
-      <div className="card-body d-flex flex-column justify-content-between">
-        <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
-          {isFresh ? <Chip label={'New'} color="success" size="small" /> : null}
-          {isAlways ? (
-            <Chip label={'Постоянная акция'} color="primary" size="small" />
-          ) : (
-            <Chip label={'Временная акция'} color="warning" size="small" />
-          )}
-        </Stack>
+      <div className="card-body d-flex flex-column justify-content-between p-3">
+        {/*<Stack direction="row" spacing={1} sx={{ mb: 2 }}>*/}
+        {/*  {isFresh ? <Chip label={'New'} color="success" size="small" /> : null}*/}
+        {/*  {isAlways ? (*/}
+        {/*    <Chip label={'Постоянная акция'} sx={{ backgroundColor: 'grey', color: 'white' }} size="small" />*/}
+        {/*  ) : (*/}
+        {/*    <Chip label={'Временная акция'} color="warning" size="small" />*/}
+        {/*  )}*/}
+        {/*</Stack>*/}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
           <div style={{ display: 'flex', alignItems: 'center', marginRight: '10px', marginLeft: '4px' }}>
             {!stateLiked ? (
@@ -145,7 +218,13 @@ const CardForPromotion: React.FC<Props> = ({
         <h5 className="card-title text-center">{title}</h5>
         {/*<p className="card-text">{description}</p>*/}
         <div>
-          <a href="#" className="btn btn-primary mb-2 w-100 rounded-0">
+          <a
+            href={companyLink}
+            className="btn mb-2 w-100 rounded-0"
+            target="_blank"
+            rel="noreferrer"
+            style={{ backgroundColor: '#ed6c02', color: 'white' }}
+          >
             {company_name}
           </a>
           <CustomAccordion>

@@ -8,7 +8,7 @@ import { selectUser } from '../users/usersSlise';
 const Home = () => {
   const user = useAppSelector(selectUser);
   return (
-    <AdvBlock urlImage="https://www.ts.kg/olol1/503aa7fbe57361e3f426bbc39de7180e7ee256f3.jpg">
+    <AdvBlock urlImage="https://www.ts.kg/olol1/2a25d56d3a6dc096b1a4fd06b392bc4db70149f2.jpg">
       {user && user.role === 'admin' && (
         <NavLink to={'/admin'} type="button" className="btn btn-primary btn-sm">
           Админка

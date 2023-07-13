@@ -6,7 +6,6 @@ import mongoose from "mongoose";
 import permit from "../middleware/permit";
 import Company from "../models/Company";
 import Promotion from "../models/Promotion";
-import promotionsRouter from "./promotions";
 
 const companiesRouter = express.Router();
 
@@ -23,6 +22,8 @@ companiesRouter.get("/", async (req, res, next) => {
       const skip = (parseInt(page) - 1) * parseInt(limit);
       query = query.limit(parseInt(limit)).skip(skip);
     }
+
+    query = query.sort([["createdAt", -1]]);
 
     const companies = await query.exec();
     return res.send(companies);
@@ -44,6 +45,8 @@ companiesRouter.get("/category", async (req, res, next) => {
       const skip = (parseInt(page) - 1) * parseInt(limit);
       query = query.limit(parseInt(limit)).skip(skip);
     }
+
+    query = query.sort([["createdAt", -1]]);
 
     const companies = await query.exec();
     return res.send(companies);
@@ -68,6 +71,8 @@ companiesRouter.get("/search", async (req, res, next) => {
       const skip = (parseInt(page) - 1) * parseInt(limit);
       query = query.limit(parseInt(limit)).skip(skip);
     }
+
+    query = query.sort([["createdAt", -1]]);
 
     const companies = await query.exec();
     return res.send(companies);
@@ -102,6 +107,7 @@ companiesRouter.post(
       categories: categoryIds,
       title: req.body.title,
       description: req.body.description ? req.body.description : null,
+      createdAt: new Date(),
       image: req.file ? req.file.filename : null,
       link: req.body.link ? req.body.link : null,
     };

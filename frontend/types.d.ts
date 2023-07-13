@@ -45,6 +45,7 @@ export interface Company {
     title: string;
     __v: number;
   }[];
+  createdAt: string;
   link: string;
 }
 

@@ -25,7 +25,7 @@ const CompanyPage = () => {
     }
   };
   return (
-    <AdvBlock urlImage="https://www.ts.kg/olol1/11f38a1745ae9dca634396d8373980303a9dbd56.jpg">
+    <AdvBlock urlImage="https://www.ts.kg/olol1/eff4e81a43c9b9d4c206faa5533a8ccea9443597.jpg">
       <div>
         {promotions.map((promotion) => (
           <div key={promotion._id} style={{ borderBottom: '1px solid black', paddingBottom: '10px' }}>

@@ -25,9 +25,8 @@ const Search = styled('div')(({ theme }) => ({
   flexGrow: 1,
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
   '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: 'grey',
   },
   marginLeft: 0,
   [theme.breakpoints.up('sm')]: {
@@ -48,7 +47,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   width: '100%',
-  color: 'inherit',
+  color: 'white',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
@@ -57,13 +56,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const ColorButton = styled(Button)(({ theme }) => ({
-  color: theme.palette.getContrastText('#000'),
-  backgroundColor: theme.palette.primary.main,
+  color: 'orange',
+  backgroundColor: 'white',
   '&:hover': {
-    backgroundColor: '#fff',
-    color: theme.palette.primary.main,
+    backgroundColor: 'white',
+    borderColor: 'grey',
+    color: 'grey',
   },
-  borderColor: '#fff',
+  borderColor: 'orange',
 }));
 
 const Link = styled(NavLink)({
@@ -71,7 +71,7 @@ const Link = styled(NavLink)({
   marginRight: '15px',
   textDecoration: 'none',
   '&:hover': {
-    color: 'inherit',
+    color: 'grey',
   },
 });
 
@@ -120,25 +120,30 @@ export default function SearchAppBar() {
         {/*</div>*/}
       </MainFilter>
       <Menu show={showMenu} title="Меню" onClose={cancelMenu} getStartInfo={getStartInfo}></Menu>
-      <AppBar sx={{ zIndex: 1 }}>
+      <AppBar sx={{ zIndex: 1, backgroundColor: 'white' }}>
         <Toolbar>
-          <Link to={'/'} onClick={getStartInfo}>
-            LIROG.KG
+          <Link to={'/'} onClick={getStartInfo} sx={{ color: 'orange' }}>
+            GOOD.KG
           </Link>
-          <Search sx={{ mr: 3 }}>
+          <Search sx={{ mr: 3, backgroundColor: '#bdbdbd' }}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase onKeyUp={onKeyUpSearch} placeholder="Search…" onChange={onTextFieldChange} />
           </Search>
           <ColorButton variant="outlined" onClick={() => setShowMainFilter(true)}>
-            Filter
+            ФИЛЬТР
           </ColorButton>
           <IconButton
             edge="start"
-            color="inherit"
             aria-label="open drawer"
-            sx={{ ml: 2 }}
+            sx={{
+              ml: 2,
+              color: 'orange',
+              '&:hover': {
+                color: 'grey',
+              },
+            }}
             onClick={() => setShowMenu(true)}
           >
             <MenuIcon sx={{ fontSize: 40 }} />

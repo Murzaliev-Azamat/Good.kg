@@ -37,11 +37,11 @@ code {
 }
 
 .icon-red {
-  fill: red;
+  fill: #ed6c02;
 }
 
 .icon:hover {
-  fill: red;
+  fill: #ed6c02;
 }
 
 .icon:active {

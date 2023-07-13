@@ -34,7 +34,7 @@ const Companies = () => {
   };
 
   return (
-    <AdvBlock urlImage="https://www.ts.kg/olol1/ebec55a54849b7af3d1c423565216590be848992.jpg">
+    <AdvBlock urlImage="https://www.ts.kg/olol1/e6365698226d52c6d440fdac8cfa724a57dfa748.jpg">
       <InfiniteScroll
         // pageStart={0}
         loadMore={loadMore}

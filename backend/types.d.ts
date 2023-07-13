@@ -42,6 +42,7 @@ export interface Company {
   categories: Types.ObjectId[];
   description: string | null;
   image: string | null;
+  createdAt: Date;
   link: string | null;
 }
 

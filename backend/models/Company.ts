@@ -18,6 +18,10 @@ const CompanySchema = new Schema({
       },
     },
   ],
+  createdAt: {
+    type: Date,
+    required: true,
+  },
   description: String,
   image: String,
   link: String,

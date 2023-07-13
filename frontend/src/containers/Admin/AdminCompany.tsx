@@ -33,10 +33,11 @@ const AdminCompany = () => {
         Добавить компанию
       </NavLink>
       <div style={{ display: 'flex', marginTop: '20px' }}>
-        <h3 style={{ marginRight: '50px', fontSize: '20px' }}>Название компании</h3>
-        <h3 style={{ marginRight: '151px', fontSize: '20px' }}>Описание</h3>
-        <h3 style={{ marginRight: '141px', fontSize: '20px' }}>Категории</h3>
-        <h3 style={{ marginRight: '53px', fontSize: '20px' }}>Картинки</h3>
+        <h3 style={{ marginRight: '23px', fontSize: '20px' }}>Название компании</h3>
+        <h3 style={{ marginRight: '135px', fontSize: '20px' }}>Описание</h3>
+        <h3 style={{ marginRight: '55px', fontSize: '20px' }}>Категории</h3>
+        <h3 style={{ marginRight: '95px', fontSize: '20px' }}>Акции</h3>
+        <h3 style={{ marginRight: '38px', fontSize: '20px' }}>Картинки</h3>
         <h3 style={{ fontSize: '20px' }}>Ссылка</h3>
       </div>
       <InfiniteScroll
@@ -67,13 +68,13 @@ const AdminCompany = () => {
                 paddingBottom: '5px',
               }}
             >
-              <div style={{ width: '200px' }}>
+              <div style={{ width: '180px' }}>
                 <p style={{ margin: '0', wordWrap: 'break-word' }}>{company.title}</p>
               </div>
               <div style={{ width: '200px' }}>
                 <p style={{ margin: '0', wordWrap: 'break-word' }}>{company.description}</p>
               </div>
-              <div style={{ width: '200px', overflow: 'hidden' }}>
+              <div style={{ width: '120px', overflow: 'hidden' }}>
                 {company.categories.map((companyCategory) => {
                   return (
                     <p style={{ margin: '0' }} key={companyCategory._id}>
@@ -81,6 +82,15 @@ const AdminCompany = () => {
                     </p>
                   );
                 })}
+              </div>
+              <div style={{ width: '120px', overflow: 'hidden' }}>
+                <NavLink
+                  to={'/company-page/' + company._id}
+                  className="btn btn-primary btn-sm"
+                  style={{ marginBottom: '5px' }}
+                >
+                  Подробнее
+                </NavLink>
               </div>
               <div style={{ width: '100px', overflow: 'hidden' }}>
                 <img src={apiUrl + '/' + company.image} style={{ width: '100px' }} alt="image"></img>
