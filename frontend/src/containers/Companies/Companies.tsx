@@ -1,12 +1,59 @@
 import React from 'react';
-import { selectCompanies, selectFetchAllLoading, selectHasMoreCompany } from '../../store/companiesSlice';
+import {
+  clearAllCompanies,
+  selectCompanies,
+  selectFetchAllLoading,
+  selectHasMoreCompany,
+} from '../../store/companiesSlice';
 import { fetchCompanies, fetchCompaniesByCategory, fetchCompaniesBySearch } from '../../store/companiesThunks';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import CardForCompany from '../../components/UI/CardForCompany/CardForCompany';
 import AdvBlock from '../../components/UI/AdvBlock/AdvBlock';
 import InfiniteScroll from 'react-infinite-scroller';
 import { selectFilterCategory, selectFilterSubCategory } from '../../store/filterSlice';
-import { selectSearch } from '../../store/searchSlice';
+import { styled } from '@mui/material/styles';
+import InputBase from '@mui/material/InputBase';
+import SearchIcon from '@mui/icons-material/Search';
+import { Box } from '@mui/material';
+import { selectSearch, setSearch } from '../../store/searchSlice';
+
+const Search = styled('div')(({ theme }) => ({
+  backgroundColor: 'black',
+  opacity: '0.3',
+  flexGrow: 1,
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  '&:hover': {
+    opacity: '0.5',
+    backgroundColor: 'black',
+  },
+  marginLeft: 0,
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(1),
+    width: 'auto',
+  },
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  color: 'white',
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  width: '100%',
+  color: 'white',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    width: '100%',
+  },
+}));
 
 const Companies = () => {
   const dispatch = useAppDispatch();
@@ -16,6 +63,8 @@ const Companies = () => {
   const filterCategory = useAppSelector(selectFilterCategory);
   const filterSubcategory = useAppSelector(selectFilterSubCategory);
   const search = useAppSelector(selectSearch);
+
+  console.log(search);
 
   const loadMore = async () => {
     if (fetchAllLoading) {
@@ -33,8 +82,28 @@ const Companies = () => {
     }
   };
 
+  const onTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    console.log(value);
+    dispatch(setSearch(value));
+  };
+
+  const onKeyUpSearch = async () => {
+    // dispatch(setSearch(search));
+    // window.scrollTo(0, 0);
+    // await dispatch(clearAllCompanies());
+  };
+
   return (
     <AdvBlock urlImage="https://www.ts.kg/olol1/e6365698226d52c6d440fdac8cfa724a57dfa748.jpg">
+      <Box sx={{ display: { xs: 'block', web: 'none' }, width: '17.95rem', margin: '0px auto' }}>
+        <Search>
+          <SearchIconWrapper>
+            <SearchIcon />
+          </SearchIconWrapper>
+          <StyledInputBase onKeyUp={onKeyUpSearch} placeholder="Search…" onChange={onTextFieldChange} />
+        </Search>
+      </Box>
       <InfiniteScroll
         // pageStart={0}
         loadMore={loadMore}

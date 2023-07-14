@@ -7,7 +7,11 @@ import { clearAllPromotions } from '../../../store/promotionsSlice';
 import { selectFilterCategory, selectFilterSubCategory, setCategory, setSubCategory } from '../../../store/filterSlice';
 import { clearAllCompanies } from '../../../store/companiesSlice';
 
-const FormForFilter = () => {
+interface Props {
+  closeFilter: () => void;
+}
+
+const FormForFilter: React.FC<Props> = ({ closeFilter }) => {
   const dispatch = useAppDispatch();
   const categories = useAppSelector(selectCategories);
 
@@ -23,6 +27,7 @@ const FormForFilter = () => {
       dispatch(clearAllCompanies());
       dispatch(setCategory(filterCategory));
     }
+    closeFilter();
   };
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {

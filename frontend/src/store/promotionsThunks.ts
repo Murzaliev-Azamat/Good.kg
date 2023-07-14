@@ -29,7 +29,7 @@ export const fetchPromotionsByCategory = createAsyncThunk<
 });
 
 export const fetchPromotionsBySearch = createAsyncThunk<Promotion[] | [], Search | undefined, { state: RootState }>(
-  'promotions/fetchAllBySearch',
+  'promotions/fetchPromotionsBySearch',
   async (search, thunkAPI) => {
     const pageBySearch = thunkAPI.getState().promotions.pagePromotionsBySearch;
 

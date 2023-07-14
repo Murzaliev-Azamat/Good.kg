@@ -7,27 +7,31 @@ const AnonymousMenu = () => {
     <>
       <Button
         component={NavLink}
-        to="/register"
+        to="/login"
         sx={{
-          color: 'orange',
+          color: 'grey',
           '&:hover': {
             color: 'grey',
           },
+          fontSize: '11px',
+          padding: { xs: '3px 0px 0px 0px', web: '3px 0px' },
         }}
       >
-        Sign up
+        Вход
       </Button>
       <Button
         component={NavLink}
-        to="/login"
+        to="/register"
         sx={{
-          color: 'orange',
+          color: 'grey',
           '&:hover': {
             color: 'grey',
           },
+          fontSize: '11px',
+          padding: { xs: '3px 0px 1px 0px', web: '3px 0px' },
         }}
       >
-        Sign in
+        Регистрация
       </Button>
     </>
   );

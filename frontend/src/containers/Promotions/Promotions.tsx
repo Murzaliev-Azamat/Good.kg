@@ -10,7 +10,50 @@ import { fetchPromotions, fetchPromotionsByCategory, fetchPromotionsBySearch } f
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import InfiniteScroll from 'react-infinite-scroller';
 import { selectFilterCategory, selectFilterSubCategory } from '../../store/filterSlice';
-import { selectSearch } from '../../store/searchSlice';
+import { selectSearch, setSearch } from '../../store/searchSlice';
+import SearchIcon from '@mui/icons-material/Search';
+import { styled } from '@mui/material/styles';
+import InputBase from '@mui/material/InputBase';
+import { Box } from '@mui/material';
+import { clearAllCompanies } from '../../store/companiesSlice';
+
+const Search = styled('div')(({ theme }) => ({
+  backgroundColor: 'black',
+  opacity: '0.3',
+  flexGrow: 1,
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  '&:hover': {
+    opacity: '0.5',
+    backgroundColor: 'black',
+  },
+  marginLeft: 0,
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(1),
+    width: 'auto',
+  },
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  color: 'white',
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  width: '100%',
+  color: 'white',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    width: '100%',
+  },
+}));
 
 const Promotions = () => {
   const dispatch = useAppDispatch();
@@ -21,8 +64,9 @@ const Promotions = () => {
   const filterSubcategory = useAppSelector(selectFilterSubCategory);
   const search = useAppSelector(selectSearch);
 
-  console.log(hasMorePromotion);
-  console.log(promotions);
+  console.log(search);
+  // console.log(hasMorePromotion);
+  // console.log(promotions);
 
   const loadMore = async () => {
     if (fetchAllLoading) {
@@ -40,8 +84,27 @@ const Promotions = () => {
     }
   };
 
+  const onTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    dispatch(setSearch(value));
+  };
+
+  const onKeyUpSearch = async () => {
+    dispatch(setSearch(search));
+    window.scrollTo(0, 0);
+    await dispatch(clearAllPromotions());
+  };
+
   return (
     <>
+      <Box sx={{ display: { xs: 'block', web: 'none' }, width: '17.95rem', margin: '0px auto' }}>
+        <Search>
+          <SearchIconWrapper>
+            <SearchIcon />
+          </SearchIconWrapper>
+          <StyledInputBase onKeyUp={onKeyUpSearch} placeholder="Search…" onChange={onTextFieldChange} />
+        </Search>
+      </Box>
       <InfiniteScroll
         // pageStart={0}
         loadMore={loadMore}

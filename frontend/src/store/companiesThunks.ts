@@ -30,7 +30,7 @@ export const fetchCompaniesByCategory = createAsyncThunk<
 });
 
 export const fetchCompaniesBySearch = createAsyncThunk<Company[] | [], Search | undefined, { state: RootState }>(
-  'companies/fetchAllBySearch',
+  'companies/fetchCompaniesBySearch',
   async (search, thunkAPI) => {
     const pageBySearch = thunkAPI.getState().companies.pageCompaniesBySearch;
 

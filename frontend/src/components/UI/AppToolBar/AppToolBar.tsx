@@ -113,7 +113,7 @@ export default function SearchAppBar() {
     <Box>
       <MainFilter show={showMainFilter} title="Расширенный фильтр" onClose={cancelMainFilter}>
         <div className="modal-body">
-          <FormForFilter />
+          <FormForFilter closeFilter={cancelMainFilter} />
         </div>
         {/*<div className="modal-footer">*/}
         {/*  <button className="btn btn-danger" onClick={cancelMainFilter}>Cancel</button>*/}
@@ -121,17 +121,22 @@ export default function SearchAppBar() {
       </MainFilter>
       <Menu show={showMenu} title="Меню" onClose={cancelMenu} getStartInfo={getStartInfo}></Menu>
       <AppBar sx={{ zIndex: 1, backgroundColor: 'white' }}>
-        <Toolbar>
-          <Link to={'/'} onClick={getStartInfo} sx={{ color: 'orange' }}>
+        <Toolbar sx={{ display: 'flex', padding: { xs: '0px 3px 0px 11px', web: '0px 20px 0px 13px' } }}>
+          <Link to={'/'} onClick={getStartInfo} sx={{ color: 'orange', marginRight: { xs: 'auto' } }}>
             GOOD.KG
           </Link>
-          <Search sx={{ mr: 3, backgroundColor: '#bdbdbd' }}>
+          <Search sx={{ mr: 3, backgroundColor: '#bdbdbd', display: { xs: 'none', web: 'block' } }}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase onKeyUp={onKeyUpSearch} placeholder="Search…" onChange={onTextFieldChange} />
           </Search>
-          <ColorButton variant="outlined" onClick={() => setShowMainFilter(true)}>
+          <ColorButton
+            sx={{ display: { xs: 'none', web: 'block' } }}
+            variant="outlined"
+            onClick={() => setShowMainFilter(true)}
+            // sx={{ display: { xs: 'none', web: 'block' } }}
+          >
             ФИЛЬТР
           </ColorButton>
           <IconButton
@@ -143,12 +148,34 @@ export default function SearchAppBar() {
               '&:hover': {
                 color: 'grey',
               },
+              display: { xs: 'none', web: 'block' },
             }}
             onClick={() => setShowMenu(true)}
           >
             <MenuIcon sx={{ fontSize: 40 }} />
           </IconButton>
           {user ? <UserMenu user={user} /> : <AnonymousMenu />}
+          <Box sx={{ display: { xs: 'block', web: 'none' }, marginLeft: '15px', marginRight: '7px' }}>
+            <svg className="icon" onClick={() => setShowMainFilter(true)}>
+              <use xlinkHref="sprite.svg#filter"></use>
+            </svg>
+          </Box>
+          <IconButton
+            edge="start"
+            aria-label="open drawer"
+            sx={{
+              ml: 2,
+              color: 'orange',
+              '&:hover': {
+                color: 'grey',
+              },
+              display: { xs: 'block', web: 'none' },
+              margin: { xs: '0px' },
+            }}
+            onClick={() => setShowMenu(true)}
+          >
+            <MenuIcon sx={{ fontSize: 40 }} />
+          </IconButton>
         </Toolbar>
       </AppBar>
     </Box>

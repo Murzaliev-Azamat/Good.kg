@@ -69,8 +69,6 @@ const CardForPromotion: React.FC<Props> = ({
   const user = useAppSelector(selectUser);
   const [stateLiked, setStateLiked] = useState<boolean>(false);
 
-  console.log(stateLiked);
-
   useEffect(() => {
     if (user && userLikes.includes(user._id)) {
       setStateLiked(true);

@@ -30,12 +30,12 @@ const UserMenu: React.FC<Props> = ({ user }) => {
     <>
       {/*<Grid container justifyContent="space-between" alignItems="center">*/}
       {/*<Grid item>*/}
-      <Button onClick={handleClick} sx={{ color: 'grey' }}>
+      <Button onClick={handleClick} sx={{ color: 'grey', padding: { xs: '6px 0px 4px 8px', web: '6px 8px' } }}>
         Hello, {user.displayName}
       </Button>
       {/*</Grid>*/}
       {/*<Grid item>*/}
-      <Avatar alt="Avatar" src={user.image} />
+      {/*<Avatar alt="Avatar" src={user.image} />*/}
       {/*</Grid>*/}
       {/*</Grid>*/}
       <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
