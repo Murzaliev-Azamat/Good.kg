@@ -7,7 +7,6 @@ import { googleLogin, login } from './usersThunks';
 import { selectLoginError } from './usersSlise';
 import { LoginMutation } from '../../../types';
 import { GoogleLogin } from '@react-oauth/google';
-import FileInput from '../../components/UI/FileInput/FileInput';
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -50,7 +49,7 @@ const Login = () => {
           <LockOpenIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Вход
         </Typography>
         <Box sx={{ pt: 2 }}>
           <GoogleLogin
@@ -73,7 +72,7 @@ const Login = () => {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
-                label="Username"
+                label="Имя пользователя"
                 name="username"
                 autoComplete="current-username"
                 value={state.username}
@@ -82,7 +81,7 @@ const Login = () => {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                label="Password"
+                label="Пароль"
                 name="password"
                 type="password"
                 autoComplete="current-password"
@@ -92,12 +91,12 @@ const Login = () => {
             </Grid>
           </Grid>
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-            Sign In
+            Вход
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link component={RouterLink} to="/register" variant="body2">
-                Or sign up
+                Или зарегистрируйтесь
               </Link>
             </Grid>
           </Grid>

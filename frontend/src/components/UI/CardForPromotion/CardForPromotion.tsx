@@ -6,6 +6,7 @@ import { likePromotion } from '../../../store/promotionsThunks';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { selectUser } from '../../../containers/users/usersSlise';
 import { Chip, Stack } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const CustomAccordion = styled(Accordion)`
   --bs-accordion-active-bg: grey;
@@ -67,6 +68,7 @@ const CardForPromotion: React.FC<Props> = ({
 }) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
+  const navigate = useNavigate();
   const [stateLiked, setStateLiked] = useState<boolean>(false);
 
   useEffect(() => {
@@ -76,8 +78,12 @@ const CardForPromotion: React.FC<Props> = ({
   }, [dispatch, user, userLikes]);
 
   const toggleLike = async (id: string) => {
-    await dispatch(likePromotion(id));
-    setStateLiked(!stateLiked);
+    if (user) {
+      await dispatch(likePromotion(id));
+      setStateLiked(!stateLiked);
+    } else {
+      navigate('/login');
+    }
   };
 
   let cardImage =

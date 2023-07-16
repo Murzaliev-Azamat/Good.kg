@@ -64,9 +64,8 @@ const Promotions = () => {
   const filterSubcategory = useAppSelector(selectFilterSubCategory);
   const search = useAppSelector(selectSearch);
 
-  console.log(search);
-  // console.log(hasMorePromotion);
-  // console.log(promotions);
+  // console.log(search);
+  console.log(promotions);
 
   const loadMore = async () => {
     if (fetchAllLoading) {

@@ -19,6 +19,7 @@ import FormForCategory from './components/UI/FormForCategory/FormForCategory';
 import FormForCompany from './components/UI/FormForCompany/FormFormCompany';
 import FormForPromotion from './components/UI/FormForPromotion/FormForPromotion';
 import CompanyPage from './containers/CompanyPage/CompanyPage';
+import Contacts from './containers/Contacts/Contacts';
 
 function App() {
   const location = useLocation();
@@ -72,6 +73,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/companies" element={<Companies />} />
           <Route path="/company-page/:id" element={<CompanyPage />} />
+          <Route path="/contacts" element={<Contacts />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="*" element={<span>Такой страницы не существует</span>} />

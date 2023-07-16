@@ -44,8 +44,8 @@ const Menu: React.FC<ModalProps> = ({ show, title, onClose, getStartInfo }) => {
                 </Link>
               </p>
               <p>
-                <Link to={'/about-company'} onClick={getStartInfo}>
-                  О нас
+                <Link to={'/contacts'} onClick={getStartInfo}>
+                  Контакты
                 </Link>
               </p>
             </div>

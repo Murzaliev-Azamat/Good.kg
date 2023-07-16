@@ -72,14 +72,14 @@ const Register = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
+          Регистрация
         </Typography>
 
         <Box component="form" onSubmit={submitFormHandler} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
-                label="Username"
+                label="Имя пользователя"
                 name="username"
                 autoComplete="new-username"
                 value={state.username}
@@ -90,7 +90,7 @@ const Register = () => {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                label="Display Name"
+                label="Никнейм"
                 name="displayName"
                 autoComplete="new-displayName"
                 value={state.displayName}
@@ -101,8 +101,8 @@ const Register = () => {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                label="Пароль"
                 name="password"
-                label="Password"
                 type="password"
                 autoComplete="new-password"
                 value={state.password}
@@ -112,16 +112,16 @@ const Register = () => {
               />
             </Grid>
             <Grid item xs>
-              <FileInput onChange={fileInputChangeHandler} name="image" label="Image" />
+              <FileInput onChange={fileInputChangeHandler} name="image" label="Фото профиля" />
             </Grid>
           </Grid>
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-            Sign Up
+            Регистрация
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link component={RouterLink} to="/login" variant="body2">
-                Already have an account? Sign in
+                Если уже есть аккаунт? Войти
               </Link>
             </Grid>
           </Grid>

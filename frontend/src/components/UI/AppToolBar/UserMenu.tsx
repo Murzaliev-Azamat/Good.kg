@@ -31,7 +31,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
       {/*<Grid container justifyContent="space-between" alignItems="center">*/}
       {/*<Grid item>*/}
       <Button onClick={handleClick} sx={{ color: 'grey', padding: { xs: '6px 0px 4px 8px', web: '6px 8px' } }}>
-        Hello, {user.displayName}
+        Привет, {user.displayName}
       </Button>
       {/*</Grid>*/}
       {/*<Grid item>*/}
@@ -39,11 +39,11 @@ const UserMenu: React.FC<Props> = ({ user }) => {
       {/*</Grid>*/}
       {/*</Grid>*/}
       <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-        <MenuItem>Profile</MenuItem>
+        <MenuItem>Профиль</MenuItem>
         {/*<MenuItem component={Link} to={'/tracks_history'}>*/}
         {/*  Track History*/}
         {/*</MenuItem>*/}
-        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+        <MenuItem onClick={handleLogout}>Выход</MenuItem>
       </Menu>
     </>
   );
