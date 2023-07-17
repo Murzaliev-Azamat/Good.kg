@@ -57,7 +57,12 @@ export interface CompanyApi {
   link: string;
 }
 
-export interface FilterByCategory {
+export interface FilterByCategoryForPromotion {
+  category: string;
+  isBirthday: boolean;
+}
+
+export interface FilterByCategoryForCompany {
   category: string;
 }
 

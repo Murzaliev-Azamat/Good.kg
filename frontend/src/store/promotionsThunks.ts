@@ -1,9 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { FilterByCategory, Promotion, PromotionApi, Search } from '../../types';
+import { FilterByCategoryForPromotion, Promotion, PromotionApi, Search } from '../../types';
 import axiosApi from '../axiosApi';
 import { RootState } from '../app/store';
 
-export const fetchPromotions = createAsyncThunk<Promotion[], FilterByCategory | undefined, { state: RootState }>(
+export const fetchPromotions = createAsyncThunk<Promotion[], void, { state: RootState }>(
   'promotions/fetchAll',
   async (category, thunkAPI) => {
     const page = thunkAPI.getState().promotions.pagePromotions;
@@ -13,7 +13,7 @@ export const fetchPromotions = createAsyncThunk<Promotion[], FilterByCategory | 
   },
 );
 
-export const fetchPromotionsByAdmin = createAsyncThunk<Promotion[], FilterByCategory | undefined, { state: RootState }>(
+export const fetchPromotionsByAdmin = createAsyncThunk<Promotion[], void, { state: RootState }>(
   'promotions/fetchAllByAdmin',
   async (category, thunkAPI) => {
     const page = thunkAPI.getState().promotions.pagePromotions;
@@ -25,13 +25,30 @@ export const fetchPromotionsByAdmin = createAsyncThunk<Promotion[], FilterByCate
 
 export const fetchPromotionsByCategory = createAsyncThunk<
   Promotion[] | [],
-  FilterByCategory | undefined,
+  FilterByCategoryForPromotion | undefined,
   { state: RootState }
->('promotions/fetchAllByCategory', async (category, thunkAPI) => {
+>('promotions/fetchAllByCategory', async (params, thunkAPI) => {
   const pageByCategory = thunkAPI.getState().promotions.pagePromotionsByCategory;
-  if (category) {
+  if (params?.category && !params.isBirthday) {
     const promotionsResponse = await axiosApi.get<Promotion[]>(
-      '/promotions/category/?limit=' + 10 + '&categoryId=' + category.category + '&page=' + pageByCategory,
+      '/promotions/category/?limit=' + 10 + '&categoryId=' + params.category + '&page=' + pageByCategory,
+    );
+    return promotionsResponse.data;
+  } else if (params?.category && params.isBirthday) {
+    const promotionsResponse = await axiosApi.get<Promotion[]>(
+      '/promotions/category/?limit=' +
+        10 +
+        '&categoryId=' +
+        params.category +
+        '&page=' +
+        pageByCategory +
+        '&isBirthday=' +
+        params.isBirthday,
+    );
+    return promotionsResponse.data;
+  } else if (!params?.category && params?.isBirthday) {
+    const promotionsResponse = await axiosApi.get<Promotion[]>(
+      '/promotions/category/?limit=' + 10 + '&page=' + pageByCategory + '&isBirthday=' + true,
     );
     return promotionsResponse.data;
   }

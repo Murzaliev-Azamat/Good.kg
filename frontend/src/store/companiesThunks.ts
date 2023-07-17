@@ -1,9 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Company, CompanyApi, FilterByCategory, Promotion, PromotionApi, Search } from '../../types';
+import { Company, CompanyApi, FilterByCategoryForCompany, Search } from '../../types';
 import axiosApi from '../axiosApi';
 
 import { RootState } from '../app/store';
-import { PromotionMutation } from './promotionsThunks';
 
 export const fetchCompanies = createAsyncThunk<Company[], void, { state: RootState }>(
   'companies/fetchAll',
@@ -17,7 +16,7 @@ export const fetchCompanies = createAsyncThunk<Company[], void, { state: RootSta
 
 export const fetchCompaniesByCategory = createAsyncThunk<
   Company[] | [],
-  FilterByCategory | undefined,
+  FilterByCategoryForCompany | undefined,
   { state: RootState }
 >('companies/fetchAllByCategory', async (category, thunkAPI) => {
   const pageByCategory = thunkAPI.getState().companies.pageCompaniesByCategory;

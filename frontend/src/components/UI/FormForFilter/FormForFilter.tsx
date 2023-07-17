@@ -1,10 +1,17 @@
-import React, { useEffect } from 'react';
-import { Button } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Button, FormControlLabel, Switch } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { selectCategories } from '../../../store/categoriesSlice';
 import { fetchCategories } from '../../../store/categoriesThunks';
 import { clearAllPromotions } from '../../../store/promotionsSlice';
-import { selectFilterCategory, selectFilterSubCategory, setCategory, setSubCategory } from '../../../store/filterSlice';
+import {
+  selectFilterCategory,
+  selectFilterIsBirthday,
+  selectFilterSubCategory,
+  setCategory,
+  setIsBirthday,
+  setSubCategory,
+} from '../../../store/filterSlice';
 import { clearAllCompanies } from '../../../store/companiesSlice';
 
 interface Props {
@@ -14,20 +21,25 @@ interface Props {
 const FormForFilter: React.FC<Props> = ({ closeFilter }) => {
   const dispatch = useAppDispatch();
   const categories = useAppSelector(selectCategories);
-
   const filterCategory = useAppSelector(selectFilterCategory);
   const filterSubcategory = useAppSelector(selectFilterSubCategory);
+  const isBirthday = useAppSelector(selectFilterIsBirthday);
 
   const submitFormHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     if (window.location.href === 'http://localhost:3000/') {
       dispatch(clearAllPromotions());
       dispatch(setCategory(filterCategory));
+      dispatch(setIsBirthday(isBirthday));
     } else if (window.location.href === 'http://localhost:3000/companies') {
       dispatch(clearAllCompanies());
       dispatch(setCategory(filterCategory));
     }
     closeFilter();
+  };
+
+  const switchBirthday = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setIsBirthday(e.target.checked));
   };
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -91,6 +103,12 @@ const FormForFilter: React.FC<Props> = ({ closeFilter }) => {
             }
           })}
       </select>
+
+      <FormControlLabel
+        sx={{ mb: 2 }}
+        control={<Switch onChange={switchBirthday} checked={isBirthday} />}
+        label="Действует ли в Деньрождение?"
+      />
 
       <Button
         style={{ marginTop: 'auto', paddingTop: '12px', paddingBottom: '12px' }}

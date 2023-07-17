@@ -9,7 +9,7 @@ import {
 import { fetchPromotions, fetchPromotionsByCategory, fetchPromotionsBySearch } from '../../store/promotionsThunks';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import InfiniteScroll from 'react-infinite-scroller';
-import { selectFilterCategory, selectFilterSubCategory } from '../../store/filterSlice';
+import { selectFilterCategory, selectFilterIsBirthday, selectFilterSubCategory } from '../../store/filterSlice';
 import { selectSearch, setSearch } from '../../store/searchSlice';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled } from '@mui/material/styles';
@@ -62,19 +62,22 @@ const Promotions = () => {
   const fetchAllLoading = useAppSelector(selectFetchAllLoading);
   const filterCategory = useAppSelector(selectFilterCategory);
   const filterSubcategory = useAppSelector(selectFilterSubCategory);
+  const filterIsBirthday = useAppSelector(selectFilterIsBirthday);
   const search = useAppSelector(selectSearch);
 
   // console.log(search);
-  console.log(promotions);
+  console.log(filterIsBirthday);
 
   const loadMore = async () => {
     if (fetchAllLoading) {
       return;
     } else {
       if (filterCategory !== '' && filterSubcategory === '') {
-        await dispatch(fetchPromotionsByCategory({ category: filterCategory }));
+        await dispatch(fetchPromotionsByCategory({ category: filterCategory, isBirthday: filterIsBirthday }));
       } else if (filterSubcategory !== '') {
-        await dispatch(fetchPromotionsByCategory({ category: filterSubcategory }));
+        await dispatch(fetchPromotionsByCategory({ category: filterSubcategory, isBirthday: filterIsBirthday }));
+      } else if (filterIsBirthday) {
+        await dispatch(fetchPromotionsByCategory({ category: filterSubcategory, isBirthday: filterIsBirthday }));
       } else if (search !== '') {
         await dispatch(fetchPromotionsBySearch({ search: search }));
       } else {
