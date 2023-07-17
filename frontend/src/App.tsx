@@ -63,7 +63,23 @@ function App() {
             }
           />
           <Route
+            path="/edit-company/:id"
+            element={
+              <ProtectedRoute isAllowed={user && user.role === 'admin'}>
+                <FormForCompany />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/add-promotion"
+            element={
+              <ProtectedRoute isAllowed={user && user.role === 'admin'}>
+                <FormForPromotion />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/edit-promotion/:id"
             element={
               <ProtectedRoute isAllowed={user && user.role === 'admin'}>
                 <FormForPromotion />

@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../app/store';
-import { fetchCompanies, fetchCompaniesByCategory, fetchCompaniesBySearch } from './companiesThunks';
+import { fetchCompanies, fetchCompaniesByCategory, fetchCompaniesBySearch, fetchCompanyById } from './companiesThunks';
 import { Company } from '../../types';
+import { fetchPromotionById } from './promotionsThunks';
 
 interface CompaniesState {
   companies: Company[] | [];
@@ -78,6 +79,16 @@ export const CompaniesSlice = createSlice({
       }
     });
     builder.addCase(fetchCompaniesBySearch.rejected, (state) => {
+      state.fetchAllLoading = false;
+    });
+    builder.addCase(fetchCompanyById.pending, (state) => {
+      state.fetchAllLoading = true;
+    });
+    builder.addCase(fetchCompanyById.fulfilled, (state, action) => {
+      state.fetchAllLoading = false;
+      state.company = action.payload;
+    });
+    builder.addCase(fetchCompanyById.rejected, (state) => {
       state.fetchAllLoading = false;
     });
   },

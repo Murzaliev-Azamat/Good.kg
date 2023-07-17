@@ -1,8 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Company, CompanyApi, FilterByCategory, Search } from '../../types';
+import { Company, CompanyApi, FilterByCategory, Promotion, PromotionApi, Search } from '../../types';
 import axiosApi from '../axiosApi';
 
 import { RootState } from '../app/store';
+import { PromotionMutation } from './promotionsThunks';
 
 export const fetchCompanies = createAsyncThunk<Company[], void, { state: RootState }>(
   'companies/fetchAll',
@@ -44,6 +45,17 @@ export const fetchCompaniesBySearch = createAsyncThunk<Company[] | [], Search | 
   },
 );
 
+export const fetchCompanyById = createAsyncThunk<Company, string>('companies/fetchOne', async (id) => {
+  const companyResponse = await axiosApi.get<Company | null>('companies/' + id);
+  const company = companyResponse.data;
+
+  if (company === null) {
+    throw new Error('Not found!');
+  }
+
+  return company;
+});
+
 // export const fetchCompany = createAsyncThunk<Company, string>(
 //   'companies/fetchOne',
 //   async (id) => {
@@ -75,6 +87,30 @@ export const addCompany = createAsyncThunk<void, CompanyApi>('companies/addCompa
   }
 
   await axiosApi.post<CompanyApi>('/companies', formData);
+});
+
+export interface CompanyMutation {
+  id: string;
+  company: CompanyApi;
+}
+
+export const editCompany = createAsyncThunk<void, CompanyMutation>('companies/editCompany', async (params) => {
+  const formData = new FormData();
+
+  formData.append('title', params.company.title);
+  // formData.append('categories', company.categories);
+  formData.append('categories', params.company.categories.join(','));
+  formData.append('link', params.company.link);
+
+  if (params.company.description) {
+    formData.append('description', params.company.description);
+  }
+
+  if (params.company.image) {
+    formData.append('image', params.company.image);
+  }
+
+  await axiosApi.patch<CompanyApi>('/companies/' + params.id, formData);
 });
 
 export const deleteCompany = createAsyncThunk<void, string>('companies/deleteCompany', async (id) => {

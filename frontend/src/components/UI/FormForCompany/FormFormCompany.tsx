@@ -1,17 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { CompanyApi } from '../../../../types';
 import { selectAddCategoryLoading, selectCategories } from '../../../store/categoriesSlice';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import FileInput from '../FileInput/FileInput';
-import { addCompany, fetchCompanies } from '../../../store/companiesThunks';
-import { clearAllCompanies } from '../../../store/companiesSlice';
+import { addCompany, editCompany, fetchCompanies, fetchCompanyById } from '../../../store/companiesThunks';
+import { clearAllCompanies, selectCompany } from '../../../store/companiesSlice';
+import { addPromotion, editPromotion, fetchPromotionById } from '../../../store/promotionsThunks';
+import dayjs from 'dayjs';
+import { selectPromotion } from '../../../store/promotionsSlice';
+import { apiUrl } from '../../../constants';
 
 const FormForCompany = () => {
+  const params = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const categories = useAppSelector(selectCategories);
+  const company = useAppSelector(selectCompany);
   const addCategoryLoading = useAppSelector(selectAddCategoryLoading);
 
   const [state, setState] = useState<CompanyApi>({
@@ -22,17 +28,60 @@ const FormForCompany = () => {
     link: '',
   });
 
+  useEffect(() => {
+    if (params.id) {
+      dispatch(fetchCompanyById(params.id));
+    }
+  }, [dispatch, params.id]);
+
+  useEffect(() => {
+    if (company && params.id) {
+      console.log(company.categories);
+      const categoryIds = company.categories.map((category) => category._id);
+      setState({
+        title: company.title,
+        description: company.description,
+        categories: categoryIds,
+        image: company.image,
+        link: company.link,
+      });
+    } else {
+      setState({
+        title: '',
+        description: '',
+        categories: [],
+        image: null,
+        link: '',
+      });
+    }
+  }, [company, params.id]);
+
   const submitFormHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    await dispatch(
-      addCompany({
-        title: state.title,
-        description: state.description,
-        categories: state.categories,
-        image: state.image,
-        link: state.link,
-      }),
-    );
+    if (params.id && company) {
+      await dispatch(
+        editCompany({
+          id: params.id,
+          company: {
+            title: state.title,
+            description: state.description,
+            categories: state.categories,
+            image: state.image,
+            link: state.link,
+          },
+        }),
+      );
+    } else {
+      await dispatch(
+        addCompany({
+          title: state.title,
+          description: state.description,
+          categories: state.categories,
+          image: state.image,
+          link: state.link,
+        }),
+      );
+    }
     setState({ title: '', description: '', categories: [], image: null, link: '' });
     await dispatch(clearAllCompanies());
     await dispatch(fetchCompanies());
@@ -131,11 +180,28 @@ const FormForCompany = () => {
         <Grid item xs>
           <FileInput onChange={fileInputChangeHandler} name="image" label="Image" />
         </Grid>
+        <Grid item xs>
+          <img
+            src={apiUrl + '/' + state.image}
+            className="card-img-top"
+            style={{
+              height: '200px',
+              objectFit: 'cover',
+            }}
+            alt="image"
+          />
+        </Grid>
       </Grid>
 
-      <Button disabled={disabled} type="submit" color="primary" variant="contained">
-        Add company
-      </Button>
+      {params.id ? (
+        <Button disabled={disabled} style={{ marginBottom: '40px' }} type="submit" color="primary" variant="contained">
+          Edit company
+        </Button>
+      ) : (
+        <Button disabled={disabled} type="submit" color="primary" variant="contained">
+          Add company
+        </Button>
+      )}
     </form>
   );
 };

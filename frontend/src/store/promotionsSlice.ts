@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   fetchPromotionById,
   fetchPromotions,
+  fetchPromotionsByAdmin,
   fetchPromotionsByCategory,
   fetchPromotionsByCompanyId,
   fetchPromotionsBySearch,
@@ -56,6 +57,20 @@ export const PromotionsSlice = createSlice({
       state.pagePromotions++;
     });
     builder.addCase(fetchPromotions.rejected, (state) => {
+      state.fetchAllLoading = false;
+    });
+    builder.addCase(fetchPromotionsByAdmin.pending, (state) => {
+      state.fetchAllLoading = true;
+    });
+    builder.addCase(fetchPromotionsByAdmin.fulfilled, (state, action) => {
+      state.fetchAllLoading = false;
+      if (action.payload.length === 0) {
+        state.hasMorePromotion = false;
+      }
+      Array.prototype.push.apply(state.promotions, action.payload);
+      state.pagePromotions++;
+    });
+    builder.addCase(fetchPromotionsByAdmin.rejected, (state) => {
       state.fetchAllLoading = false;
     });
     builder.addCase(fetchPromotionsByCategory.pending, (state) => {

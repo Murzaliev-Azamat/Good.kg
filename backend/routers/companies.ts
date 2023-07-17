@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import permit from "../middleware/permit";
 import Company from "../models/Company";
 import Promotion from "../models/Promotion";
+import promotionsRouter from "./promotions";
 
 const companiesRouter = express.Router();
 
@@ -81,14 +82,16 @@ companiesRouter.get("/search", async (req, res, next) => {
   }
 });
 
-// companiesRouter.get("/:id", async (req, res, next) => {
-//   try {
-//     const albums = await Album.findById(req.params.id).populate("artist");
-//     return res.send(albums);
-//   } catch (e) {
-//     return next(e);
-//   }
-// });
+companiesRouter.get("/:id", async (req, res, next) => {
+  try {
+    const company = await Company.findById(req.params.id).populate(
+      "categories"
+    );
+    return res.send(company);
+  } catch (e) {
+    return next(e);
+  }
+});
 
 companiesRouter.post(
   "/",
@@ -123,6 +126,42 @@ companiesRouter.post(
       } else {
         return next(e);
       }
+    }
+  }
+);
+
+companiesRouter.patch(
+  "/:id",
+  auth,
+  permit("admin"),
+  imagesUpload.single("image"),
+  async (req, res, next) => {
+    try {
+      const categoryIds = req.body.categories
+        .split(",")
+        .map(
+          (categoryId: string) => new mongoose.Types.ObjectId(categoryId.trim())
+        );
+      const company = await Company.findOne({ _id: req.params.id });
+      if (company) {
+        await Company.updateOne(
+          { _id: company._id },
+          {
+            categories: categoryIds,
+            title: req.body.title,
+            description: req.body.description ? req.body.description : null,
+            createdAt: new Date(),
+            image: req.file ? req.file.filename : company.image,
+            link: req.body.link ? req.body.link : null,
+          }
+        );
+        const updatedCompany = await Company.findOne({
+          _id: company._id,
+        });
+        return res.send(updatedCompany);
+      }
+    } catch (e) {
+      return next(e);
     }
   }
 );

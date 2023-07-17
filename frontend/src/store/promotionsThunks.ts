@@ -13,6 +13,16 @@ export const fetchPromotions = createAsyncThunk<Promotion[], FilterByCategory | 
   },
 );
 
+export const fetchPromotionsByAdmin = createAsyncThunk<Promotion[], FilterByCategory | undefined, { state: RootState }>(
+  'promotions/fetchAllByAdmin',
+  async (category, thunkAPI) => {
+    const page = thunkAPI.getState().promotions.pagePromotions;
+
+    const promotionsResponse = await axiosApi.get<Promotion[]>('/promotions/admin/?limit=' + 10 + '&page=' + page);
+    return promotionsResponse.data;
+  },
+);
+
 export const fetchPromotionsByCategory = createAsyncThunk<
   Promotion[] | [],
   FilterByCategory | undefined,
@@ -97,6 +107,35 @@ export const addPromotion = createAsyncThunk<void, PromotionApi>('promotions/add
   }
 
   await axiosApi.post<PromotionApi>('/promotions', formData);
+});
+
+export interface PromotionMutation {
+  id: string;
+  promotion: PromotionApi;
+}
+
+export const editPromotion = createAsyncThunk<void, PromotionMutation>('promotions/editPromotion', async (params) => {
+  const formData = new FormData();
+
+  formData.append('title', params.promotion.title);
+  formData.append('company', params.promotion.company);
+  formData.append('description', params.promotion.description);
+  formData.append('isAlways', params.promotion.isAlways);
+  formData.append('isBirthday', params.promotion.isBirthday.toString());
+
+  if (params.promotion.startDate) {
+    formData.append('startDate', params.promotion.startDate);
+  }
+
+  if (params.promotion.endDate) {
+    formData.append('endDate', params.promotion.endDate);
+  }
+
+  if (params.promotion.image) {
+    formData.append('image', params.promotion.image);
+  }
+
+  await axiosApi.patch<PromotionApi>('/promotions/' + params.id, formData);
 });
 
 export const deletePromotion = createAsyncThunk<void, string>('promotions/deletePromotion', async (id) => {

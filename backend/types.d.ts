@@ -56,8 +56,8 @@ export interface Promotion {
   image: string | null;
   isAlways: boolean;
   createdAt: Date;
-  startDate: Date | null;
-  endDate: Date | null;
+  startDate: Date | undefined;
+  endDate: Date | undefined;
   isBirthday: boolean;
   // isFresh: boolean;
   // rating: number;

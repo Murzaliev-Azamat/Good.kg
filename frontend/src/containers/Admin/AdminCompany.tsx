@@ -2,20 +2,24 @@ import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { clearAllCompanies, selectCompanies, selectHasMoreCompany } from '../../store/companiesSlice';
 import { NavLink } from 'react-router-dom';
-import { deleteCompany, fetchCompanies } from '../../store/companiesThunks';
+import { deleteCompany, fetchCompanies, fetchCompaniesBySearch } from '../../store/companiesThunks';
 import { apiUrl } from '../../constants';
 import { selectFetchAllLoading } from '../../store/companiesSlice';
 import InfiniteScroll from 'react-infinite-scroller';
+import { selectSearch } from '../../store/searchSlice';
 
 const AdminCompany = () => {
   const companies = useAppSelector(selectCompanies);
   const dispatch = useAppDispatch();
   const hasMorePromotion = useAppSelector(selectHasMoreCompany);
   const fetchAllLoading = useAppSelector(selectFetchAllLoading);
+  const search = useAppSelector(selectSearch);
 
   const loadMore = async () => {
     if (fetchAllLoading) {
       return;
+    } else if (search !== '') {
+      await dispatch(fetchCompaniesBySearch({ search: search }));
     } else {
       await dispatch(fetchCompanies());
     }
@@ -26,6 +30,7 @@ const AdminCompany = () => {
     await dispatch(clearAllCompanies());
     await dispatch(fetchCompanies());
   };
+
   return (
     <div>
       <h2>Company</h2>
@@ -33,11 +38,11 @@ const AdminCompany = () => {
         Добавить компанию
       </NavLink>
       <div style={{ display: 'flex', marginTop: '20px' }}>
-        <h3 style={{ marginRight: '23px', fontSize: '20px' }}>Название компании</h3>
-        <h3 style={{ marginRight: '135px', fontSize: '20px' }}>Описание</h3>
-        <h3 style={{ marginRight: '55px', fontSize: '20px' }}>Категории</h3>
-        <h3 style={{ marginRight: '95px', fontSize: '20px' }}>Акции</h3>
-        <h3 style={{ marginRight: '38px', fontSize: '20px' }}>Картинки</h3>
+        <h3 style={{ marginRight: '13px', fontSize: '20px' }}>Название компании</h3>
+        <h3 style={{ marginRight: '130px', fontSize: '20px' }}>Описание</h3>
+        <h3 style={{ marginRight: '46px', fontSize: '20px' }}>Категории</h3>
+        <h3 style={{ marginRight: '83px', fontSize: '20px' }}>Акции</h3>
+        <h3 style={{ marginRight: '30px', fontSize: '20px' }}>Картинки</h3>
         <h3 style={{ fontSize: '20px' }}>Ссылка</h3>
       </div>
       <InfiniteScroll
@@ -98,9 +103,20 @@ const AdminCompany = () => {
               <div style={{ width: '100px', overflow: 'hidden' }}>
                 <a href={company.link}>На сайт</a>
               </div>
-              <button onClick={() => removeCompany(company._id)} className="btn btn-danger btn-sm">
-                delete
-              </button>
+              <div>
+                <NavLink
+                  type="button"
+                  className="btn btn-warning btn-sm"
+                  to={'/edit-company/' + company._id}
+                  style={{ marginRight: '10px' }}
+                  color="info"
+                >
+                  Edit
+                </NavLink>
+                <button onClick={() => removeCompany(company._id)} className="btn btn-danger btn-sm">
+                  delete
+                </button>
+              </div>
             </div>
           );
         })}

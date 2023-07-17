@@ -10,20 +10,30 @@ import {
   Switch,
   TextField,
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { CompanyApi, PromotionApi } from '../../../../types';
 import { selectAddCategoryLoading, selectCategories } from '../../../store/categoriesSlice';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import FileInput from '../FileInput/FileInput';
 import { addCompany, fetchCompanies } from '../../../store/companiesThunks';
 import { clearAllCompanies, selectCompanies } from '../../../store/companiesSlice';
-import { addPromotion, fetchPromotions } from '../../../store/promotionsThunks';
-import { clearAllPromotions } from '../../../store/promotionsSlice';
+import {
+  addPromotion,
+  editPromotion,
+  fetchPromotionById,
+  fetchPromotions,
+  fetchPromotionsByAdmin,
+} from '../../../store/promotionsThunks';
+import { clearAllPromotions, selectPromotion } from '../../../store/promotionsSlice';
+import dayjs from 'dayjs';
+import { setCategory } from '../../../store/filterSlice';
+import { apiUrl } from '../../../constants';
 
 const FormForPromotion = () => {
+  const params = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  // const categories = useAppSelector(selectCategories);
+  const promotion = useAppSelector(selectPromotion);
   const companies = useAppSelector(selectCompanies);
   const addCategoryLoading = useAppSelector(selectAddCategoryLoading);
 
@@ -38,27 +48,80 @@ const FormForPromotion = () => {
     endDate: undefined,
   });
 
-  console.log(state.startDate);
-  console.log(state.endDate);
+  console.log(state.image);
+
+  useEffect(() => {
+    if (params.id) {
+      dispatch(fetchPromotionById(params.id));
+    }
+  }, [dispatch, params.id]);
 
   useEffect(() => {
     dispatch(fetchCompanies());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (promotion && params.id) {
+      const formattedStartDate = promotion.startDate
+        ? dayjs(promotion.startDate).format('YYYY-MM-DDTHH:mm')
+        : undefined;
+      const formattedEndDate = promotion.endDate ? dayjs(promotion.endDate).format('YYYY-MM-DDTHH:mm') : undefined;
+      setState({
+        title: promotion.title,
+        description: promotion.description,
+        company: promotion.company._id.toString(),
+        image: promotion.image,
+        isAlways: promotion.isAlways.toString(),
+        isBirthday: promotion.isBirthday,
+        startDate: formattedStartDate,
+        endDate: formattedEndDate,
+      });
+    } else {
+      setState({
+        title: '',
+        description: '',
+        company: '',
+        image: null,
+        isAlways: '',
+        isBirthday: false,
+        startDate: undefined,
+        endDate: undefined,
+      });
+    }
+  }, [promotion, params.id]);
+
   const submitFormHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    await dispatch(
-      addPromotion({
-        title: state.title,
-        description: state.description,
-        company: state.company,
-        image: state.image,
-        isAlways: state.isAlways,
-        isBirthday: state.isBirthday,
-        startDate: state.startDate,
-        endDate: state.endDate,
-      }),
-    );
+    if (params.id && promotion) {
+      await dispatch(
+        editPromotion({
+          id: params.id,
+          promotion: {
+            title: state.title,
+            description: state.description,
+            company: state.company,
+            image: state.image,
+            isAlways: state.isAlways,
+            isBirthday: state.isBirthday,
+            startDate: state.startDate,
+            endDate: state.endDate,
+          },
+        }),
+      );
+    } else {
+      await dispatch(
+        addPromotion({
+          title: state.title,
+          description: state.description,
+          company: state.company,
+          image: state.image,
+          isAlways: state.isAlways,
+          isBirthday: state.isBirthday,
+          startDate: state.startDate,
+          endDate: state.endDate,
+        }),
+      );
+    }
     setState({
       title: '',
       description: '',
@@ -70,7 +133,7 @@ const FormForPromotion = () => {
       endDate: undefined,
     });
     await dispatch(clearAllPromotions());
-    await dispatch(fetchPromotions());
+    await dispatch(fetchPromotionsByAdmin());
     navigate('/admin/admin-promotion');
   };
 
@@ -190,7 +253,7 @@ const FormForPromotion = () => {
             type={'datetime-local'}
             sx={{ width: '100%' }}
             id="startDate"
-            value={state.startDate}
+            value={state.startDate || ''}
             onChange={inputChangeHandler}
             name="startDate"
           />
@@ -202,7 +265,7 @@ const FormForPromotion = () => {
             type={'datetime-local'}
             sx={{ width: '100%' }}
             id="endDate"
-            value={state.endDate}
+            value={state.endDate || ''}
             onChange={inputChangeHandler}
             name="endDate"
           />
@@ -217,11 +280,28 @@ const FormForPromotion = () => {
         <Grid item xs>
           <FileInput onChange={fileInputChangeHandler} name="image" label="Image" />
         </Grid>
+        <Grid item xs>
+          <img
+            src={apiUrl + '/' + state.image}
+            className="card-img-top"
+            style={{
+              height: '200px',
+              objectFit: 'cover',
+            }}
+            alt="image"
+          />
+        </Grid>
       </Grid>
 
-      <Button disabled={disabled} type="submit" color="primary" variant="contained">
-        Add promotion
-      </Button>
+      {params.id ? (
+        <Button disabled={disabled} style={{ marginBottom: '40px' }} type="submit" color="primary" variant="contained">
+          Edit promotion
+        </Button>
+      ) : (
+        <Button disabled={disabled} style={{ marginBottom: '40px' }} type="submit" color="primary" variant="contained">
+          Add promotion
+        </Button>
+      )}
     </form>
   );
 };

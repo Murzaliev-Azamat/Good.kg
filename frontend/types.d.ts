@@ -31,8 +31,8 @@ export interface PromotionApi {
   image: string | null;
   isAlways: string;
   isBirthday: boolean;
-  startDate?: string;
-  endDate?: string;
+  startDate: string | undefined;
+  endDate: string | undefined;
 }
 
 export interface Company {

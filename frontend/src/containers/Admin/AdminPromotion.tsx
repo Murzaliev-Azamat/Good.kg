@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import {
   clearAllPromotions,
@@ -6,29 +6,39 @@ import {
   selectHasMorePromotion,
   selectPromotions,
 } from '../../store/promotionsSlice';
-import { NavLink } from 'react-router-dom';
-import { deletePromotion, fetchPromotions } from '../../store/promotionsThunks';
+import { NavLink, useParams } from 'react-router-dom';
+import {
+  deletePromotion,
+  fetchPromotionById,
+  fetchPromotions,
+  fetchPromotionsByAdmin,
+  fetchPromotionsBySearch,
+} from '../../store/promotionsThunks';
 import { apiUrl } from '../../constants';
 import InfiniteScroll from 'react-infinite-scroller';
+import { selectSearch } from '../../store/searchSlice';
 
 const AdminPromotion = () => {
   const dispatch = useAppDispatch();
   const promotions = useAppSelector(selectPromotions);
   const hasMorePromotion = useAppSelector(selectHasMorePromotion);
   const fetchAllLoading = useAppSelector(selectFetchAllLoading);
+  const search = useAppSelector(selectSearch);
 
   const loadMore = async () => {
     if (fetchAllLoading) {
       return;
+    } else if (search !== '') {
+      await dispatch(fetchPromotionsBySearch({ search: search }));
     } else {
-      await dispatch(fetchPromotions());
+      await dispatch(fetchPromotionsByAdmin());
     }
   };
 
   const removePromotion = async (id: string) => {
     await dispatch(deletePromotion(id));
     await dispatch(clearAllPromotions());
-    await dispatch(fetchPromotions());
+    await dispatch(fetchPromotionsByAdmin());
   };
 
   return (
@@ -38,9 +48,9 @@ const AdminPromotion = () => {
         Добавить акцию
       </NavLink>
       <div style={{ display: 'flex', marginTop: '20px' }}>
-        <h3 style={{ marginRight: '122px', fontSize: '20px' }}>Название акции</h3>
-        <h3 style={{ marginRight: '183px', fontSize: '20px' }}>Компания</h3>
-        <h3 style={{ marginRight: '187px', fontSize: '20px' }}>Описание</h3>
+        <h3 style={{ marginRight: '111px', fontSize: '20px' }}>Название акции</h3>
+        <h3 style={{ marginRight: '168px', fontSize: '20px' }}>Компания</h3>
+        <h3 style={{ marginRight: '174px', fontSize: '20px' }}>Описание</h3>
         <h3 style={{ marginRight: '50px', fontSize: '20px' }}>Картинки</h3>
       </div>
       <InfiniteScroll
@@ -83,9 +93,20 @@ const AdminPromotion = () => {
               <div style={{ width: '100px' }}>
                 <img src={apiUrl + '/' + promotion.image} style={{ width: '100px' }} alt="image"></img>
               </div>
-              <button onClick={() => removePromotion(promotion._id)} className="btn btn-danger btn-sm">
-                delete
-              </button>
+              <div>
+                <NavLink
+                  type="button"
+                  className="btn btn-warning btn-sm"
+                  to={'/edit-promotion/' + promotion._id}
+                  style={{ marginRight: '10px' }}
+                  color="info"
+                >
+                  Edit
+                </NavLink>
+                <button onClick={() => removePromotion(promotion._id)} className="btn btn-danger btn-sm">
+                  delete
+                </button>
+              </div>
             </div>
           );
         })}
