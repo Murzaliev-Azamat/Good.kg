@@ -12,7 +12,7 @@ import { Button } from '@mui/material';
 import Menu from '../Menu/Menu';
 import { NavLink } from 'react-router-dom';
 import FormForFilter from '../FormForFilter/FormForFilter';
-import { setCategory, setSubCategory } from '../../../store/filterSlice';
+import { setCategory, setIsBirthday, setSubCategory } from '../../../store/filterSlice';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { clearAllPromotions } from '../../../store/promotionsSlice';
 import { clearAllCompanies } from '../../../store/companiesSlice';
@@ -90,6 +90,7 @@ export default function SearchAppBar() {
     dispatch(setSearch(''));
     dispatch(setCategory(''));
     dispatch(setSubCategory(''));
+    dispatch(setIsBirthday(false));
     dispatch(clearAllPromotions());
     dispatch(clearAllCompanies());
     setShowMenu(false);
