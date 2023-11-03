@@ -23,6 +23,7 @@ const run = async () => {
     await db.dropCollection("promotions");
     await db.dropCollection("companies");
     await db.dropCollection("categories");
+    console.log("Success drop collections...");
   } catch (e) {
     console.log("Collections were not present, skipping drop...");
   }
