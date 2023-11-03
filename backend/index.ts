@@ -10,9 +10,11 @@ import config from "./config";
 import categoriesRouter from "./routers/categories";
 import promotionsRouter from "./routers/promotions";
 import companiesRouter from "./routers/companies";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
-const port = 8000;
 
 app.use(cors());
 app.use(express.static("public"));
@@ -30,8 +32,8 @@ const run = async () => {
   mongoose.set("strictQuery", false);
   await mongoose.connect(config.db);
 
-  app.listen(port, () => {
-    console.log("We are live on " + port);
+  app.listen(config.port, () => {
+    console.log("We are live on " + config.port);
   });
 
   process.on("exit", () => {
