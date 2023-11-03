@@ -28,6 +28,8 @@ app.use("/categories", categoriesRouter);
 app.use("/promotions", promotionsRouter);
 app.use("/companies", companiesRouter);
 
+// asd
+
 const run = async () => {
   mongoose.set("strictQuery", false);
   await mongoose.connect(config.db);
