@@ -16,7 +16,7 @@ usersRouter.post("/", imagesUpload.single("image"), async (req, res, next) => {
       username: req.body.username,
       password: req.body.password,
       displayName: req.body.displayName,
-      image: req.file ? "http://localhost:8000/" + req.file.filename : null,
+      image: req.file ? "http://104.248.43.43:8000/" + req.file.filename : null,
     });
 
     user.generateToken();
