@@ -543,12 +543,11 @@ const run = async () => {
   );
 
   // db.users.insertOne({
-  //   username: "admin1",
-  //   password: "admin1",
-  //   displayName: "admin1",
+  //   username: "aza",
+  //   password: "123",
+  //   displayName: "aza",
   //   token: crypto.randomUUID(),
-  //   role: "admin",
-  // })
+  // // })
 
   await User.create(
     {
