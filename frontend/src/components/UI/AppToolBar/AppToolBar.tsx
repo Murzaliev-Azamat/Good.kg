@@ -124,7 +124,7 @@ export default function SearchAppBar() {
       <AppBar sx={{ zIndex: 1, backgroundColor: 'white' }}>
         <Toolbar sx={{ display: 'flex', padding: { xs: '0px 3px 0px 11px', web: '0px 20px 0px 13px' } }}>
           <Link to={'/'} onClick={getStartInfo} sx={{ color: 'orange', marginRight: { xs: 'auto' } }}>
-            GOOD-TEST.KG
+            GOOD.KG
           </Link>
           <Search sx={{ mr: 3, backgroundColor: '#bdbdbd', display: { xs: 'none', web: 'block' } }}>
             <SearchIconWrapper>
