@@ -18,6 +18,7 @@ const run = async () => {
     await db.dropCollection("albums");
     await db.dropCollection("artists");
     // await db.dropCollection("trackhistories");
+    //
     await db.dropCollection("tracks");
     await db.dropCollection("users");
     await db.dropCollection("promotions");
