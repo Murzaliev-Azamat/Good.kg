@@ -32,21 +32,23 @@ usersRouter.post("/", imagesUpload.single("image"), async (req, res, next) => {
 });
 
 usersRouter.post("/sessions", async (req, res) => {
+  console.log(1);
   const user = await User.findOne({ username: req.body.username });
-
+  console.log(2);
   if (!user) {
     return res.status(400).send({ error: "Username or password incorrect" });
   }
-
+  console.log(3);
   const isMatch = await user.checkPassword(req.body.password);
-
+  console.log(4);
   if (!isMatch) {
     return res.status(400).send({ error: "Username or password incorrect" });
   }
-
+  console.log(5);
   user.generateToken();
+  console.log(6);
   await user.save();
-
+  console.log(7);
   return res.send({ message: "Username and password correct!", user });
 });
 
