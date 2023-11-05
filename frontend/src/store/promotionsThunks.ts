@@ -81,16 +81,6 @@ export const fetchPromotionsByCompanyId = createAsyncThunk<Promotion[] | [], str
   },
 );
 
-// export const reloadCurrentPage = createAsyncThunk<Promotion[], void, { state: RootState }>(
-//   'promotions/reloadCurrentPage',
-//   async (currentPage, thunkAPI) => {
-//     const page = thunkAPI.getState().promotions.pagePromotions;
-//
-//     const promotionsResponse = await axiosApi.get<Promotion[]>('/promotions/?limit=' + 10 + '&page=' + (page - 1));
-//     return promotionsResponse.data;
-//   },
-// );
-
 export const fetchPromotionById = createAsyncThunk<Promotion, string>('promotions/fetchOne', async (id) => {
   const promotionResponse = await axiosApi.get<Promotion | null>('promotions/' + id);
   const promotion = promotionResponse.data;
@@ -162,10 +152,3 @@ export const deletePromotion = createAsyncThunk<void, string>('promotions/delete
 export const likePromotion = createAsyncThunk<void, string>('promotions/likePromotion', async (id) => {
   await axiosApi.patch('/promotions/' + id + '/toggleLike');
 });
-
-// export const deleteOneNews = createAsyncThunk<void, string>(
-//   'news/deleteOne',
-//   async (id) => {
-//     await axiosApi.delete('/news/' + id);
-//   }
-// );

@@ -27,11 +27,11 @@ const FormForFilter: React.FC<Props> = ({ closeFilter }) => {
 
   const submitFormHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (window.location.href === 'http://localhost:3000/') {
+    if (window.location.href === 'http://104.248.43.43/') {
       dispatch(clearAllPromotions());
       dispatch(setCategory(filterCategory));
       dispatch(setIsBirthday(isBirthday));
-    } else if (window.location.href === 'http://localhost:3000/companies') {
+    } else if (window.location.href === 'http://104.248.43.43/companies') {
       dispatch(clearAllCompanies());
       dispatch(setCategory(filterCategory));
     }
