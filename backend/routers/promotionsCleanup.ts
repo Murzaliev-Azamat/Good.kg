@@ -25,6 +25,6 @@ const removeExpiredPromotions = async () => {
   }
 };
 
-cron.schedule("* * * * *", removeExpiredPromotions);
+cron.schedule("0 0 * * *", removeExpiredPromotions);
 
 export default removeExpiredPromotions;
