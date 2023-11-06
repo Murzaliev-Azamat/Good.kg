@@ -23,7 +23,7 @@ promotionsRouter.get("/", async (req, res, next) => {
     }
 
     query = query.sort([
-      ["isFresh", 1],
+      ["isFresh", -1],
       ["isAlways", 1],
       ["rating", -1],
     ]);
@@ -101,7 +101,7 @@ promotionsRouter.get("/category", async (req, res, next) => {
         },
         {
           $sort: {
-            isFresh: 1,
+            isFresh: -1,
             isAlways: 1,
             rating: -1,
           },
@@ -155,7 +155,7 @@ promotionsRouter.get("/category", async (req, res, next) => {
         },
         {
           $sort: {
-            isFresh: 1,
+            isFresh: -1,
             isAlways: 1,
             rating: -1,
           },
@@ -187,7 +187,7 @@ promotionsRouter.get("/category", async (req, res, next) => {
         },
         {
           $sort: {
-            isFresh: 1,
+            isFresh: -1,
             isAlways: 1,
             rating: -1,
           },
@@ -226,7 +226,7 @@ promotionsRouter.get("/search", async (req, res, next) => {
     }
 
     query = query.sort([
-      ["isFresh", 1],
+      ["isFresh", -1],
       ["isAlways", 1],
       ["rating", -1],
     ]);

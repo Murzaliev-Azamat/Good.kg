@@ -11,6 +11,8 @@ import categoriesRouter from "./routers/categories";
 import promotionsRouter from "./routers/promotions";
 import companiesRouter from "./routers/companies";
 import * as dotenv from "dotenv";
+import cron from "node-cron";
+import removeExpiredPromotions from "./routers/promotionsCleanup";
 
 dotenv.config();
 
@@ -28,11 +30,11 @@ app.use("/categories", categoriesRouter);
 app.use("/promotions", promotionsRouter);
 app.use("/companies", companiesRouter);
 
-// asd
-
 const run = async () => {
   mongoose.set("strictQuery", false);
   await mongoose.connect(config.db);
+
+  await removeExpiredPromotions();
 
   app.listen(config.port, () => {
     console.log("We are live on " + config.port);
