@@ -122,7 +122,9 @@ export default function SearchAppBar() {
       </MainFilter>
       <Menu show={showMenu} title="Меню" onClose={cancelMenu} getStartInfo={getStartInfo}></Menu>
       <AppBar sx={{ zIndex: 1, backgroundColor: 'white' }}>
-        <Toolbar sx={{ display: 'flex', padding: { xs: '0px 3px 0px 11px', web: '0px 20px 0px 13px' } }}>
+        <Toolbar
+          sx={{ display: 'flex', height: '64px', padding: { xs: '0px 3px 0px 11px', web: '0px 20px 0px 13px' } }}
+        >
           <Link to={'/'} onClick={getStartInfo} sx={{ color: 'orange', marginRight: { xs: 'auto' } }}>
             GOOD.KG
           </Link>

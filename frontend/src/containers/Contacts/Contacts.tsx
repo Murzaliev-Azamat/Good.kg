@@ -1,9 +1,17 @@
 import React from 'react';
 import AdvBlock from '../../components/UI/AdvBlock/AdvBlock';
+import { useMediaQuery, useTheme } from '@mui/material';
 
 const Contacts = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const urlImage = isMobile
+    ? '/mobile_banner.png'
+    : 'https://www.ts.kg/olol1/eff4e81a43c9b9d4c206faa5533a8ccea9443597.jpg';
+
   return (
-    <AdvBlock urlImage="https://www.ts.kg/olol1/eff4e81a43c9b9d4c206faa5533a8ccea9443597.jpg">
+    <AdvBlock urlImage={urlImage}>
       <div
         style={{
           backgroundColor: 'white',

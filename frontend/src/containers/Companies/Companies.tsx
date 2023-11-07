@@ -14,7 +14,7 @@ import { selectFilterCategory, selectFilterSubCategory } from '../../store/filte
 import { styled } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
-import { Box } from '@mui/material';
+import { Box, useMediaQuery, useTheme } from '@mui/material';
 import { selectSearch, setSearch } from '../../store/searchSlice';
 
 const Search = styled('div')(({ theme }) => ({
@@ -63,6 +63,8 @@ const Companies = () => {
   const filterCategory = useAppSelector(selectFilterCategory);
   const filterSubcategory = useAppSelector(selectFilterSubCategory);
   const search = useAppSelector(selectSearch);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   console.log(search);
 
@@ -94,8 +96,12 @@ const Companies = () => {
     // await dispatch(clearAllCompanies());
   };
 
+  const urlImage = isMobile
+    ? '/mobile_banner.png'
+    : 'https://www.ts.kg/olol1/e6365698226d52c6d440fdac8cfa724a57dfa748.jpg';
+
   return (
-    <AdvBlock urlImage="https://www.ts.kg/olol1/e6365698226d52c6d440fdac8cfa724a57dfa748.jpg">
+    <AdvBlock urlImage={urlImage}>
       <Box sx={{ display: { xs: 'block', web: 'none' }, width: '17.95rem', margin: '0px auto' }}>
         <Search>
           <SearchIconWrapper>

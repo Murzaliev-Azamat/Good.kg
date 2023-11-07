@@ -13,7 +13,7 @@ const AdvBlock: React.FC<Props> = ({ urlImage, children }) => {
     backgroundPosition: '50% 63px',
     backgroundSize: 'cover',
     backgroundAttachment: 'fixed',
-    paddingTop: 270,
+    paddingTop: 230,
   });
 
   return (
