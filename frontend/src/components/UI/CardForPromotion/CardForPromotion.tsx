@@ -199,21 +199,11 @@ const CardForPromotion: React.FC<Props> = ({
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
           <div style={{ display: 'flex', alignItems: 'center', marginRight: '10px', marginLeft: '4px' }}>
             {!stateLiked ? (
-              <svg
-                onClick={() => toggleLike(id)}
-                className="icon"
-                style={{ marginRight: '5px' }}
-                onTouchStart={() => toggleLike(id)}
-              >
+              <svg onClick={() => toggleLike(id)} className="icon" style={{ marginRight: '5px' }}>
                 <use xlinkHref="sprite.svg#icon-heart-fill"></use>
               </svg>
             ) : (
-              <svg
-                onClick={() => toggleLike(id)}
-                className="icon icon-red"
-                style={{ marginRight: '5px' }}
-                onTouchStart={() => toggleLike(id)}
-              >
+              <svg onClick={() => toggleLike(id)} className="icon icon-red" style={{ marginRight: '5px' }}>
                 <use xlinkHref="sprite.svg#icon-heart-fill"></use>
               </svg>
             )}
