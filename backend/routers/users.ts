@@ -58,16 +58,26 @@ usersRouter.post("/google", async (req, res, next) => {
       audience: config.google.clientId,
     });
 
+    console.log("Payload:", ticket);
+    console.log("req.body.credential", req.body.credential);
+    console.log("config.google.clientId", config.google.clientId);
+
     const payload = ticket.getPayload();
 
     if (!payload) {
       return res.status(400).send({ error: "Google login error!" });
     }
-
     const email = payload["email"];
+
     const googleId = payload["sub"];
     const displayName = payload["name"];
     const image = payload["picture"];
+
+    console.log("Payload:", payload);
+    console.log("Email:", email);
+    console.log("Google ID:", googleId);
+    console.log("Display Name:", displayName);
+    console.log("Image:", image);
 
     if (!email) {
       return res
