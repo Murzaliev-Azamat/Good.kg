@@ -17,7 +17,7 @@ addInterceptors(store);
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
-  <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+  <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID as string}>
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <BrowserRouter>
