@@ -66,7 +66,7 @@ const CardForCompany: React.FC<Props> = ({ id, title, link, image }) => {
         <NavLink
           to={'/company-page/' + id}
           className="btn"
-          style={{ marginBottom: '5px', backgroundColor: '#ed6c02', color: 'white' }}
+          style={{ display: 'block', marginBottom: '5px', backgroundColor: '#ed6c02', color: 'white' }}
         >
           Подробнее
         </NavLink>
@@ -75,7 +75,7 @@ const CardForCompany: React.FC<Props> = ({ id, title, link, image }) => {
           target="_blank"
           className="btn"
           rel="noreferrer"
-          style={{ backgroundColor: 'grey', color: 'white' }}
+          style={{ display: 'block', backgroundColor: 'grey', color: 'white' }}
         >
           Сайт компании
         </a>

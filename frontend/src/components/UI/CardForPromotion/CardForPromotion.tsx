@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import styled from 'styled-components';
 import { apiUrl } from '../../../constants';
-import { likePromotion } from '../../../store/promotionsThunks';
+import { fetchPromotions, likePromotion } from '../../../store/promotionsThunks';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { selectUser } from '../../../containers/users/usersSlise';
 import { Chip, Stack } from '@mui/material';

@@ -40,9 +40,12 @@ code {
   fill: #ed6c02;
 }
 
-.icon:hover {
-  fill: #ed6c02;
-}
+/*.icon:hover {*/
+/*  width: 30px;*/
+/*  height: 30px;*/
+/*  margin-top: -3px;*/
+/*  margin-left: -3px;*/
+/*}*/
 
 .icon:active {
   width: 35px;

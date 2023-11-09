@@ -5,12 +5,15 @@ import { deletePromotion, fetchPromotionsByCompanyId } from '../../store/promoti
 import { useNavigate, useParams } from 'react-router-dom';
 import { selectPromotions } from '../../store/promotionsSlice';
 import { selectUser } from '../users/usersSlise';
+import { useMediaQuery, useTheme } from '@mui/material';
 
 const CompanyPage = () => {
   const dispatch = useAppDispatch();
   const params = useParams();
   const promotions = useAppSelector(selectPromotions);
   const user = useAppSelector(selectUser);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   useEffect(() => {
     if (params.id) {
@@ -24,8 +27,13 @@ const CompanyPage = () => {
       await dispatch(fetchPromotionsByCompanyId(params.id));
     }
   };
+
+  const urlImage = isMobile
+    ? '/mobile_banner.png'
+    : 'https://www.ts.kg/olol1/e6365698226d52c6d440fdac8cfa724a57dfa748.jpg';
+
   return (
-    <AdvBlock urlImage="https://www.ts.kg/olol1/eff4e81a43c9b9d4c206faa5533a8ccea9443597.jpg">
+    <AdvBlock urlImage={urlImage}>
       <div>
         {promotions.map((promotion) => (
           <div
