@@ -55,7 +55,8 @@ usersRouter.post("/google", async (req, res, next) => {
   try {
     const ticket = await client.verifyIdToken({
       idToken: req.body.credential,
-      audience: config.google.clientId,
+      audience:
+        "1033022370181-dphif33ggrmhgs75vfqp559pec80vthv.apps.googleusercontent.com",
     });
 
     console.log("Payload:", ticket);
