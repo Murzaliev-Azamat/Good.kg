@@ -26,6 +26,7 @@ promotionsRouter.get("/", async (req, res, next) => {
       ["isFresh", -1],
       ["isAlways", 1],
       ["rating", -1],
+      ["createdAt", -1],
     ]);
 
     const promotions = await query.exec();

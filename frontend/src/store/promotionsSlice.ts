@@ -53,8 +53,8 @@ export const PromotionsSlice = createSlice({
       if (action.payload.length === 0) {
         state.hasMorePromotion = false;
       }
-      state.promotions = [...state.promotions, ...action.payload];
-      // Array.prototype.push.apply(state.promotions, action.payload);
+      // state.promotions = [...state.promotions, ...action.payload];
+      Array.prototype.push.apply(state.promotions, action.payload);
       state.pagePromotions++;
     });
     builder.addCase(fetchPromotions.rejected, (state) => {
