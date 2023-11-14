@@ -64,150 +64,219 @@ promotionsRouter.get("/category", async (req, res, next) => {
   const page = req.query.page as string;
 
   try {
-    if (
-      categoryId &&
-      !isBirthday &&
-      limit &&
-      page &&
-      limit !== "" &&
-      page !== ""
-    ) {
-      const skip = (parseInt(page) - 1) * parseInt(limit);
-      const aggregationPipeline: PipelineStage[] = [
-        {
-          $lookup: {
-            from: "companies",
-            localField: "company",
-            foreignField: "_id",
-            as: "company",
-          },
-        },
-        {
-          $unwind: "$company",
-        },
-        {
-          $lookup: {
-            from: "categories",
-            localField: "company.categories",
-            foreignField: "_id",
-            as: "company.categories",
-          },
-        },
-        {
-          $match: {
-            "company.categories._id": new mongoose.Types.ObjectId(
-              categoryId as string
-            ),
-          },
-        },
-        {
-          $sort: {
-            isFresh: -1,
-            isAlways: 1,
-            rating: -1,
-          },
-        },
-        {
-          $skip: skip,
-        },
-        {
-          $limit: parseInt(limit),
-        },
-      ];
+    const matchConditions: any = {};
+    const aggregationPipeline: PipelineStage[] = [];
 
-      const promotions = await Promotion.aggregate(aggregationPipeline).exec();
-      return res.send(promotions);
-    } else if (
-      categoryId &&
-      isBirthday &&
-      limit &&
-      page &&
-      limit !== "" &&
-      page !== ""
-    ) {
-      const skip = (parseInt(page) - 1) * parseInt(limit);
-      const aggregationPipeline: PipelineStage[] = [
-        {
-          $lookup: {
-            from: "companies",
-            localField: "company",
-            foreignField: "_id",
-            as: "company",
-          },
-        },
-        {
-          $unwind: "$company",
-        },
-        {
-          $lookup: {
-            from: "categories",
-            localField: "company.categories",
-            foreignField: "_id",
-            as: "company.categories",
-          },
-        },
-        {
-          $match: {
-            "company.categories._id": new mongoose.Types.ObjectId(
-              categoryId as string
-            ),
-            isBirthday: true,
-          },
-        },
-        {
-          $sort: {
-            isFresh: -1,
-            isAlways: 1,
-            rating: -1,
-          },
-        },
-        {
-          $skip: skip,
-        },
-        {
-          $limit: parseInt(limit),
-        },
-      ];
-
-      const promotions = await Promotion.aggregate(aggregationPipeline).exec();
-      return res.send(promotions);
-    } else if (
-      !categoryId &&
-      isBirthday &&
-      limit &&
-      page &&
-      limit !== "" &&
-      page !== ""
-    ) {
-      const skip = (parseInt(page) - 1) * parseInt(limit);
-      const aggregationPipeline: PipelineStage[] = [
-        {
-          $match: {
-            isBirthday: true,
-          },
-        },
-        {
-          $sort: {
-            isFresh: -1,
-            isAlways: 1,
-            rating: -1,
-          },
-        },
-        {
-          $skip: skip,
-        },
-        {
-          $limit: parseInt(limit),
-        },
-      ];
-
-      const promotions = await Promotion.aggregate(aggregationPipeline).exec();
-      return res.send(promotions);
+    if (categoryId) {
+      matchConditions["companyCategories._id"] = new mongoose.Types.ObjectId(
+        categoryId as string
+      );
     }
+
+    if (isBirthday) {
+      matchConditions.isBirthday = true;
+    }
+
+    if (!categoryId && isBirthday) {
+      matchConditions.isBirthday = true;
+    }
+
+    aggregationPipeline.push(
+      {
+        $lookup: {
+          from: "companies",
+          localField: "company",
+          foreignField: "_id",
+          as: "companyData",
+        },
+      },
+      {
+        $unwind: "$companyData",
+      },
+      {
+        $lookup: {
+          from: "categories",
+          localField: "companyData.categories",
+          foreignField: "_id",
+          as: "companyCategories",
+        },
+      },
+      {
+        $match: matchConditions,
+      },
+      {
+        $sort: {
+          isFresh: -1,
+          isAlways: 1,
+          rating: -1,
+        },
+      },
+      {
+        $skip: (parseInt(page) - 1) * parseInt(limit),
+      },
+      {
+        $limit: parseInt(limit),
+      }
+    );
+
+    const promotions = await Promotion.aggregate(aggregationPipeline).exec();
+    return res.send(promotions);
   } catch (e) {
     return next(e);
   }
 });
+
+// promotionsRouter.get("/category", async (req, res, next) => {
+//   const categoryId = req.query.categoryId;
+//   const isBirthday = req.query.isBirthday;
+//   const limit = req.query.limit as string;
+//   const page = req.query.page as string;
+//
+//   try {
+//     if (
+//       categoryId &&
+//       !isBirthday &&
+//       limit &&
+//       page &&
+//       limit !== "" &&
+//       page !== ""
+//     ) {
+//       const skip = (parseInt(page) - 1) * parseInt(limit);
+//       const aggregationPipeline: PipelineStage[] = [
+//         {
+//           $lookup: {
+//             from: "companies",
+//             localField: "company",
+//             foreignField: "_id",
+//             as: "company",
+//           },
+//         },
+//         {
+//           $unwind: "$company",
+//         },
+//         {
+//           $lookup: {
+//             from: "categories",
+//             localField: "company.categories",
+//             foreignField: "_id",
+//             as: "company.categories",
+//           },
+//         },
+//         {
+//           $match: {
+//             "company.categories._id": new mongoose.Types.ObjectId(
+//               categoryId as string
+//             ),
+//           },
+//         },
+//         {
+//           $sort: {
+//             isFresh: -1,
+//             isAlways: 1,
+//             rating: -1,
+//           },
+//         },
+//         {
+//           $skip: skip,
+//         },
+//         {
+//           $limit: parseInt(limit),
+//         },
+//       ];
+//
+//       const promotions = await Promotion.aggregate(aggregationPipeline).exec();
+//       return res.send(promotions);
+//     } else if (
+//       categoryId &&
+//       isBirthday &&
+//       limit &&
+//       page &&
+//       limit !== "" &&
+//       page !== ""
+//     ) {
+//       const skip = (parseInt(page) - 1) * parseInt(limit);
+//       const aggregationPipeline: PipelineStage[] = [
+//         {
+//           $lookup: {
+//             from: "companies",
+//             localField: "company",
+//             foreignField: "_id",
+//             as: "company",
+//           },
+//         },
+//         {
+//           $unwind: "$company",
+//         },
+//         {
+//           $lookup: {
+//             from: "categories",
+//             localField: "company.categories",
+//             foreignField: "_id",
+//             as: "company.categories",
+//           },
+//         },
+//         {
+//           $match: {
+//             "company.categories._id": new mongoose.Types.ObjectId(
+//               categoryId as string
+//             ),
+//             isBirthday: true,
+//           },
+//         },
+//         {
+//           $sort: {
+//             isFresh: -1,
+//             isAlways: 1,
+//             rating: -1,
+//           },
+//         },
+//         {
+//           $skip: skip,
+//         },
+//         {
+//           $limit: parseInt(limit),
+//         },
+//       ];
+//
+//       const promotions = await Promotion.aggregate(aggregationPipeline).exec();
+//       return res.send(promotions);
+//     } else if (
+//       !categoryId &&
+//       isBirthday &&
+//       limit &&
+//       page &&
+//       limit !== "" &&
+//       page !== ""
+//     ) {
+//       const skip = (parseInt(page) - 1) * parseInt(limit);
+//       const aggregationPipeline: PipelineStage[] = [
+//         {
+//           $match: {
+//             isBirthday: true,
+//           },
+//         },
+//         {
+//           $sort: {
+//             isFresh: -1,
+//             isAlways: 1,
+//             rating: -1,
+//           },
+//         },
+//         {
+//           $skip: skip,
+//         },
+//         {
+//           $limit: parseInt(limit),
+//         },
+//       ];
+//
+//       const promotions = await Promotion.aggregate(aggregationPipeline).exec();
+//       return res.send(promotions);
+//     }
+//   } catch (e) {
+//     return next(e);
+//   }
+// });
 
 promotionsRouter.get("/search", async (req, res, next) => {
   const searchQuery = req.query.search;
@@ -215,7 +284,7 @@ promotionsRouter.get("/search", async (req, res, next) => {
   const page = req.query.page as string;
 
   try {
-    let query = Promotion.find();
+    let query = Promotion.find().populate("company");
 
     if (searchQuery && limit && page && limit !== "" && page !== "") {
       query = query.or([
