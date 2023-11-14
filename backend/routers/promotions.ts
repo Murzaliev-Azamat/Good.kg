@@ -109,6 +109,7 @@ promotionsRouter.get("/category", async (req, res, next) => {
           isFresh: -1,
           isAlways: 1,
           rating: -1,
+          createdAt: -1,
         },
       },
       {
@@ -116,6 +117,17 @@ promotionsRouter.get("/category", async (req, res, next) => {
       },
       {
         $limit: parseInt(limit),
+      },
+      {
+        $lookup: {
+          from: "companies",
+          localField: "company",
+          foreignField: "_id",
+          as: "company",
+        },
+      },
+      {
+        $unwind: "$company",
       }
     );
 
@@ -299,6 +311,7 @@ promotionsRouter.get("/search", async (req, res, next) => {
       ["isFresh", -1],
       ["isAlways", 1],
       ["rating", -1],
+      ["createdAt", -1],
     ]);
 
     const promotions = await query.exec();
