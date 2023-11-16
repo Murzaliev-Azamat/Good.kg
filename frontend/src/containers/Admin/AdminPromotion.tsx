@@ -83,7 +83,7 @@ const AdminPromotion = () => {
             >
               <div style={{ width: '200px' }}>
                 <p
-                  style={{ margin: '0', wordWrap: 'break-word' }}
+                  style={{ margin: '0', wordWrap: 'break-word', backgroundColor: 'grey' }}
                   dangerouslySetInnerHTML={{ __html: promotion.title }}
                 />
               </div>

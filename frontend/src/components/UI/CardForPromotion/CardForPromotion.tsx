@@ -86,9 +86,9 @@ const CardForPromotion: React.FC<Props> = ({
     }
   };
 
-  let cardImage = '/mobile_banner.png';
+  // let cardImage = '/mobile_banner.png';
   // 'https://media.istockphoto.com/id/1357365823/vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo.jpg?s=612x612&w=0&k=20&c=PM_optEhHBTZkuJQLlCjLz-v3zzxp-1mpNQZsdjrbns=';
-  let infoImage = (
+  const infoImage = (
     <div
       style={{
         position: 'relative',
@@ -166,46 +166,46 @@ const CardForPromotion: React.FC<Props> = ({
     </div>
   );
 
-  if (promotion_image) {
-    cardImage = apiUrl + '/' + promotion_image;
-    infoImage = (
-      <div style={{ position: 'relative', height: '200px' }}>
-        <img
-          src={cardImage}
-          className="card-img-top"
-          style={{
-            // position: 'absolute',
-            height: '200px',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            objectFit: 'cover',
-            borderTop: '7px solid white',
-            borderLeft: '7px solid white',
-            borderRight: '7px solid white',
-          }}
-          alt="image"
-        />
-        <div
-          style={{
-            position: 'absolute',
-            top: '84%',
-            left: '5%',
-          }}
-        >
-          <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
-            {isFresh ? <Chip label={'New'} sx={{ backgroundColor: 'white', color: 'green' }} size="small" /> : null}
-            {isAlways ? (
-              <Chip label={'Постоянная акция'} sx={{ backgroundColor: 'white', color: 'black' }} size="small" />
-            ) : (
-              <Chip label={'Временная акция'} sx={{ backgroundColor: 'white', color: '#ed6c02' }} size="small" />
-            )}
-          </Stack>
-        </div>
-      </div>
-    );
-  }
+  // if (promotion_image) {
+  //   cardImage = apiUrl + '/' + promotion_image;
+  //   infoImage = (
+  //     <div style={{ position: 'relative', height: '200px' }}>
+  //       <img
+  //         src={cardImage}
+  //         className="card-img-top"
+  //         style={{
+  //           // position: 'absolute',
+  //           height: '200px',
+  //           top: 0,
+  //           left: 0,
+  //           right: 0,
+  //           bottom: 0,
+  //           objectFit: 'cover',
+  //           borderTop: '7px solid white',
+  //           borderLeft: '7px solid white',
+  //           borderRight: '7px solid white',
+  //         }}
+  //         alt="image"
+  //       />
+  //       <div
+  //         style={{
+  //           position: 'absolute',
+  //           top: '84%',
+  //           left: '5%',
+  //         }}
+  //       >
+  //         <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
+  //           {isFresh ? <Chip label={'New'} sx={{ backgroundColor: 'white', color: 'green' }} size="small" /> : null}
+  //           {isAlways ? (
+  //             <Chip label={'Постоянная акция'} sx={{ backgroundColor: 'white', color: 'black' }} size="small" />
+  //           ) : (
+  //             <Chip label={'Временная акция'} sx={{ backgroundColor: 'white', color: '#ed6c02' }} size="small" />
+  //           )}
+  //         </Stack>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   // let infoRating = null;
   //
