@@ -223,7 +223,7 @@ const CardForPromotion: React.FC<Props> = ({
 
   return (
     <div
-      className="card col col-2 p-0 mb-2 me-1 ms-1"
+      className="card col col-2 p-0 mb-2 me-1 ms-1 rounded-0"
       style={{ width: '17.95rem', boxShadow: '1px 1px 4px grey', border: '0px' }}
     >
       {infoImage}

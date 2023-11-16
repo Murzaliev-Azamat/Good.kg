@@ -36,6 +36,13 @@ code {
   height: 25px;
 }
 
+.icon-filter {
+  display: inline-block;
+  fill: grey;
+  width: 25px;
+  height: 25px;
+}
+
 .icon-red {
   fill: #ed6c02;
 }

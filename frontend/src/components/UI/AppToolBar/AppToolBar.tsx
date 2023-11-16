@@ -159,7 +159,7 @@ export default function SearchAppBar() {
           </IconButton>
           {user ? <UserMenu user={user} /> : <AnonymousMenu />}
           <Box sx={{ display: { xs: 'block', web: 'none' }, marginLeft: '15px', marginRight: '7px' }}>
-            <svg className="icon" onClick={() => setShowMainFilter(true)}>
+            <svg className="icon-filter" onClick={() => setShowMainFilter(true)}>
               <use xlinkHref="sprite.svg#filter"></use>
             </svg>
           </Box>
