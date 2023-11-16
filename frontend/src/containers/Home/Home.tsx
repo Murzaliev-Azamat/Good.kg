@@ -12,7 +12,7 @@ const Home = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const urlImage = isMobile
-    ? '/mobile_banner.png'
+    ? '/mobile_banner_2.png'
     : 'https://www.ts.kg/olol1/2a25d56d3a6dc096b1a4fd06b392bc4db70149f2.jpg';
 
   return (
