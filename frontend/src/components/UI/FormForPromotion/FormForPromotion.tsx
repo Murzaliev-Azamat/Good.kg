@@ -148,11 +148,11 @@ const FormForPromotion = () => {
     });
   };
 
-  const quillChangeHandler = (value: string, delta: any, source: any, editor: any) => {
-    setState({
-      ...state,
+  const quillChangeHandler = (value: string) => {
+    setState((prevState) => ({
+      ...prevState,
       title: value,
-    });
+    }));
     // const name = e.target.name;
     // const value = e.target.value;
     // setState((prevState) => {
