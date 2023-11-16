@@ -86,35 +86,59 @@ const CardForPromotion: React.FC<Props> = ({
     }
   };
 
-  let cardImage =
-    'https://media.istockphoto.com/id/1357365823/vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo.jpg?s=612x612&w=0&k=20&c=PM_optEhHBTZkuJQLlCjLz-v3zzxp-1mpNQZsdjrbns=';
+  let cardImage = '/mobile_banner.png';
+  // 'https://media.istockphoto.com/id/1357365823/vector/default-image-icon-vector-missing-picture-page-for-website-design-or-mobile-app-no-photo.jpg?s=612x612&w=0&k=20&c=PM_optEhHBTZkuJQLlCjLz-v3zzxp-1mpNQZsdjrbns=';
   let infoImage = (
-    <div style={{ position: 'relative', height: '200px' }}>
-      <img
-        src={cardImage}
-        className="card-img-top"
+    <div
+      style={{
+        position: 'relative',
+        minHeight: '200px',
+        backgroundImage: 'url("/card_background.png")',
+        backgroundSize: 'cover',
+        borderTop: '7px solid white',
+        borderLeft: '7px solid white',
+        borderRight: '7px solid white',
+        // textAlign: 'center',
+        overflow: 'hidden',
+      }}
+    >
+      <h5
+        className="card-title text-center"
+        dangerouslySetInnerHTML={{ __html: title }}
         style={{
-          // position: 'absolute',
-          height: '200px',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          objectFit: 'cover',
-          borderTop: '7px solid white',
-          borderLeft: '7px solid white',
-          borderRight: '7px solid white',
+          width: '85%',
+          margin: 'auto',
+          position: 'absolute',
+          top: '48%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
         }}
-        alt="image"
       />
+      {/*<img*/}
+      {/*  src={cardImage}*/}
+      {/*  className="card-img-top"*/}
+      {/*  style={{*/}
+      {/*    // position: 'absolute',*/}
+      {/*    height: '200px',*/}
+      {/*    top: 0,*/}
+      {/*    left: 0,*/}
+      {/*    right: 0,*/}
+      {/*    bottom: 0,*/}
+      {/*    objectFit: 'cover',*/}
+      {/*    borderTop: '7px solid white',*/}
+      {/*    borderLeft: '7px solid white',*/}
+      {/*    borderRight: '7px solid white',*/}
+      {/*  }}*/}
+      {/*  alt="image"*/}
+      {/*/>*/}
       <div
         style={{
           position: 'absolute',
-          top: '84%',
-          left: '5%',
+          top: '83%',
+          right: '3%',
         }}
       >
-        <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
+        <Stack direction="row" spacing={1} sx={{ mb: 0 }}>
           {isFresh ? <Chip label={'New'} sx={{ backgroundColor: 'white', color: 'green' }} size="small" /> : null}
           {isAlways ? (
             <Chip label={'Постоянная акция'} sx={{ backgroundColor: 'white', color: 'black' }} size="small" />
@@ -122,6 +146,22 @@ const CardForPromotion: React.FC<Props> = ({
             <Chip label={'Временная акция'} sx={{ backgroundColor: 'white', color: '#ed6c02' }} size="small" />
           )}
         </Stack>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', position: 'absolute', top: '83%', left: '3%' }}>
+        {!stateLiked ? (
+          <svg onClick={() => toggleLike(id)} className="icon" style={{ marginRight: '5px' }}>
+            <use xlinkHref="sprite.svg#icon-heart-fill"></use>
+          </svg>
+        ) : (
+          <svg onClick={() => toggleLike(id)} className="icon icon-red" style={{ marginRight: '5px' }}>
+            <use xlinkHref="sprite.svg#icon-heart-fill"></use>
+          </svg>
+        )}
+        {!stateLiked || (stateLiked && user && userLikes.includes(user._id)) ? (
+          <span style={{ display: 'block', color: 'white', fontSize: '15px', lineHeight: '1' }}>{rating}</span>
+        ) : (
+          <span style={{ display: 'block', color: 'white', fontSize: '15px', lineHeight: '1' }}>{rating + 1}</span>
+        )}
       </div>
     </div>
   );
@@ -196,30 +236,32 @@ const CardForPromotion: React.FC<Props> = ({
         {/*    <Chip label={'Временная акция'} color="warning" size="small" />*/}
         {/*  )}*/}
         {/*</Stack>*/}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', marginRight: '10px', marginLeft: '4px' }}>
-            {!stateLiked ? (
-              <svg onClick={() => toggleLike(id)} className="icon" style={{ marginRight: '5px' }}>
-                <use xlinkHref="sprite.svg#icon-heart-fill"></use>
-              </svg>
-            ) : (
-              <svg onClick={() => toggleLike(id)} className="icon icon-red" style={{ marginRight: '5px' }}>
-                <use xlinkHref="sprite.svg#icon-heart-fill"></use>
-              </svg>
-            )}
-            {!stateLiked || (stateLiked && user && userLikes.includes(user._id)) ? (
-              <span style={{ display: 'block', color: 'grey', fontSize: '15px', lineHeight: '1' }}>{rating}</span>
-            ) : (
-              <span style={{ display: 'block', color: 'grey', fontSize: '15px', lineHeight: '1' }}>{rating + 1}</span>
-            )}
-          </div>
-          <div style={{ display: 'flex' }}>
-            <svg className="icon">
-              <use xlinkHref="sprite.svg#icon-more"></use>
-            </svg>
-          </div>
-        </div>
-        <h5 className="card-title text-center">{title}</h5>
+
+        {/*<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>*/}
+        {/*  <div style={{ display: 'flex', alignItems: 'center', marginRight: '10px', marginLeft: '4px' }}>*/}
+        {/*    {!stateLiked ? (*/}
+        {/*      <svg onClick={() => toggleLike(id)} className="icon" style={{ marginRight: '5px' }}>*/}
+        {/*        <use xlinkHref="sprite.svg#icon-heart-fill"></use>*/}
+        {/*      </svg>*/}
+        {/*    ) : (*/}
+        {/*      <svg onClick={() => toggleLike(id)} className="icon icon-red" style={{ marginRight: '5px' }}>*/}
+        {/*        <use xlinkHref="sprite.svg#icon-heart-fill"></use>*/}
+        {/*      </svg>*/}
+        {/*    )}*/}
+        {/*    {!stateLiked || (stateLiked && user && userLikes.includes(user._id)) ? (*/}
+        {/*      <span style={{ display: 'block', color: 'grey', fontSize: '15px', lineHeight: '1' }}>{rating}</span>*/}
+        {/*    ) : (*/}
+        {/*      <span style={{ display: 'block', color: 'grey', fontSize: '15px', lineHeight: '1' }}>{rating + 1}</span>*/}
+        {/*    )}*/}
+        {/*  </div>*/}
+        {/*  <div style={{ display: 'flex' }}>*/}
+        {/*    <svg className="icon">*/}
+        {/*      <use xlinkHref="sprite.svg#icon-more"></use>*/}
+        {/*    </svg>*/}
+        {/*  </div>*/}
+        {/*</div>*/}
+
+        {/*<h5 className="card-title text-center" dangerouslySetInnerHTML={{ __html: title }} />*/}
         {/*<p className="card-text">{description}</p>*/}
         <div>
           <a

@@ -28,6 +28,9 @@ import { clearAllPromotions, selectPromotion } from '../../../store/promotionsSl
 import dayjs from 'dayjs';
 import { setCategory } from '../../../store/filterSlice';
 import { apiUrl } from '../../../constants';
+import Quill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import ReactQuill from 'react-quill';
 
 const FormForPromotion = () => {
   const params = useParams();
@@ -145,6 +148,18 @@ const FormForPromotion = () => {
     });
   };
 
+  const quillChangeHandler = (value: string, delta: any, source: any, editor: any) => {
+    setState({
+      ...state,
+      title: value,
+    });
+    // const name = e.target.name;
+    // const value = e.target.value;
+    // setState((prevState) => {
+    //   return { ...prevState, [name]: value };
+    // });
+  };
+
   const selectChangeHandler = (e: SelectChangeEvent) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -190,14 +205,30 @@ const FormForPromotion = () => {
     >
       <Grid item container justifyContent="space-between" alignItems="center" xs sx={{ mb: 1 }}>
         <InputLabel id="title">Название</InputLabel>
-        <TextField
-          sx={{ width: '100%' }}
-          id="title"
+        <ReactQuill
+          theme="snow"
           value={state.title}
-          onChange={inputChangeHandler}
-          name="title"
-          required
+          onChange={quillChangeHandler}
+          style={{ height: '100px', width: '100%', marginBottom: '80px' }}
+          modules={{
+            toolbar: [
+              [{ header: [false] }],
+              ['bold', 'italic', 'underline', 'strike'],
+              [{ color: [] }], // Добавление модуля цвета текста
+              [{ list: 'ordered' }, { list: 'bullet' }],
+              // ['link', 'image', 'video'],
+              ['clean'],
+            ],
+          }}
         />
+        {/*<TextField*/}
+        {/*  sx={{ width: '100%' }}*/}
+        {/*  id="title"*/}
+        {/*  value={state.title}*/}
+        {/*  onChange={inputChangeHandler}*/}
+        {/*  name="title"*/}
+        {/*  required*/}
+        {/*/>*/}
 
         <InputLabel id="description">Описание</InputLabel>
         <TextField
@@ -277,20 +308,20 @@ const FormForPromotion = () => {
           />
         </Grid>
 
-        <Grid item xs>
-          <FileInput onChange={fileInputChangeHandler} name="image" label="Image" />
-        </Grid>
-        <Grid item xs>
-          <img
-            src={apiUrl + '/' + state.image}
-            className="card-img-top"
-            style={{
-              height: '200px',
-              objectFit: 'cover',
-            }}
-            alt="image"
-          />
-        </Grid>
+        {/*<Grid item xs>*/}
+        {/*  <FileInput onChange={fileInputChangeHandler} name="image" label="Image" />*/}
+        {/*</Grid>*/}
+        {/*<Grid item xs>*/}
+        {/*  <img*/}
+        {/*    src={apiUrl + '/' + state.image}*/}
+        {/*    className="card-img-top"*/}
+        {/*    style={{*/}
+        {/*      height: '200px',*/}
+        {/*      objectFit: 'cover',*/}
+        {/*    }}*/}
+        {/*    alt="image"*/}
+        {/*  />*/}
+        {/*</Grid>*/}
       </Grid>
 
       {params.id ? (

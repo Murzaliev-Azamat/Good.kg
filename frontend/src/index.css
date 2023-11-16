@@ -31,7 +31,7 @@ code {
 
 .icon {
   display: inline-block;
-  fill: grey;
+  fill: white;
   width: 25px;
   height: 25px;
 }
@@ -52,4 +52,8 @@ code {
   height: 35px;
   margin-top: -5px;
   margin-left: -5px;
+}
+
+.ql-container {
+  background-color: grey; /* Цвет фона */
 }
