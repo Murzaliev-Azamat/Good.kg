@@ -51,8 +51,6 @@ const FormForPromotion = () => {
     endDate: undefined,
   });
 
-  console.log(state.image);
-
   useEffect(() => {
     if (params.id) {
       dispatch(fetchPromotionById(params.id));
