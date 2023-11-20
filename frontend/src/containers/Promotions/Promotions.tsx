@@ -19,10 +19,10 @@ import { clearAllCompanies } from '../../store/companiesSlice';
 
 const Search = styled('div')(({ theme }) => ({
   backgroundColor: 'black',
+  borderRadius: '0px',
   opacity: '0.3',
   flexGrow: 1,
   position: 'relative',
-  borderRadius: theme.shape.borderRadius,
   '&:hover': {
     opacity: '0.5',
     backgroundColor: 'black',
@@ -99,7 +99,7 @@ const Promotions = () => {
 
   return (
     <>
-      <Box sx={{ display: { xs: 'block', web: 'none' }, width: '17.95rem', margin: '0px auto' }}>
+      <Box sx={{ display: { xs: 'block', web: 'none' }, width: '22rem', margin: '0px auto' }}>
         <Search>
           <SearchIconWrapper>
             <SearchIcon />
@@ -119,13 +119,15 @@ const Promotions = () => {
         // initialLoad={true}
         // useWindow={true}
       >
-        <div className="row p-2 gx-0 justify-content-evenly justify-content-sm-start">
+        {/*className="row p-2 gx-0 justify-content-evenly justify-content-sm-start"*/}
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-evenly' }}>
           {promotions.map((promotion) => (
             <CardForPromotion
               key={promotion._id}
               title={promotion.title}
               description={promotion.description}
               company_name={promotion.company.title}
+              company_image={promotion.company.image}
               promotion_image={promotion.image}
               id={promotion._id}
               rating={promotion.rating}

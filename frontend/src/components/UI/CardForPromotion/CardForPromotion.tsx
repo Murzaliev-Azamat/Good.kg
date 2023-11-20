@@ -9,14 +9,15 @@ import { Chip, Stack } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 const CustomAccordion = styled(Accordion)`
-  --bs-accordion-active-bg: grey;
-  --bs-accordion-active-color: #fff;
-  --bs-accordion-border-radius: 0;
-  --bs-accordion-inner-border-radius: 0;
+  --bs-accordion-active-bg: #e0e0e0ff;
+  --bs-accordion-active-color: black;
+  --bs-accordion-border-radius: 0px;
+  --bs-accordion-inner-border-radius: 0px;
   --bs-accordion-btn-icon: none;
   --bs-accordion-btn-active-icon: none;
   --bs-accordion-btn-focus-box-shadow: none;
-  --bs-accordion-btn-padding-y: 10px;
+  //--bs-accordion-btn-padding-y: 10px;
+  --bs-accordion-border-width: 0px;
   //--bs-accordion-btn-focus-border-color: red;
   //--bs-accordion-btn-icon: url();
   //margin-top: auto;
@@ -24,18 +25,18 @@ const CustomAccordion = styled(Accordion)`
   //  background-color: red;
   //}
   //background-color: green;
-  //--bs-accordion-bg: blue;
-  //--bs-accordion-btn-bg: blue;
-  //--bs-accordion-btn-color: white;
-  //--bs-accordion-active-color: white;
+  --bs-accordion-bg: #e0e0e0ff;
+  //--bs-accordion-btn-bg: #e0e0e0ff;
+  --bs-accordion-btn-color: black;
+  //--bs-accordion-active-color: black;
   //margin-top: 10px;
 `;
 
 const CustomAccordionHeader = styled(Accordion.Header)`
   //background-color: green;
-  //--bs-accordion-bg: blue;
-  //--bs-accordion-btn-bg: blue;
-  //--bs-accordion-active-bg: red ;
+  //--bs-accordion-bg: white;
+  //--bs-accordion-btn-bg: #e0e0e0ff;
+  //--bs-accordion-active-bg: red;
   //--bs-accordion-btn-color: white;
   //--bs-accordion-active-color: whitel;
   margin-top: 0;
@@ -46,6 +47,7 @@ interface Props {
   title: string;
   description: string;
   company_name: string;
+  company_image: string | null;
   promotion_image: string | null;
   rating: number;
   userLikes: string[];
@@ -59,6 +61,7 @@ const CardForPromotion: React.FC<Props> = ({
   title,
   description,
   company_name,
+  company_image,
   promotion_image,
   rating,
   userLikes,
@@ -222,66 +225,176 @@ const CardForPromotion: React.FC<Props> = ({
   // }
 
   return (
-    <div
-      className="card col col-2 p-0 mb-2 me-1 ms-1 rounded-0"
-      style={{ width: '17.95rem', boxShadow: '1px 1px 4px grey', border: '0px' }}
-    >
-      {infoImage}
-      <div className="card-body d-flex flex-column justify-content-between p-3">
-        {/*<Stack direction="row" spacing={1} sx={{ mb: 2 }}>*/}
-        {/*  {isFresh ? <Chip label={'New'} color="success" size="small" /> : null}*/}
-        {/*  {isAlways ? (*/}
-        {/*    <Chip label={'Постоянная акция'} sx={{ backgroundColor: 'grey', color: 'white' }} size="small" />*/}
-        {/*  ) : (*/}
-        {/*    <Chip label={'Временная акция'} color="warning" size="small" />*/}
-        {/*  )}*/}
-        {/*</Stack>*/}
-
-        {/*<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>*/}
-        {/*  <div style={{ display: 'flex', alignItems: 'center', marginRight: '10px', marginLeft: '4px' }}>*/}
-        {/*    {!stateLiked ? (*/}
-        {/*      <svg onClick={() => toggleLike(id)} className="icon" style={{ marginRight: '5px' }}>*/}
-        {/*        <use xlinkHref="sprite.svg#icon-heart-fill"></use>*/}
-        {/*      </svg>*/}
-        {/*    ) : (*/}
-        {/*      <svg onClick={() => toggleLike(id)} className="icon icon-red" style={{ marginRight: '5px' }}>*/}
-        {/*        <use xlinkHref="sprite.svg#icon-heart-fill"></use>*/}
-        {/*      </svg>*/}
-        {/*    )}*/}
-        {/*    {!stateLiked || (stateLiked && user && userLikes.includes(user._id)) ? (*/}
-        {/*      <span style={{ display: 'block', color: 'grey', fontSize: '15px', lineHeight: '1' }}>{rating}</span>*/}
-        {/*    ) : (*/}
-        {/*      <span style={{ display: 'block', color: 'grey', fontSize: '15px', lineHeight: '1' }}>{rating + 1}</span>*/}
-        {/*    )}*/}
-        {/*  </div>*/}
-        {/*  <div style={{ display: 'flex' }}>*/}
-        {/*    <svg className="icon">*/}
-        {/*      <use xlinkHref="sprite.svg#icon-more"></use>*/}
-        {/*    </svg>*/}
-        {/*  </div>*/}
-        {/*</div>*/}
-
-        {/*<h5 className="card-title text-center" dangerouslySetInnerHTML={{ __html: title }} />*/}
-        {/*<p className="card-text">{description}</p>*/}
-        <div>
-          <a
-            href={companyLink}
-            className="btn mb-2 w-100 rounded-0"
-            target="_blank"
-            rel="noreferrer"
-            style={{ backgroundColor: '#ed6c02', color: 'white' }}
+    <>
+      <div
+        style={{
+          width: '22rem',
+          minHeight: '140px',
+          boxShadow: '0px 0px 3px grey',
+          borderRadius: '0px',
+          backgroundColor: 'white',
+          marginTop: '50px',
+          marginBottom: '5px',
+        }}
+      >
+        <div
+          className="card-header"
+          style={{ display: 'flex', borderBottom: '1px solid #E0E0E0FF', position: 'relative' }}
+        >
+          <div>
+            <a href={companyLink} target="_blank" rel="noreferrer">
+              <img
+                src={company_image ? apiUrl + '/' + company_image : '/mobile_banner.png'}
+                alt="image"
+                style={{
+                  width: '100px',
+                  height: '100px',
+                  borderRadius: '0 0 0 0',
+                  objectFit: 'cover',
+                  objectPosition: 'center center',
+                }}
+              />
+            </a>
+          </div>
+          <div className="card-block-texts" style={{ flexGrow: 1 }}>
+            <div
+              style={{
+                wordBreak: 'break-word',
+                height: '100px',
+                display: 'flex',
+                alignItems: 'center',
+                textAlign: 'center',
+                overflow: 'hidden',
+              }}
+            >
+              <h2
+                dangerouslySetInnerHTML={{ __html: title }}
+                style={{
+                  width: '100%',
+                  fontFamily: 'Balsamiq Sans',
+                  fontSize: '18px',
+                  margin: '0',
+                  paddingLeft: '7px',
+                  paddingRight: '7px',
+                }}
+              />
+            </div>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              position: 'absolute',
+              top: '-30%',
+              left: '0%',
+            }}
           >
-            {company_name}
-          </a>
+            <Stack direction="row" spacing={0.5} sx={{ mb: 0, mr: 2 }}>
+              {isFresh ? <Chip label={'New'} sx={{ backgroundColor: 'white', color: 'green' }} size="small" /> : null}
+              {isAlways ? (
+                <Chip label={'Постоянная акция'} sx={{ backgroundColor: 'white', color: 'black' }} size="small" />
+              ) : (
+                <Chip label={'Временная акция'} sx={{ backgroundColor: 'white', color: '#ed6c02' }} size="small" />
+              )}
+            </Stack>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              position: 'absolute',
+              top: '-28%',
+              right: '0%',
+            }}
+          >
+            {!stateLiked ? (
+              <svg onClick={() => toggleLike(id)} className="icon" style={{ marginRight: '5px' }}>
+                <use xlinkHref="sprite.svg#icon-heart-fill"></use>
+              </svg>
+            ) : (
+              <svg onClick={() => toggleLike(id)} className="icon icon-red" style={{ marginRight: '5px' }}>
+                <use xlinkHref="sprite.svg#icon-heart-fill"></use>
+              </svg>
+            )}
+            {!stateLiked || (stateLiked && user && userLikes.includes(user._id)) ? (
+              <span style={{ display: 'block', color: 'white', fontSize: '15px', lineHeight: '1' }}>{rating}</span>
+            ) : (
+              <span style={{ display: 'block', color: 'white', fontSize: '15px', lineHeight: '1' }}>{rating + 1}</span>
+            )}
+          </div>
+        </div>
+        <div className="card-footer">
           <CustomAccordion>
             <Accordion.Item eventKey="0">
-              <CustomAccordionHeader>Подробнее</CustomAccordionHeader>
-              <Accordion.Body>{description}</Accordion.Body>
+              <CustomAccordionHeader>ПОДРОБНЕЕ</CustomAccordionHeader>
+              <Accordion.Body style={{ backgroundColor: 'white', wordBreak: 'break-word' }}>
+                {description}
+              </Accordion.Body>
             </Accordion.Item>
           </CustomAccordion>
         </div>
       </div>
-    </div>
+      {/*<div*/}
+      {/*  className="card col col-2 p-0 mb-2 me-1 ms-1 rounded-0"*/}
+      {/*  style={{ width: '17.95rem', boxShadow: '1px 1px 4px grey', border: '0px' }}*/}
+      {/*>*/}
+      {/*  {infoImage}*/}
+      {/*  <div className="card-body d-flex flex-column justify-content-between p-3">*/}
+      {/*    /!*<Stack direction="row" spacing={1} sx={{ mb: 2 }}>*!/*/}
+      {/*    /!*  {isFresh ? <Chip label={'New'} color="success" size="small" /> : null}*!/*/}
+      {/*    /!*  {isAlways ? (*!/*/}
+      {/*    /!*    <Chip label={'Постоянная акция'} sx={{ backgroundColor: 'grey', color: 'white' }} size="small" />*!/*/}
+      {/*    /!*  ) : (*!/*/}
+      {/*    /!*    <Chip label={'Временная акция'} color="warning" size="small" />*!/*/}
+      {/*    /!*  )}*!/*/}
+      {/*    /!*</Stack>*!/*/}
+
+      {/*    /!*<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>*!/*/}
+      {/*    /!*  <div style={{ display: 'flex', alignItems: 'center', marginRight: '10px', marginLeft: '4px' }}>*!/*/}
+      {/*    /!*    {!stateLiked ? (*!/*/}
+      {/*    /!*      <svg onClick={() => toggleLike(id)} className="icon" style={{ marginRight: '5px' }}>*!/*/}
+      {/*    /!*        <use xlinkHref="sprite.svg#icon-heart-fill"></use>*!/*/}
+      {/*    /!*      </svg>*!/*/}
+      {/*    /!*    ) : (*!/*/}
+      {/*    /!*      <svg onClick={() => toggleLike(id)} className="icon icon-red" style={{ marginRight: '5px' }}>*!/*/}
+      {/*    /!*        <use xlinkHref="sprite.svg#icon-heart-fill"></use>*!/*/}
+      {/*    /!*      </svg>*!/*/}
+      {/*    /!*    )}*!/*/}
+      {/*    /!*    {!stateLiked || (stateLiked && user && userLikes.includes(user._id)) ? (*!/*/}
+      {/*    /!*      <span style={{ display: 'block', color: 'grey', fontSize: '15px', lineHeight: '1' }}>{rating}</span>*!/*/}
+      {/*    /!*    ) : (*!/*/}
+      {/*    /!*      <span style={{ display: 'block', color: 'grey', fontSize: '15px', lineHeight: '1' }}>{rating + 1}</span>*!/*/}
+      {/*    /!*    )}*!/*/}
+      {/*    /!*  </div>*!/*/}
+      {/*    /!*  <div style={{ display: 'flex' }}>*!/*/}
+      {/*    /!*    <svg className="icon">*!/*/}
+      {/*    /!*      <use xlinkHref="sprite.svg#icon-more"></use>*!/*/}
+      {/*    /!*    </svg>*!/*/}
+      {/*    /!*  </div>*!/*/}
+      {/*    /!*</div>*!/*/}
+
+      {/*    /!*<h5 className="card-title text-center" dangerouslySetInnerHTML={{ __html: title }} />*!/*/}
+      {/*    /!*<p className="card-text">{description}</p>*!/*/}
+      {/*    <div>*/}
+      {/*      <a*/}
+      {/*        href={companyLink}*/}
+      {/*        className="btn mb-2 w-100 rounded-0"*/}
+      {/*        target="_blank"*/}
+      {/*        rel="noreferrer"*/}
+      {/*        style={{ backgroundColor: '#ed6c02', color: 'white' }}*/}
+      {/*      >*/}
+      {/*        {company_name}*/}
+      {/*      </a>*/}
+      {/*      <CustomAccordion>*/}
+      {/*        <Accordion.Item eventKey="0">*/}
+      {/*          <CustomAccordionHeader>Подробнее</CustomAccordionHeader>*/}
+      {/*          <Accordion.Body>{description}</Accordion.Body>*/}
+      {/*        </Accordion.Item>*/}
+      {/*      </CustomAccordion>*/}
+      {/*    </div>*/}
+      {/*  </div>*/}
+      {/*</div>*/}
+    </>
   );
 };
 

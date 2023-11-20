@@ -6,6 +6,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+p {
+  margin: 0;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
@@ -32,8 +36,8 @@ code {
 .icon {
   display: inline-block;
   fill: white;
-  width: 25px;
-  height: 25px;
+  width: 23px;
+  height: 23px;
 }
 
 .icon-filter {
@@ -44,7 +48,7 @@ code {
 }
 
 .icon-red {
-  fill: #ed6c02;
+  fill: red;
 }
 
 /*.icon:hover {*/
@@ -55,10 +59,10 @@ code {
 /*}*/
 
 .icon:active {
-  width: 35px;
-  height: 35px;
+  width: 28px;
+  height: 28px;
   margin-top: -5px;
-  margin-left: -5px;
+  margin-right: -5px;
 }
 
 .ql-container {
