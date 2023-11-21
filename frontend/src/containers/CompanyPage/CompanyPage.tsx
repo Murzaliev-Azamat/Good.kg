@@ -49,7 +49,7 @@ const CompanyPage = () => {
             }}
           >
             <h2 dangerouslySetInnerHTML={{ __html: promotion.title }} />
-            <p style={{ wordWrap: 'break-word' }}>{promotion.description}</p>
+            <p style={{ wordWrap: 'break-word' }} dangerouslySetInnerHTML={{ __html: promotion.description }} />
             {user && user.role === 'admin' && (
               <button onClick={() => removePromotion(promotion._id)} className="btn btn-danger btn-sm">
                 delete

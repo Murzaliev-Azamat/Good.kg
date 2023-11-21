@@ -146,16 +146,18 @@ const FormForPromotion = () => {
     });
   };
 
-  const quillChangeHandler = (value: string) => {
+  const titleQuillChangeHandler = (value: string) => {
     setState((prevState) => ({
       ...prevState,
       title: value,
     }));
-    // const name = e.target.name;
-    // const value = e.target.value;
-    // setState((prevState) => {
-    //   return { ...prevState, [name]: value };
-    // });
+  };
+
+  const descriptionQuillChangeHandler = (value: string) => {
+    setState((prevState) => ({
+      ...prevState,
+      description: value,
+    }));
   };
 
   const selectChangeHandler = (e: SelectChangeEvent) => {
@@ -206,7 +208,7 @@ const FormForPromotion = () => {
         <ReactQuill
           theme="snow"
           value={state.title}
-          onChange={quillChangeHandler}
+          onChange={titleQuillChangeHandler}
           style={{ height: '100px', width: '100%', marginBottom: '80px' }}
           modules={{
             toolbar: [
@@ -229,14 +231,30 @@ const FormForPromotion = () => {
         {/*/>*/}
 
         <InputLabel id="description">Описание</InputLabel>
-        <TextField
-          sx={{ width: '100%' }}
-          id="description"
+        <ReactQuill
+          theme="snow"
           value={state.description}
-          onChange={inputChangeHandler}
-          name="description"
-          required
+          onChange={descriptionQuillChangeHandler}
+          style={{ height: '100px', width: '100%', marginBottom: '80px' }}
+          modules={{
+            toolbar: [
+              [{ header: [false] }],
+              ['bold', 'italic', 'underline', 'strike'],
+              [{ color: [] }], // Добавление модуля цвета текста
+              [{ list: 'ordered' }, { list: 'bullet' }],
+              // ['link', 'image', 'video'],
+              ['clean'],
+            ],
+          }}
         />
+        {/*  <TextField*/}
+        {/*    sx={{ width: '100%' }}*/}
+        {/*    id="description"*/}
+        {/*    value={state.description}*/}
+        {/*    onChange={inputChangeHandler}*/}
+        {/*    name="description"*/}
+        {/*    required*/}
+        {/*  />*/}
       </Grid>
 
       <Grid container direction="column" spacing={2} sx={{ mb: 1 }}>

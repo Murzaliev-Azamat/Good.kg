@@ -17,6 +17,7 @@ import {
 import { apiUrl } from '../../constants';
 import InfiniteScroll from 'react-infinite-scroller';
 import { selectSearch } from '../../store/searchSlice';
+import Accordion from 'react-bootstrap/Accordion';
 
 const AdminPromotion = () => {
   const dispatch = useAppDispatch();
@@ -91,7 +92,14 @@ const AdminPromotion = () => {
                 <p style={{ margin: '0', wordWrap: 'break-word' }}>{promotion.company.title}</p>
               </div>
               <div style={{ width: '200px' }}>
-                <p style={{ margin: '0', wordWrap: 'break-word' }}>{promotion.description}</p>
+                <div style={{ margin: '0', wordWrap: 'break-word' }}>
+                  <Accordion>
+                    <Accordion.Item eventKey="0">
+                      <Accordion.Header>Описание акции</Accordion.Header>
+                      <Accordion.Body dangerouslySetInnerHTML={{ __html: promotion.description }}></Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
+                </div>
               </div>
               <div style={{ width: '100px' }}>
                 <img src={apiUrl + '/' + promotion.image} style={{ width: '100px' }} alt="image"></img>

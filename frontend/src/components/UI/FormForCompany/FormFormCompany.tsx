@@ -11,6 +11,7 @@ import { addPromotion, editPromotion, fetchPromotionById } from '../../../store/
 import dayjs from 'dayjs';
 import { selectPromotion } from '../../../store/promotionsSlice';
 import { apiUrl } from '../../../constants';
+import { selectFilterCategory } from '../../../store/filterSlice';
 
 const FormForCompany = () => {
   const params = useParams();
@@ -19,6 +20,7 @@ const FormForCompany = () => {
   const categories = useAppSelector(selectCategories);
   const company = useAppSelector(selectCompany);
   const addCategoryLoading = useAppSelector(selectAddCategoryLoading);
+  const filterCategory = useAppSelector(selectFilterCategory);
 
   const [state, setState] = useState<CompanyApi>({
     title: '',
@@ -27,6 +29,8 @@ const FormForCompany = () => {
     image: null,
     link: '',
   });
+
+  const [parentCategory, setParentCategory] = useState<string>('');
 
   useEffect(() => {
     if (params.id) {
@@ -38,6 +42,7 @@ const FormForCompany = () => {
     if (company && params.id) {
       console.log(company.categories);
       const categoryIds = company.categories.map((category) => category._id);
+      setParentCategory(categoryIds[0] || '');
       setState({
         title: company.title,
         description: company.description,
@@ -93,6 +98,19 @@ const FormForCompany = () => {
     const value = e.target.value;
     setState((prevState) => {
       return { ...prevState, [name]: value };
+    });
+  };
+
+  const selectChangeHandlerForParentCategory = (e: SelectChangeEvent<string>) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setParentCategory(value);
+
+    setState((prevState) => {
+      return {
+        ...prevState,
+        categories: [value],
+      };
     });
   };
 
@@ -155,9 +173,55 @@ const FormForCompany = () => {
         <TextField sx={{ width: '100%' }} id="link" value={state.link} onChange={inputChangeHandler} name="link" />
       </Grid>
 
+      {/*<Grid container direction="column" spacing={2} sx={{ mb: 1 }}>*/}
+      {/*  <Grid item xs>*/}
+      {/*    <InputLabel id="parent">Категории</InputLabel>*/}
+      {/*    <Select*/}
+      {/*      labelId="categories"*/}
+      {/*      sx={{ width: '100%' }}*/}
+      {/*      id="categories"*/}
+      {/*      value={state.categories}*/}
+      {/*      onChange={selectChangeHandler}*/}
+      {/*      name="categories"*/}
+      {/*      multiple*/}
+      {/*      required*/}
+      {/*    >*/}
+      {/*      {categories &&*/}
+      {/*        categories.map((category) => (*/}
+      {/*          <MenuItem value={category._id} key={category._id}>*/}
+      {/*            {category.title}*/}
+      {/*          </MenuItem>*/}
+      {/*        ))}*/}
+      {/*    </Select>*/}
+      {/*  </Grid>*/}
+
       <Grid container direction="column" spacing={2} sx={{ mb: 1 }}>
         <Grid item xs>
-          <InputLabel id="parent">Категории</InputLabel>
+          <InputLabel id="parent">Основная категория</InputLabel>
+          <Select
+            labelId="categories"
+            sx={{ width: '100%' }}
+            id="categories"
+            value={parentCategory}
+            onChange={selectChangeHandlerForParentCategory}
+            name="categories"
+            required
+          >
+            {categories &&
+              categories.map((category) => {
+                if (!category.parent) {
+                  return (
+                    <MenuItem value={category._id} key={category._id}>
+                      {category.title}
+                    </MenuItem>
+                  );
+                }
+              })}
+          </Select>
+        </Grid>
+
+        <Grid item xs>
+          <InputLabel id="parent">Подкатегории</InputLabel>
           <Select
             labelId="categories"
             sx={{ width: '100%' }}
@@ -169,11 +233,15 @@ const FormForCompany = () => {
             required
           >
             {categories &&
-              categories.map((category) => (
-                <MenuItem value={category._id} key={category._id}>
-                  {category.title}
-                </MenuItem>
-              ))}
+              categories.map((category) => {
+                if (parentCategory !== '' && category.parent && parentCategory === category.parent._id) {
+                  return (
+                    <MenuItem value={category._id} key={category._id}>
+                      {category.title}
+                    </MenuItem>
+                  );
+                }
+              })}
           </Select>
         </Grid>
 

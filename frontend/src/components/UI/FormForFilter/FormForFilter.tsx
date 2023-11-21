@@ -107,7 +107,7 @@ const FormForFilter: React.FC<Props> = ({ closeFilter }) => {
       <FormControlLabel
         sx={{ mb: 2 }}
         control={<Switch onChange={switchBirthday} checked={isBirthday} />}
-        label="Действует ли в Деньрождение?"
+        label="Акции в День рождение!"
       />
 
       <Button

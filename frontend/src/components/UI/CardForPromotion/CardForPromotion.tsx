@@ -237,11 +237,8 @@ const CardForPromotion: React.FC<Props> = ({
           marginBottom: '5px',
         }}
       >
-        <div
-          className="card-header"
-          style={{ display: 'flex', borderBottom: '1px solid #E0E0E0FF', position: 'relative' }}
-        >
-          <div>
+        <div className="card-header" style={{ display: 'flex', position: 'relative' }}>
+          <div style={{ borderRight: '1px solid #E0E0E0FF' }}>
             <a href={companyLink} target="_blank" rel="noreferrer">
               <img
                 src={company_image ? apiUrl + '/' + company_image : '/mobile_banner.png'}
@@ -274,8 +271,8 @@ const CardForPromotion: React.FC<Props> = ({
                   fontFamily: 'Balsamiq Sans',
                   fontSize: '18px',
                   margin: '0',
-                  paddingLeft: '7px',
-                  paddingRight: '7px',
+                  paddingLeft: '10px',
+                  paddingRight: '10px',
                 }}
               />
             </div>
@@ -327,9 +324,10 @@ const CardForPromotion: React.FC<Props> = ({
           <CustomAccordion>
             <Accordion.Item eventKey="0">
               <CustomAccordionHeader>ПОДРОБНЕЕ</CustomAccordionHeader>
-              <Accordion.Body style={{ backgroundColor: 'white', wordBreak: 'break-word' }}>
-                {description}
-              </Accordion.Body>
+              <Accordion.Body
+                style={{ backgroundColor: 'white', wordBreak: 'break-word' }}
+                dangerouslySetInnerHTML={{ __html: description }}
+              ></Accordion.Body>
             </Accordion.Item>
           </CustomAccordion>
         </div>
