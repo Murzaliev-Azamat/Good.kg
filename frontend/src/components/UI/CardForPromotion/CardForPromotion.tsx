@@ -244,8 +244,8 @@ const CardForPromotion: React.FC<Props> = ({
                 src={company_image ? apiUrl + '/' + company_image : '/mobile_banner.png'}
                 alt="image"
                 style={{
-                  width: '110px',
-                  height: '110px',
+                  width: '112px',
+                  height: '112px',
                   borderRadius: '0 0 0 0',
                   objectFit: 'cover',
                   objectPosition: 'center center',
@@ -257,7 +257,7 @@ const CardForPromotion: React.FC<Props> = ({
             <div
               style={{
                 wordBreak: 'break-word',
-                height: '110px',
+                height: '112px',
                 display: 'flex',
                 alignItems: 'center',
                 textAlign: 'center',
@@ -269,7 +269,7 @@ const CardForPromotion: React.FC<Props> = ({
                 style={{
                   width: '100%',
                   fontFamily: 'Balsamiq Sans',
-                  fontSize: '17px',
+                  fontSize: '18px',
                   margin: '0',
                   paddingLeft: '10px',
                   paddingRight: '10px',
