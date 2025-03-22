@@ -11,7 +11,6 @@ import categoriesRouter from "./routers/categories";
 import promotionsRouter from "./routers/promotions";
 import companiesRouter from "./routers/companies";
 import * as dotenv from "dotenv";
-import cron from "node-cron";
 import removeExpiredPromotions from "./routers/promotionsCleanup";
 
 dotenv.config();
