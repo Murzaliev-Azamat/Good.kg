@@ -17,7 +17,15 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+// app.use(cors());
+app.use(
+  cors({
+    origin: ["https://good.kg", "http://localhost:3000"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
 app.use(express.static("public"));
 app.use(express.json());
 app.use("/artists", artistsRouter);
